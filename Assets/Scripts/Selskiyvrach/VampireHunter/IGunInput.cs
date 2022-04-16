@@ -6,7 +6,7 @@ namespace Selskiyvrach.VampireHunter
     {
         bool AimIsHeld();
         bool AimStarted();
-        bool AimIsFinished();
+        bool AimFinished();
         Vector2 AimDelta();
     }
 }
