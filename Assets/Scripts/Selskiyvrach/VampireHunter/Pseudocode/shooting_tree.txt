@@ -1,0 +1,8 @@
+﻿
+
+aim
+extra aim
+shoot
+recoil
+reload
+

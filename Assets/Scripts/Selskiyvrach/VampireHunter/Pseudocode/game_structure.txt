@@ -1,0 +1,20 @@
+﻿
+
+
+
+
+game
+    menu
+    level
+        win condition
+        player
+            inventory
+            weapon
+            controls
+            aim
+        enemy spawner
+            enemy
+                movement
+                health
+        boss spawner
+            boss
