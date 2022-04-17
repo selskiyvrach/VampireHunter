@@ -11,7 +11,10 @@ namespace Selskiyvrach.VampireHunter
         private CrosshairFactory _crosshairFactory;
 
         [SerializeField] 
-        private GunAnimationsPlayer _gunPrefab;
+        private RecoilAnimationPlayer _gunPrefab;
+
+        [SerializeField] 
+        private RecoilAnimationPlayer _cameraRecoil;
 
         [SerializeField] 
         private MouseGunInput _gunInput;
@@ -54,7 +57,8 @@ namespace Selskiyvrach.VampireHunter
             var recoilState = stateBuilder
                 .OnEnter(new DebugLogAction(">> recoil"))
                 .OnEnter(new TransitionCrosshairToRecoil(crosshair))
-                .OnEnter(new PlayGunRecoilAnimationAction(gunAnimationPlayer))
+                .OnEnter(new PlayRecoilAnimationAction(gunAnimationPlayer))
+                .OnEnter(new PlayRecoilAnimationAction(_cameraRecoil))
                 .OnExit(new DebugLogAction("<< recoil"))
                 .Build();
             stateBuilder.Reset();

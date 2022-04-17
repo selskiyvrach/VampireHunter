@@ -7,12 +7,12 @@ namespace Selskiyvrach.VampireHunter
     public class Gun : ITickable
     {
         private readonly StateMachine _gunStateMachine;
-        private readonly GunAnimationsPlayer _gunAnimationsPlayer;
+        private readonly RecoilAnimationPlayer _recoilAnimationPlayer;
 
-        public Gun(StateMachine gunStateMachine, GunAnimationsPlayer gunAnimationsPlayer)
+        public Gun(StateMachine gunStateMachine, RecoilAnimationPlayer recoilAnimationPlayer)
         {
             _gunStateMachine = gunStateMachine;
-            _gunAnimationsPlayer = gunAnimationsPlayer;
+            _recoilAnimationPlayer = recoilAnimationPlayer;
         }
 
         public void Tick(float deltaTime) =>
@@ -20,8 +20,8 @@ namespace Selskiyvrach.VampireHunter
 
         public void SetParent(Transform parent)
         {
-            _gunAnimationsPlayer.transform.SetParent(parent);
-            _gunAnimationsPlayer.transform.SetPositionAndRotation(parent.position, parent.rotation);
+            _recoilAnimationPlayer.transform.SetParent(parent);
+            _recoilAnimationPlayer.transform.SetPositionAndRotation(parent.position, parent.rotation);
         }
     }
 }
