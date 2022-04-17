@@ -23,9 +23,9 @@ namespace Selskiyvrach.VampireHunter
         private void Start()
         {
             _gun = _gunFactory.Create();
-            _gun.SetParentToTransform(_gunHolder);
+            _gun.SetParent(_gunHolder);
 
-            _cameraMover = _cameraMoverFactory.Create();
+            _cameraMover = _cameraMoverFactory.CreateOrGetCashed();
         }
 
         private void Update()

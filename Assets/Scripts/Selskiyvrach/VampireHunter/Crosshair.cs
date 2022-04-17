@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter
@@ -9,9 +11,12 @@ namespace Selskiyvrach.VampireHunter
         private readonly CanvasGroup _crosshairGroup;
         private bool _aimed;
         private bool _idled;
-        
+        private TweenerCore<Vector3, Vector3, VectorOptions> _aimingTween;
+
+
         public bool Aimed => _aimed;
         public bool Idled => _idled;
+        public RectTransform ScreenPos => _crosshair;
 
         public Crosshair(RectTransform crosshair, CanvasGroup crosshairGroup)
         {
@@ -21,16 +26,21 @@ namespace Selskiyvrach.VampireHunter
 
         public void TransitionToIdle()
         {
+            if (_idled)
+                return;
             _aimed = false;
             _idled = false;
+            _aimingTween?.Kill();
             _crosshair.DOScale(3f, .1f).OnComplete(OnIdled).SetEase(Ease.OutSine);
         }
 
         public void TransitionToAimed()
         {
+            if(_aimed)
+                return;
             _aimed = false;
             _idled = false;
-            _crosshair.DOScale(1, 1f).OnComplete(OnAimed);
+            _aimingTween = _crosshair.DOScale(1, 1f).OnComplete(OnAimed);
         }
 
         public void TransitionToRecoil()

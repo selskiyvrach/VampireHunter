@@ -20,13 +20,18 @@
         public void AddTransition(IState to, ICondition condition) =>
             _transition.AddTransition(new Transition(to, condition));
 
-        public void Enter() =>
+        public void Enter(StateMachine stateMachine)
+        {
+            if (_transition?.TryTransition(stateMachine) ?? false)
+                return;
             _onEnterAction?.Act();
+        }
 
         public void Tick(StateMachine stateMachine)
         {
+            if (_transition?.TryTransition(stateMachine) ?? false)
+                return;
             _onTickAction?.Act();
-            _transition?.TryTransition(stateMachine);
         }
 
         public void Exit() =>

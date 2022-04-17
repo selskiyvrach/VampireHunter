@@ -18,9 +18,10 @@ namespace Selskiyvrach.VampireHunter
         public void Tick(float deltaTime) =>
             _gunStateMachine.Tick(deltaTime);
 
-        public void SetParentToTransform(Transform parent)
+        public void SetParent(Transform parent)
         {
             _gunAnimationsPlayer.transform.SetParent(parent);
+            _gunAnimationsPlayer.transform.SetPositionAndRotation(parent.position, parent.rotation);
         }
     }
 }

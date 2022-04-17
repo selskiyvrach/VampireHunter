@@ -16,7 +16,7 @@
         {
             _currentState?.Exit();
             _currentState = state;
-            _currentState.Enter();
+            _currentState.Enter(this);
         }
     }
 }
