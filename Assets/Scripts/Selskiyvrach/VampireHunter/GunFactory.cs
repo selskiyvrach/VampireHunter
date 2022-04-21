@@ -33,33 +33,25 @@ namespace Selskiyvrach.VampireHunter
             var stateBuilder = new StateBuilder();
 
             var idleState = stateBuilder
-                .OnEnter(new DebugLogAction(">> idling"))
                 .OnEnter(new ZoomOutAction(_cameraMoverFactory.CreateOrGetCashed()))
                 .OnEnter(new TransitionCrosshairToIdle(crosshair))
-                .OnExit(new DebugLogAction("<< idling"))
                 .Build();
             stateBuilder.Reset();
 
             var aimState = stateBuilder
-                .OnEnter(new DebugLogAction(">> aiming"))
                 .OnEnter(new ZoomInAction(_cameraMoverFactory.CreateOrGetCashed()))
                 .OnEnter(new TransitionCrosshairToAimed(crosshair))
-                .OnExit(new DebugLogAction("<< aiming"))
                 .Build();
             stateBuilder.Reset();
 
             var shootState = stateBuilder
-                .OnEnter(new DebugLogAction(">> shooting"))
-                .OnExit(new DebugLogAction("<< shooting"))
                 .Build();
             stateBuilder.Reset();
 
             var recoilState = stateBuilder
-                .OnEnter(new DebugLogAction(">> recoil"))
                 .OnEnter(new TransitionCrosshairToRecoil(crosshair))
                 .OnEnter(new PlayRecoilAnimationAction(gunAnimationPlayer))
                 .OnEnter(new PlayRecoilAnimationAction(_cameraRecoil))
-                .OnExit(new DebugLogAction("<< recoil"))
                 .Build();
             stateBuilder.Reset();
 

@@ -28,15 +28,15 @@ namespace Selskiyvrach.VampireHunter
         
         public void PlayRecoilAnimation()
         {
-            var rotationY = Random.Range(_minRotationY, _maxRotationY) * Random.Range(-1, 2);
+            var rotationY = Random.Range(_minRotationY, _maxRotationY);
             _animatedItem.DOLocalRotate(new Vector3(_rotationX, rotationY, 0), _duration).OnComplete(MoveToIdlePosition).SetEase(Ease.OutSine);
             _animatedItem.DOLocalMove(_displacement, _duration).SetEase(Ease.OutSine);
         }
 
         private void MoveToIdlePosition()
         {
-            _animatedItem.DOLocalRotate(new Vector3(0, 0, 0), 1f).SetEase(_recoilToIdleCurve);
-            _animatedItem.DOLocalMove(new Vector3(0, 0, 0), .45f).SetEase(Ease.OutSine);
+            _animatedItem.DOLocalRotate(Vector3.zero, 1f).SetEase(_recoilToIdleCurve);
+            _animatedItem.DOLocalMove(Vector3.zero, .45f).SetEase(Ease.OutSine);
         }
     }
 }
