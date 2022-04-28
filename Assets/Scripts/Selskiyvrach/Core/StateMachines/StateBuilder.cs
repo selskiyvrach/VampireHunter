@@ -7,7 +7,7 @@ namespace Selskiyvrach.Core.StateMachines
         private readonly List<IAction> _onEnterActions = new List<IAction>();
         private readonly List<IAction> _onTickActions = new List<IAction>();
         private readonly List<IAction> _onExitActions = new List<IAction>();
-
+        
         public StateBuilder OnEnter(IAction action)
         {
             _onEnterActions.Add(action);

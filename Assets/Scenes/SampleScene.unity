@@ -397,10 +397,6 @@ GameObject:
   m_Component:
   - component: {fileID: 683057551}
   - component: {fileID: 683057552}
-  - component: {fileID: 683057553}
-  - component: {fileID: 683057554}
-  - component: {fileID: 683057555}
-  - component: {fileID: 683057556}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -431,72 +427,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 683057550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc99048d14a4c62418767c3cee57d830, type: 3}
+  m_Script: {fileID: 11500000, guid: 121d03d5b3a34a91852db8cfa2a1ad0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gunFactory: {fileID: 683057553}
-  _gunHolder: {fileID: 1105516142}
-  _cameraMoverFactory: {fileID: 683057556}
-  _gunInput: {fileID: 683057555}
---- !u!114 &683057553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 683057550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b411d873d58457b8ed9b34fe8a2a056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _crosshairFactory: {fileID: 683057554}
-  _gunPrefab: {fileID: 1733128130587025548, guid: ce62d85e7e2f9954c9443576cbf0d7cf, type: 3}
-  _cameraRecoil: {fileID: 228698176}
-  _gunInput: {fileID: 683057555}
-  _cameraMoverFactory: {fileID: 683057556}
-  _camera: {fileID: 1687258584}
---- !u!114 &683057554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 683057550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce708fdea12e4d2f9989bd19f497b8b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _crosshairPrefab: {fileID: 1144271968879528830, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
---- !u!114 &683057555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 683057550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bddfee7410d435794e5602196d76507, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &683057556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 683057550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d16dd7082edf48178ebabb36f67763ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _clampX: {x: -15, y: 15}
-  _clampY: {x: -20, y: 15}
-  _speedRatio: {x: 0.05, y: 0.05}
-  _camera: {fileID: 1687258584}
 --- !u!1 &1105516141
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,7 +792,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

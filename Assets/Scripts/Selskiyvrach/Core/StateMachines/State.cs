@@ -22,8 +22,6 @@
 
         public void Enter(StateMachine stateMachine)
         {
-            if (_transition?.TryTransition(stateMachine) ?? false)
-                return;
             _onEnterAction?.Act();
         }
 

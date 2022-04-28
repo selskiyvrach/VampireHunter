@@ -4,9 +4,6 @@
     {
         private IState _currentState;
 
-        public StateMachine(IState startState) =>
-            StartState(startState);
-
         public void Tick(float deltaTime)
         {
             _currentState?.Tick(this);
