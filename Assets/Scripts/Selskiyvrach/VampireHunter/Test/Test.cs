@@ -1,5 +1,6 @@
 ﻿using Selskiyvrach.Core;
-using Selskiyvrach.VampireHunter.Combat.Guns;
+using Selskiyvrach.VampireHunter.Model.Guns;
+using Selskiyvrach.VampireHunter.Test;
 using UnityEngine;
 using Ray = Selskiyvrach.Core.Math.Ray;
 
@@ -7,15 +8,17 @@ namespace Selskiyvrach.Test
 {
     public class Test : MonoBehaviour, IBulletProvider, IBullet
     {
+        [SerializeField] private TestTriggerFactory _triggerFactory;
+        
         private Gun _gun;
         private void Start()
         {
             _gun = new Gun(
                 new SimpleMagazine(this, 6), 
                 new SimpleSight(), 
-                new SimpleTrigger());
+                _triggerFactory.Create());
         }
-
+        
         private void Update()
         {
             if(Input.GetMouseButtonDown(0))
@@ -29,7 +32,7 @@ namespace Selskiyvrach.Test
 
         private void LateUpdate()
         {
-            ((ILateTickable)_gun).Tick(Time.deltaTime);
+            _gun.OnAfterTick();
         }
 
         public IBullet GetBullet()

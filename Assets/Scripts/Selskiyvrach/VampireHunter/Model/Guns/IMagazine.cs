@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Selskiyvrach.VampireHunter.Combat.Guns
+namespace Selskiyvrach.VampireHunter.Model.Guns
 {
     public interface IMagazine : IMagazineData, IMagazineStatus, IReloadable
     {
