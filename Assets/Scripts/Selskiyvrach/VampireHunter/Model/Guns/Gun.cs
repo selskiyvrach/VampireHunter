@@ -53,7 +53,7 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
             }));
             
             idleState.AddTransition(cockTriggerState, new FuncCondition(() => _cockTrigger && !_trigger.IsCocked));
-            cockTriggerState.AddTransition(idleState, new FuncCondition(() => _trigger.IsCocked));
+            cockTriggerState.AddTransition(idleState, new TrueCondition());
             shootState.AddTransition(idleState, new TrueCondition());
             
             _stateMachine.StartState(idleState);

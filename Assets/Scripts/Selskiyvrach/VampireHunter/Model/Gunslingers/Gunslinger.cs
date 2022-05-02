@@ -3,6 +3,7 @@ using Selskiyvrach.Core;
 using Selskiyvrach.Core.StateMachines;
 using Selskiyvrach.VampireHunter.Model.Animations;
 using Selskiyvrach.VampireHunter.Model.Guns;
+using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 {
@@ -41,7 +42,11 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 
             var idleState = stateBuilder
                 .OnEnter(new DebugLogAction("idle"))
-                .OnEnter(new ActionAction(idleAnimationStarter.StartAnimation))
+                .OnEnter(new ActionAction(() =>
+                {
+                    if(!_idled)
+                        idleAnimationStarter.StartAnimation();
+                }))
                 .OnExit(new ActionAction(() => _idled = false))
                 .Build();
             stateBuilder.Reset();
@@ -70,12 +75,12 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
                 .OnEnter(new ActionAction(() => _hasRecoil = true))
                 .OnEnter(new ActionAction(() => _gun.AbsorbRecoil()))
                 .OnEnter(new ActionAction(() =>recoilAnimationStarter.StartAnimation()))
+                .OnExit(new ActionAction(() => _idled = true))
                 .Build();
             stateBuilder.Reset();
 
             idleState.AddTransition(cockTriggerState, new CompositeConditionBuilder()
                 .Add(new FuncCondition(() => !_gun.IsCocked))
-                .Add(new FuncCondition(() => _idled))
                 .Build());
             cockTriggerState.AddTransition(idleState, new FuncCondition(() => _gun.IsCocked));
             idleState.AddTransition(aimState, new FuncCondition(() => _gunslingerInput.ProceedShootingSequence() && _gun.IsCocked));

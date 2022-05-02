@@ -169,11 +169,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animated: {fileID: 1687258585}
   _recoilUpDegrees: -5
-  _recoilSidesDegrees: 0
-  _duration: 0.15
-  _returnTime: 0.25
+  _recoilSidesDegrees: 2
+  _duration: 0.1
+  _returnTime: 0.65
   _recoilEase: 15
-  _returnEase: 16
+  _returnEase: 4
 --- !u!1 &461401886
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,11 +409,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animated: {fileID: 2100087398}
   _recoilUpDegrees: -60
-  _recoilSidesDegrees: 5
+  _recoilSidesDegrees: 10
   _duration: 0.1
-  _returnTime: 0.45
+  _returnTime: 0.75
   _recoilEase: 15
-  _returnEase: 16
+  _returnEase: 4
 --- !u!1001 &1116581717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -434,6 +434,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1116581720}
     - target: {fileID: 1116581721, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
+      propertyPath: _duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1116581721, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
       propertyPath: _targetValue.x
       value: 2.5
       objectReference: {fileID: 0}
@@ -444,6 +448,14 @@ PrefabInstance:
     - target: {fileID: 1116581721, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
       propertyPath: _targetValue.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1116581722, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
+      propertyPath: _ease
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1116581722, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
+      propertyPath: _duration
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 17096716964441831, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
       propertyPath: m_Name
@@ -535,7 +547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231598743832640587, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
       propertyPath: _backEase
-      value: 18
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2231598743832640587, guid: e257ecfe899815240b84f69a9a81ba9d, type: 3}
       propertyPath: _duration
