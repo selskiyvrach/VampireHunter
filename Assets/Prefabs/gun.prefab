@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4965328193915489175}
   - component: {fileID: 4901769563335256835}
   - component: {fileID: 382825059476408321}
+  - component: {fileID: 1524166389}
+  - component: {fileID: 4721481435818008480}
   m_Layer: 0
   m_Name: gun
   m_TagString: Untagged
@@ -67,7 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _triggerName: CockTrigger
-  _animator: {fileID: 0}
+  _animator: {fileID: 7911616156899889620}
 --- !u!114 &4901769563335256835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +92,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6639e21a8ac64fba898e8eca1b60482d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1524166389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8879963748293487121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171248f1aac349e7a5843135e7b4a7c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationStarter: {fileID: 4965328193915489175}
+  _animationCallback: {fileID: 4901769563335256835}
+--- !u!114 &4721481435818008480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8879963748293487121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e177c85a37c4c948ae0d1cf1acd7145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8880313229483610774

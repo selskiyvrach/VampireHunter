@@ -7,6 +7,6 @@
     
     public interface ILateTickable
     {
-        void Tick(float deltaTime);
+        void OnAfterTick(float deltaTime);
     }
 }

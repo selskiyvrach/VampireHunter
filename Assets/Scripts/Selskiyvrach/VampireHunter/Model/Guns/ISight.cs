@@ -2,22 +2,27 @@
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
-    public interface ISight
+    public interface IPointer
     {
-        Ray GetLineOfSight();
+        Ray GetPointingRay();
+    }
+    
+    public interface ISight : IPointer
+    {
         Ray GetShotProjection();
     }
 
-    public class SimpleSight : ISight
+    public class Sight : ISight
     {
-        public Ray GetLineOfSight()
-        {
-            return new Ray();
-        }
+        private readonly IPointer _pointer;
 
-        public Ray GetShotProjection()
-        {
-            return new Ray();
-        }
+        public Sight(IPointer pointer) =>
+            _pointer = pointer;
+
+        public Ray GetPointingRay() =>
+            _pointer.GetPointingRay();
+
+        public Ray GetShotProjection() =>
+            new Ray();
     }
 }

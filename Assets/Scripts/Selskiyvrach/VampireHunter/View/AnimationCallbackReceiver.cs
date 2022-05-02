@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.View
 {
-    public abstract class AnimationCallbackReceiver : MonoBehaviour
+    public abstract class AnimationCallbackReceiver : MonoBehaviour, ICallback
     {
         public event Action OnInvoked;
 

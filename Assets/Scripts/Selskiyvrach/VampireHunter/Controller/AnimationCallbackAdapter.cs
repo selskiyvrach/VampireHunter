@@ -7,11 +7,11 @@ namespace Selskiyvrach.VampireHunter.Controller
 {
     public class AnimationCallbackAdapter : IAnimationCallback, IDisposable
     {
-        private readonly AnimationCallbackReceiver _animationCallback;
+        private readonly ICallback _animationCallback;
         
         public event Action OnInvoked;
 
-        public AnimationCallbackAdapter(AnimationCallbackReceiver animationCallback)
+        public AnimationCallbackAdapter(ICallback animationCallback)
         {
             _animationCallback = animationCallback;
             _animationCallback.OnInvoked += OnDecoratedInvoked;

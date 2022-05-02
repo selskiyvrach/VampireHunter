@@ -9,6 +9,7 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         private readonly IMagazine _magazine;
         private readonly ISight _sight;
         private readonly ITrigger _trigger;
+        private readonly IRaycaster _raycaster;
         private readonly StateMachine _stateMachine = new StateMachine();
 
         private bool _pullTrigger;
@@ -16,13 +17,15 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
 
         public int Recoil { get; }
         public int CurrentRecoil { get; private set; }
+        public bool IsCocked => _trigger.IsCocked;
 
-        public Gun(IMagazine magazine, ISight sight, ITrigger trigger)
+        public Gun(IMagazine magazine, ISight sight, ITrigger trigger, IRaycaster raycaster)
         {
             _magazine = magazine;
             _sight = sight;
             _trigger = trigger;
-            
+            _raycaster = raycaster;
+
             var stateBuilder = new StateBuilder();
 
             var idleState = stateBuilder
@@ -61,9 +64,6 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         public void AbsorbRecoil() =>
             CurrentRecoil = 0;
 
-        public void CockTheTrigger() =>
-            _cockTrigger = true;
-
         public void Tick(float deltaTime) =>
             _stateMachine.Tick(deltaTime);            
 
@@ -71,6 +71,14 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         {
             _pullTrigger = false;
             _cockTrigger = false;
+        }
+
+        public void CockTheTrigger() =>
+            _cockTrigger = true;
+
+        public bool PointsAtTarget()
+        {
+            return _raycaster.Raycast(_sight.GetPointingRay());
         }
     }
 }
