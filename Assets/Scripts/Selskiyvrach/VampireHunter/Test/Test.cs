@@ -13,17 +13,19 @@ namespace Selskiyvrach.VampireHunter.Test
         [SerializeField] private Raycaster _raycaster;
         [SerializeField] private CrosshairAnimationsPlayer _crosshairAnimationsPlayer;
         [SerializeField] private ScreenPointAsRay _screenPointAsRay;
-        
+        [SerializeField] private RecoilAnimationPlayer _camRecoilPlayer;
+        [SerializeField] private RecoilAnimationPlayer _gunRecoilPlayer;
+
         private Gun _gun;
         private Gunslinger _gunslinger;
-        
+
         private void Start()
         {
             _gun = new Gun(
                 new SimpleMagazine(this, 6), 
                 new Sight(new SightAdapter(_screenPointAsRay)), 
                 _triggerFactory.Create(),
-                new RaycasterAdapter(_raycaster));
+                new RaycasterAdapter(_raycaster), 100);
             
             _gunslinger = new Gunslinger
                 (
@@ -32,7 +34,12 @@ namespace Selskiyvrach.VampireHunter.Test
                     new AnimationCallbackAdapter(_crosshairAnimationsPlayer.OnAimed),
                     new ActionAnimationStarterAdapter(() => _crosshairAnimationsPlayer.PlayIdle()),
                     new AnimationCallbackAdapter(_crosshairAnimationsPlayer.OnIdled),
-                    new ActionAnimationStarterAdapter(() => _crosshairAnimationsPlayer.PlayRecoil()),
+                    new ActionAnimationStarterAdapter(() =>
+                    {
+                        _crosshairAnimationsPlayer.PlayRecoil();    
+                        _camRecoilPlayer.PlayRecoil();   
+                        _gunRecoilPlayer.PlayRecoil();
+                    }),
                     new AnimationCallbackAdapter(_crosshairAnimationsPlayer.OnRecoilFinished),
                     new GunslingerInputAdapter(() => Input.GetMouseButton(0), () => Input.GetKey(KeyCode.R))
                 );
@@ -41,11 +48,6 @@ namespace Selskiyvrach.VampireHunter.Test
         private void Update()
         {
             _gunslinger.Tick(Time.deltaTime);
-        }
-
-        private void LateUpdate()
-        {
-            _gun.OnAfterTick();
         }
 
         public IBullet GetBullet()

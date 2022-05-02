@@ -9,7 +9,7 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
     public class Gunslinger : ITickable, IDisposable
     {
         private readonly StateMachine _stateMachine = new StateMachine();
-        private readonly Gun _gun;
+        private readonly Gun _gun; 
         private readonly IAnimationCallback _recoilAnimationCallback;
         private readonly IAnimationCallback _aimAnimationCallback;
         private readonly IAnimationCallback _idleAnimationCallback;
@@ -61,15 +61,15 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 
             var shootState = stateBuilder
                 .OnEnter(new DebugLogAction("shoot"))
-                .OnEnter(new ActionAction(_gun.PullTheTrigger))
-                .OnEnter(new ActionAction(() => _hasRecoil = true))
+                .OnEnter(new ActionAction(() => _gun.PullTheTrigger()))
                 .Build();
             stateBuilder.Reset();
 
             var recoilState = stateBuilder
                 .OnEnter(new DebugLogAction("recoil"))
-                .OnEnter(new ActionAction(_gun.AbsorbRecoil))
-                .OnEnter(new ActionAction(recoilAnimationStarter.StartAnimation))
+                .OnEnter(new ActionAction(() => _hasRecoil = true))
+                .OnEnter(new ActionAction(() => _gun.AbsorbRecoil()))
+                .OnEnter(new ActionAction(() =>recoilAnimationStarter.StartAnimation()))
                 .Build();
             stateBuilder.Reset();
 
@@ -82,6 +82,7 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
             aimState.AddTransition(shootState, new FuncCondition(() => _aimed && _gun.PointsAtTarget()));
             aimState.AddTransition(idleState, new FuncCondition(() => !_gunslingerInput.ProceedShootingSequence()));
             recoilState.AddTransition(idleState, new FuncCondition(() => !_hasRecoil));
+            shootState.AddTransition(recoilState, new FuncCondition(() => _gun.CurrentRecoil > 0));
             
             _stateMachine.StartState(idleState);
         }
@@ -89,6 +90,7 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
         public void Tick(float deltaTime)
         {
             _gun.Tick(deltaTime);
+            _gun.OnAfterTick();
             _stateMachine.Tick(deltaTime);
         }
 

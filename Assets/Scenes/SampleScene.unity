@@ -350,12 +350,14 @@ MonoBehaviour:
   _raycaster: {fileID: 887113637}
   _crosshairAnimationsPlayer: {fileID: 1116581719}
   _screenPointAsRay: {fileID: 1116581723}
+  _camRecoilPlayer: {fileID: 228698176}
+  _gunRecoilPlayer: {fileID: 1105516143}
 --- !u!114 &887113637 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4721481435818008480, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
   m_PrefabInstance: {fileID: 8879963749282078836}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1214650150}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e177c85a37c4c948ae0d1cf1acd7145, type: 3}
@@ -797,6 +799,63 @@ CapsuleCollider:
   m_Height: 1.65
   m_Direction: 1
   m_Center: {x: 0, y: 0.85, z: 0}
+--- !u!1 &1214650150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8879963748293487121, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+  m_PrefabInstance: {fileID: 8879963749282078836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1214650151 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 382825059476408321, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+  m_PrefabInstance: {fileID: 8879963749282078836}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214650150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6639e21a8ac64fba898e8eca1b60482d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1214650152 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4901769563335256835, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+  m_PrefabInstance: {fileID: 8879963749282078836}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214650150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a822eed18fe0469bb70fb01d5259e165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1214650153 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4965328193915489175, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+  m_PrefabInstance: {fileID: 8879963749282078836}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214650150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34df0cbeec14a86a23983a5450bfeff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &1214650154 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7911616156899889620, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+  m_PrefabInstance: {fileID: 8879963749282078836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1214650155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214650150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34df0cbeec14a86a23983a5450bfeff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _triggerName: Shoot
+  _animator: {fileID: 1214650154}
 --- !u!1 &1379125492
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +973,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1524166389, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
   m_PrefabInstance: {fileID: 8879963749282078836}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1214650150}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 171248f1aac349e7a5843135e7b4a7c8, type: 3}
@@ -1226,6 +1285,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1105516142}
     m_Modifications:
+    - target: {fileID: 1524166389, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+      propertyPath: _cockAnimationStarter
+      value: 
+      objectReference: {fileID: 1214650153}
+    - target: {fileID: 1524166389, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+      propertyPath: _cockAnimationCallback
+      value: 
+      objectReference: {fileID: 1214650152}
+    - target: {fileID: 1524166389, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+      propertyPath: _shootAnimationStarter
+      value: 
+      objectReference: {fileID: 1214650155}
+    - target: {fileID: 1524166389, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
+      propertyPath: _shootAnimationCallback
+      value: 
+      objectReference: {fileID: 1214650151}
     - target: {fileID: 8879963748293487121, guid: 3431736fbf47c2843a2b660616bf9c14, type: 3}
       propertyPath: m_Name
       value: gun

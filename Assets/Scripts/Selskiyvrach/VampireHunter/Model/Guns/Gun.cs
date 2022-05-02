@@ -19,12 +19,13 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         public int CurrentRecoil { get; private set; }
         public bool IsCocked => _trigger.IsCocked;
 
-        public Gun(IMagazine magazine, ISight sight, ITrigger trigger, IRaycaster raycaster)
+        public Gun(IMagazine magazine, ISight sight, ITrigger trigger, IRaycaster raycaster, int recoil)
         {
             _magazine = magazine;
             _sight = sight;
             _trigger = trigger;
             _raycaster = raycaster;
+            Recoil = recoil;
 
             var stateBuilder = new StateBuilder();
 
