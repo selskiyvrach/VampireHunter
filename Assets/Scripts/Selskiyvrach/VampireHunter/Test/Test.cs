@@ -21,8 +21,10 @@ namespace Selskiyvrach.VampireHunter.Test
 
         private void Start()
         {
+            var magazine = new Magazine(this, 6);
+            
             _gun = new Gun(
-                new SimpleMagazine(this, 6), 
+                magazine, 
                 new Sight(new SightAdapter(_screenPointAsRay)), 
                 _triggerFactory.Create(),
                 new RaycasterAdapter(_raycaster), 100);

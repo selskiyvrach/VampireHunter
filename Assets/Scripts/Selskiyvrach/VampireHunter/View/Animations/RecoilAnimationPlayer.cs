@@ -25,7 +25,7 @@ namespace Selskiyvrach.VampireHunter.View
                     _duration)
                 .SetEase(_recoilEase)
                 .OnComplete(
-                    () => _animated.DORotate(Vector3.zero, _returnTime)).SetEase(_returnEase);
+                    () => _animated.DOLocalRotate(Vector3.zero, _returnTime)).SetEase(_returnEase);
         }
     }
 }

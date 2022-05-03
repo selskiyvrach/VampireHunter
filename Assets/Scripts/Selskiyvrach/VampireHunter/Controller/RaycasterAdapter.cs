@@ -21,24 +21,4 @@ namespace Selskiyvrach.VampireHunter.Controller
                     new UnityEngine.Vector3(ray.Direction.X, ray.Direction.Y, ray.Direction.Z)));
         }
     }
-    
-    public class SightAdapter : ISight
-    {
-        private readonly ScreenPointAsRay _screenPointAsRay;
-
-        public SightAdapter(ScreenPointAsRay screenPointAsRay)
-        {
-            _screenPointAsRay = screenPointAsRay;
-        }
-
-        public Ray GetPointingRay()
-        {
-            return _screenPointAsRay.GetRay().FromUnityToProject();
-        }
-
-        public Ray GetShotProjection()
-        {
-            return new Ray();
-        }
-    }
 }

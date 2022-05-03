@@ -18,6 +18,8 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         public int Recoil { get; }
         public int CurrentRecoil { get; private set; }
         public bool IsCocked => _trigger.IsCocked;
+        public int CurrentBullets => _magazine.CurrentLoad;
+        public int MagazineCapacity => _magazine.Capacity;
 
         public Gun(IMagazine magazine, ISight sight, ITrigger trigger, IRaycaster raycaster, int recoil)
         {
@@ -77,9 +79,7 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         public void CockTheTrigger() =>
             _cockTrigger = true;
 
-        public bool PointsAtTarget()
-        {
-            return _raycaster.Raycast(_sight.GetPointingRay());
-        }
+        public bool PointsAtTarget() =>
+            _raycaster.Raycast(_sight.GetPointingRay());
     }
 }

@@ -80,11 +80,11 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
             stateBuilder.Reset();
 
             idleState.AddTransition(cockTriggerState, new CompositeConditionBuilder()
-                .Add(new FuncCondition(() => !_gun.IsCocked))
+                .Add(new FuncCondition(() => !_gun.IsCocked && _idled))
                 .Build());
             cockTriggerState.AddTransition(idleState, new FuncCondition(() => _gun.IsCocked));
             idleState.AddTransition(aimState, new FuncCondition(() => _gunslingerInput.ProceedShootingSequence() && _gun.IsCocked));
-            aimState.AddTransition(shootState, new FuncCondition(() => _aimed && _gun.PointsAtTarget()));
+            aimState.AddTransition(shootState, new FuncCondition(() => _aimed && _gun.PointsAtTarget() && _gun.CurrentBullets > 0));
             aimState.AddTransition(idleState, new FuncCondition(() => !_gunslingerInput.ProceedShootingSequence()));
             recoilState.AddTransition(idleState, new FuncCondition(() => !_hasRecoil));
             shootState.AddTransition(recoilState, new FuncCondition(() => _gun.CurrentRecoil > 0));

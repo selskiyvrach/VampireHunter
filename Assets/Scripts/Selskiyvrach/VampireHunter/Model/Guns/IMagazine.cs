@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
@@ -8,14 +7,15 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         IBullet Pop();
     }
     
-    public class SimpleMagazine : IMagazine
+    public class Magazine : IMagazine
     {
         private readonly IBulletProvider _bulletProvider;
 
         public int Capacity { get; }
-        public int CurrentLoad { get; private set; } 
+        public int CurrentLoad { get; private set; }
+        public event Action<IntDelta> OnLoadChanged;
 
-        public SimpleMagazine(IBulletProvider bulletProvider, int capacity)
+        public Magazine(IBulletProvider bulletProvider, int capacity)
         {
             _bulletProvider = bulletProvider;
             CurrentLoad = Capacity = capacity;
@@ -23,13 +23,17 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
 
         public void LoadOne()
         {
-            if(CurrentLoad < Capacity)
-                CurrentLoad++;
+            if(CurrentLoad == Capacity)
+                return;
+            CurrentLoad++;
+            OnLoadChanged?.Invoke(new IntDelta(1));
         }
 
         public void LoadFull()
         {
+            var before = CurrentLoad;
             CurrentLoad = Capacity;
+            OnLoadChanged?.Invoke(new IntDelta(CurrentLoad - before));
         }
 
         public IBullet Pop()
@@ -38,7 +42,7 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
                 throw new InvalidOperationException();
             
             CurrentLoad--;
-            Debug.Log("bullets left: " + CurrentLoad);
+            OnLoadChanged?.Invoke(new IntDelta(-1));
             return _bulletProvider.GetBullet();
         }
     }

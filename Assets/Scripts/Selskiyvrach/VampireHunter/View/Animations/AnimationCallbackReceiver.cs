@@ -12,4 +12,8 @@ namespace Selskiyvrach.VampireHunter.View
             OnInvoked?.Invoke();
         }
     }
+
+    namespace Selskiyvrach.VampireHunter
+    {
+    }
 }
