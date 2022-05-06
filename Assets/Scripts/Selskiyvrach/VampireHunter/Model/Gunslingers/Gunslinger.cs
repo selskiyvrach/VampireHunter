@@ -3,7 +3,6 @@ using Selskiyvrach.Core;
 using Selskiyvrach.Core.StateMachines;
 using Selskiyvrach.VampireHunter.Model.Animations;
 using Selskiyvrach.VampireHunter.Model.Guns;
-using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 {
@@ -74,7 +73,7 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
                 .OnEnter(new DebugLogAction("recoil"))
                 .OnEnter(new ActionAction(() => _hasRecoil = true))
                 .OnEnter(new ActionAction(() => _gun.AbsorbRecoil()))
-                .OnEnter(new ActionAction(() =>recoilAnimationStarter.StartAnimation()))
+                .OnEnter(new ActionAction(recoilAnimationStarter.StartAnimation))
                 .OnExit(new ActionAction(() => _idled = true))
                 .Build();
             stateBuilder.Reset();

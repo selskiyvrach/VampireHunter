@@ -15,7 +15,7 @@ namespace Selskiyvrach.VampireHunter.Controller
 
         public Ray GetPointingRay()
         {
-            return _screenPointAsRay.GetRay().FromUnityToProject();
+            return _screenPointAsRay.GetRay().ToProject();
         }
 
         public Ray GetShotProjection()

@@ -1,23 +1,35 @@
 ﻿using Selskiyvrach.Core.Math;
+using Selskiyvrach.VampireHunter.Model.Combat;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
     public interface IBullet
     {
-        IBullet SetTrajectory(Ray trajectory);
-        IBullet Launch();
+        Damage Damage { get; }
+        void Launch(BulletLaunchData launchData);
     }
 
-    public class SimpleBullet : IBullet
+    public readonly struct BulletLaunchData
     {
-        public IBullet SetTrajectory(Ray trajectory)
-        {
-            return this;
-        }
+        public readonly Damage Damage;
+        public readonly Speed Speed;
+        public readonly Ray Trajectory;
 
-        public IBullet Launch()
+        public BulletLaunchData(Damage damage, Speed speed, Ray trajectory)
         {
-            return this;
+            Damage = damage;
+            Speed = speed;
+            Trajectory = trajectory;
+        }
+    }
+
+    public readonly struct Speed
+    {
+        public readonly float Value;
+
+        public Speed(float value)
+        {
+            Value = value;
         }
     }
 }

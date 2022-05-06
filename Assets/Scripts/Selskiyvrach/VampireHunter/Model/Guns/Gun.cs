@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Selskiyvrach.Core;
 using Selskiyvrach.Core.StateMachines;
+using Selskiyvrach.VampireHunter.Model.Combat;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
@@ -42,7 +43,8 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
 
             var shootState = stateBuilder
                 .OnEnter(new ActionAction(() => _trigger.Pull()))
-                .OnEnter(new ActionAction(() => _magazine.Pop().SetTrajectory(_sight.GetShotProjection()).Launch()))
+                .OnEnter(new ActionAction(() => _magazine.Pop()
+                    .Launch(new BulletLaunchData(new Damage(10), new Speed(100), _sight.GetShotProjection()))))
                 .OnEnter(new ActionAction(() => CurrentRecoil = Recoil))
                 .Build();
             stateBuilder.Reset();

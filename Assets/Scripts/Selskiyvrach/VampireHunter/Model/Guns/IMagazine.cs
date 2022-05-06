@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Sirenix.Utilities;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
@@ -9,30 +11,28 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
     
     public class Magazine : IMagazine
     {
-        private readonly IBulletProvider _bulletProvider;
-
+        private readonly Stack<IBullet> _bullets = new Stack<IBullet>();
         public int Capacity { get; }
-        public int CurrentLoad { get; private set; }
+        public int CurrentLoad => _bullets.Count;
         public event Action<IntDelta> OnLoadChanged;
 
-        public Magazine(IBulletProvider bulletProvider, int capacity)
+        public Magazine(int capacity)
         {
-            _bulletProvider = bulletProvider;
-            CurrentLoad = Capacity = capacity;
+            Capacity = capacity;
         }
 
-        public void LoadOne()
+        public void Push(IBullet bullet)
         {
             if(CurrentLoad == Capacity)
                 return;
-            CurrentLoad++;
+            _bullets.Push(bullet);
             OnLoadChanged?.Invoke(new IntDelta(1));
         }
 
-        public void LoadFull()
+        public void Push(IEnumerable<IBullet> bullets)
         {
             var before = CurrentLoad;
-            CurrentLoad = Capacity;
+            bullets.ForEach(n => _bullets.Push(n));
             OnLoadChanged?.Invoke(new IntDelta(CurrentLoad - before));
         }
 
@@ -40,15 +40,9 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         {
             if(CurrentLoad < 1)
                 throw new InvalidOperationException();
-            
-            CurrentLoad--;
+            var bullet = _bullets.Pop();
             OnLoadChanged?.Invoke(new IntDelta(-1));
-            return _bulletProvider.GetBullet();
+            return bullet;
         }
-    }
-
-    public interface IBulletProvider
-    {
-        public IBullet GetBullet();
     }
 }

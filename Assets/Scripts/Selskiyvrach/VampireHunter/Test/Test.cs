@@ -1,13 +1,15 @@
-﻿using Selskiyvrach.VampireHunter.Controller;
+﻿using System.Collections.Generic;
+using Selskiyvrach.VampireHunter.Controller;
 using Selskiyvrach.VampireHunter.Model.Guns;
 using Selskiyvrach.VampireHunter.Model.Gunslingers;
 using Selskiyvrach.VampireHunter.View;
+using Selskiyvrach.VampireHunter.View.Animations;
+using Selskiyvrach.VampireHunter.View.Combat;
 using UnityEngine;
-using Ray = Selskiyvrach.Core.Math.Ray;
 
 namespace Selskiyvrach.VampireHunter.Test
 {
-    public class Test : MonoBehaviour, IBulletProvider, IBullet
+    public class Test : MonoBehaviour
     {
         [SerializeField] private TestTriggerFactory _triggerFactory;
         [SerializeField] private Raycaster _raycaster;
@@ -15,13 +17,24 @@ namespace Selskiyvrach.VampireHunter.Test
         [SerializeField] private ScreenPointAsRay _screenPointAsRay;
         [SerializeField] private RecoilAnimationPlayer _camRecoilPlayer;
         [SerializeField] private RecoilAnimationPlayer _gunRecoilPlayer;
+        [SerializeField] private BulletFactory _bulletFactory;
 
         private Gun _gun;
         private Gunslinger _gunslinger;
 
         private void Start()
         {
-            var magazine = new Magazine(this, 6);
+            var magazine = new Magazine(6);
+            var bullets = new []
+            {
+                new BulletAdapter(_bulletFactory.Create()),
+                new BulletAdapter(_bulletFactory.Create()),
+                new BulletAdapter(_bulletFactory.Create()),
+                new BulletAdapter(_bulletFactory.Create()),
+                new BulletAdapter(_bulletFactory.Create()),
+                new BulletAdapter(_bulletFactory.Create()),
+            };
+            magazine.Push(bullets);
             
             _gun = new Gun(
                 magazine, 
@@ -50,21 +63,6 @@ namespace Selskiyvrach.VampireHunter.Test
         private void Update()
         {
             _gunslinger.Tick(Time.deltaTime);
-        }
-
-        public IBullet GetBullet()
-        {
-            return this;
-        }
-
-        public IBullet SetTrajectory(Ray trajectory)
-        {
-            return this;
-        }
-
-        public IBullet Launch()
-        {
-            return this;
         }
     }
 }
