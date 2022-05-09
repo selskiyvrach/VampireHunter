@@ -14,6 +14,6 @@ namespace Selskiyvrach.VampireHunter.Controller
             _bullet = bullet;
 
         public void Launch(BulletLaunchData launchData) =>
-            _bullet.Launch(launchData.Trajectory.ToUnity(), launchData.Speed.Value);
+            _bullet.Launch(launchData.Trajectory.ToUnity(), launchData.bulletSpeed.Value);
     }
 }

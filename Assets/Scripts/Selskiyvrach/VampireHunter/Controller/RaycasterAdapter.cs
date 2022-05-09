@@ -1,6 +1,7 @@
-﻿using Selskiyvrach.Core.Math;
-using Selskiyvrach.VampireHunter.Model.Guns;
+﻿using Selskiyvrach.VampireHunter.Model.Guns;
 using Selskiyvrach.VampireHunter.View;
+using Selskiyvrach.VampireHunter.View.Collisions;
+using Ray = Selskiyvrach.Core.Maths.Ray;
 
 namespace Selskiyvrach.VampireHunter.Controller
 {
@@ -13,12 +14,10 @@ namespace Selskiyvrach.VampireHunter.Controller
             _raycaster = raycaster;
         }
 
-        public bool Raycast(Ray ray)
+        public RaycastResult Raycast(Ray ray, float maxDist)
         {
-            return _raycaster.Raycast(
-                new UnityEngine.Ray(
-                    new UnityEngine.Vector3(ray.StartPos.X, ray.StartPos.Y, ray.StartPos.Z),
-                    new UnityEngine.Vector3(ray.Direction.X, ray.Direction.Y, ray.Direction.Z)));
+            var unityResult = _raycaster.Raycast<BulletTarget>(ray.ToUnity(), maxDist);
+            return new RaycastResult(unityResult.HasHit, unityResult.Point.ToProject());
         }
     }
 }

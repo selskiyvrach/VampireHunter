@@ -1,4 +1,4 @@
-﻿using Selskiyvrach.Core.Math;
+﻿using Selskiyvrach.Core.Maths;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {

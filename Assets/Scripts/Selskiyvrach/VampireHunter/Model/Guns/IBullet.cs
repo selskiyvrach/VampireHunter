@@ -1,4 +1,4 @@
-﻿using Selskiyvrach.Core.Math;
+﻿using Selskiyvrach.Core.Maths;
 using Selskiyvrach.VampireHunter.Model.Combat;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
@@ -12,22 +12,22 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
     public readonly struct BulletLaunchData
     {
         public readonly Damage Damage;
-        public readonly Speed Speed;
+        public readonly BulletSpeed bulletSpeed;
         public readonly Ray Trajectory;
 
-        public BulletLaunchData(Damage damage, Speed speed, Ray trajectory)
+        public BulletLaunchData(Damage damage, BulletSpeed bulletSpeed, Ray trajectory)
         {
             Damage = damage;
-            Speed = speed;
+            this.bulletSpeed = bulletSpeed;
             Trajectory = trajectory;
         }
     }
 
-    public readonly struct Speed
+    public readonly struct BulletSpeed
     {
         public readonly float Value;
 
-        public Speed(float value)
+        public BulletSpeed(float value)
         {
             Value = value;
         }

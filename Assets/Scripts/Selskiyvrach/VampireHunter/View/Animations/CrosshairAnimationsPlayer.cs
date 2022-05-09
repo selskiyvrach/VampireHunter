@@ -1,7 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Selskiyvrach.VampireHunter.View
+namespace Selskiyvrach.VampireHunter.View.Animations
 {
     public class CrosshairAnimationsPlayer : MonoBehaviour
     {

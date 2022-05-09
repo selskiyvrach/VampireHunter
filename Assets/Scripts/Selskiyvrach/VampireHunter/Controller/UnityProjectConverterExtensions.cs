@@ -1,4 +1,6 @@
-﻿using Selskiyvrach.Core.Math;
+﻿using Ray = Selskiyvrach.Core.Maths.Ray;
+using Vector2 = Selskiyvrach.Core.Maths.Vector2;
+using Vector3 = Selskiyvrach.Core.Maths.Vector3;
 
 namespace Selskiyvrach.VampireHunter.Controller
 {
@@ -22,6 +24,16 @@ namespace Selskiyvrach.VampireHunter.Controller
         public static UnityEngine.Vector3 ToUnity(this Vector3 source)
         {
             return new UnityEngine.Vector3(source.X, source.Y, source.Z);
+        }
+        
+        public static Vector2 ToProject(this UnityEngine.Vector2 source)
+        {
+            return new Vector2(source.x, source.y);
+        }
+        
+        public static UnityEngine.Vector2 ToUnity(this Vector2 source)
+        {
+            return new UnityEngine.Vector2(source.X, source.Y);
         }
     }
 }

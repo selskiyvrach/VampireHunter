@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Selskiyvrach.VampireHunter.Controller;
+﻿using Selskiyvrach.VampireHunter.Controller;
 using Selskiyvrach.VampireHunter.Model.Guns;
 using Selskiyvrach.VampireHunter.Model.Gunslingers;
 using Selskiyvrach.VampireHunter.View;
@@ -14,15 +13,21 @@ namespace Selskiyvrach.VampireHunter.Test
         [SerializeField] private TestTriggerFactory _triggerFactory;
         [SerializeField] private Raycaster _raycaster;
         [SerializeField] private CrosshairAnimationsPlayer _crosshairAnimationsPlayer;
-        [SerializeField] private ScreenPointAsRay _screenPointAsRay;
         [SerializeField] private RecoilAnimationPlayer _camRecoilPlayer;
         [SerializeField] private RecoilAnimationPlayer _gunRecoilPlayer;
         [SerializeField] private BulletFactory _bulletFactory;
+        [SerializeField] private ScreenPointAsRay _screenPointAsRay;
+        [SerializeField] private GunStats _stats;
+        [SerializeField] private Barrel _barrel;
+        [SerializeField] private AimingSettings _aimingSettings;
+        [SerializeField] private CamFieldOfView _camFieldOfView;
+        [SerializeField] private ScreenSizePixels _screenSize;
+        [SerializeField] private CrosshairRadiusProvider _crosshairRadiusProvider;
 
         private Gun _gun;
         private Gunslinger _gunslinger;
 
-        private void Start()
+        private void Awake()
         {
             var magazine = new Magazine(6);
             var bullets = new []
@@ -35,12 +40,25 @@ namespace Selskiyvrach.VampireHunter.Test
                 new BulletAdapter(_bulletFactory.Create()),
             };
             magazine.Push(bullets);
-            
+
+            var sight = new Sight(
+                new ScreenPointToRayAdapter(_screenPointAsRay),
+                new ScreenSizeAdapter(_screenSize),
+                new AimingSettingsAdapter(_aimingSettings),
+                new RandomPointInUnitCircleGeneratorAdapter(),
+                new CamFieldOfViewAdapter(_camFieldOfView),
+                new GunStatsAdapter(_stats)
+            );
+            _crosshairRadiusProvider.CrosshairRadius = new CrosshairRadiusProviderAdapter(sight);
             _gun = new Gun(
                 magazine, 
-                new Sight(new SightAdapter(_screenPointAsRay)), 
+                sight,  
                 _triggerFactory.Create(),
-                new RaycasterAdapter(_raycaster), 100);
+                new RaycasterAdapter(_raycaster), 
+                new GunStatsAdapter(_stats), 
+                new BarrelAdapter(_barrel),
+                new AimingSettingsAdapter(_aimingSettings)
+            );
             
             _gunslinger = new Gunslinger
                 (
@@ -58,6 +76,7 @@ namespace Selskiyvrach.VampireHunter.Test
                     new AnimationCallbackAdapter(_crosshairAnimationsPlayer.OnRecoilFinished),
                     new GunslingerInputAdapter(() => Input.GetMouseButton(0), () => Input.GetKey(KeyCode.R))
                 );
+
         }
         
         private void Update()

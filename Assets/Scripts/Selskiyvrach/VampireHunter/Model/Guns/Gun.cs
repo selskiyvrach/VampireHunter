@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Selskiyvrach.Core;
 using Selskiyvrach.Core.StateMachines;
-using Selskiyvrach.VampireHunter.Model.Combat;
+using Selskiyvrach.VampireHunter.Controller;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
@@ -10,25 +10,31 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         private readonly IMagazine _magazine;
         private readonly ISight _sight;
         private readonly ITrigger _trigger;
+        private readonly IBarrel _barrel;
         private readonly IRaycaster _raycaster;
         private readonly StateMachine _stateMachine = new StateMachine();
+        private readonly IGunStats _stats;
 
         private bool _pullTrigger;
         private bool _cockTrigger;
+        private readonly TrajectoryCreator _trajectoryCreator;
 
-        public int Recoil { get; }
+        public int Recoil => _stats.Recoil.Value;
         public int CurrentRecoil { get; private set; }
         public bool IsCocked => _trigger.IsCocked;
         public int CurrentBullets => _magazine.CurrentLoad;
         public int MagazineCapacity => _magazine.Capacity;
 
-        public Gun(IMagazine magazine, ISight sight, ITrigger trigger, IRaycaster raycaster, int recoil)
+
+        public Gun(IMagazine magazine, ISight sight, ITrigger trigger, IRaycaster raycaster, IGunStats stats, IBarrel barrel, IAimingSettings aimingSettings)
         {
             _magazine = magazine;
             _sight = sight;
             _trigger = trigger;
             _raycaster = raycaster;
-            Recoil = recoil;
+            _stats = stats;
+            _barrel = barrel;
+            _trajectoryCreator = new TrajectoryCreator(_sight, _barrel, _raycaster, aimingSettings);
 
             var stateBuilder = new StateBuilder();
 
@@ -44,7 +50,7 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
             var shootState = stateBuilder
                 .OnEnter(new ActionAction(() => _trigger.Pull()))
                 .OnEnter(new ActionAction(() => _magazine.Pop()
-                    .Launch(new BulletLaunchData(new Damage(10), new Speed(100), _sight.GetShotProjection()))))
+                    .Launch(new BulletLaunchData(_stats.Damage, _stats.BulletSpeed, _trajectoryCreator.Create()))))
                 .OnEnter(new ActionAction(() => CurrentRecoil = Recoil))
                 .Build();
             stateBuilder.Reset();
@@ -70,7 +76,7 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
             CurrentRecoil = 0;
 
         public void Tick(float deltaTime) =>
-            _stateMachine.Tick(deltaTime);            
+            _stateMachine.Tick(deltaTime);
 
         public void OnAfterTick()
         {
@@ -82,6 +88,6 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
             _cockTrigger = true;
 
         public bool PointsAtTarget() =>
-            _raycaster.Raycast(_sight.GetPointingRay());
+            _raycaster.Raycast(_sight.GetPerfectlyAccurateRay()).HasHit;
     }
 }

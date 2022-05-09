@@ -1,13 +1,15 @@
 ﻿using DG.Tweening;
+using Selskiyvrach.VampireHunter.View.Combat;
 using UnityEngine;
 
-namespace Selskiyvrach.VampireHunter.View
+namespace Selskiyvrach.VampireHunter.View.Animations
 {
     public class ClosingCrosshairTweener : Tweener
     {
         [SerializeField] private CanvasGroup _alphaGroup;
-        [SerializeField] private Transform _toScale;
-        [SerializeField] private Vector3 _targetValue;
+        [SerializeField] private RectTransform _toScale;
+        [SerializeField] private float _scaleFactor = .5f;
+        [SerializeField] private CrosshairRadiusProviderBase _radiusProvider;
         [SerializeField] private float _duration;
         [SerializeField] private Ease _ease;
         [Range(0, 1)]
@@ -18,7 +20,14 @@ namespace Selskiyvrach.VampireHunter.View
         
         public override void Play()
         {
-            _scaleTween = _toScale.DOScale(_targetValue, _duration).SetEase(_ease).OnComplete(Complete);
+            var startScale = _toScale.localScale;
+            _toScale.localScale = Vector3.one;
+            var normalSize = _toScale.sizeDelta;
+            var requiredSize = new Vector2(_radiusProvider.Radius, _radiusProvider.Radius) * _scaleFactor;
+            var requiredScale = requiredSize / normalSize;
+            _toScale.localScale = startScale;
+            
+            _scaleTween = _toScale.DOScale(requiredScale, _duration).SetEase(_ease).OnComplete(Complete);
             _alphaTween = _alphaGroup.DOFade(1, _duration * _alphaStartTime);
         }
 

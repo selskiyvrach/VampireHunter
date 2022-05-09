@@ -25,8 +25,12 @@ namespace Selskiyvrach.VampireHunter.View.Combat
 
         private void FixedUpdate()
         {
-            // raycast to see if the way is clear
-            // move along trajectory for full distance or up to casted target
+            var position = transform.position;
+            var scanResult = _raycaster.Raycast<BulletTarget>(new Ray(position, _trajectory.direction), _speed);
+            if (scanResult.Target != null)
+                transform.position = scanResult.Point;
+            else
+                transform.position += _trajectory.direction.normalized * (_speed * Time.fixedDeltaTime);
         }
 
         public void Launch(Ray trajectory, float speed)

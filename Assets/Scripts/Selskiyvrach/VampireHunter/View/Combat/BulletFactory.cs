@@ -9,4 +9,9 @@ namespace Selskiyvrach.VampireHunter.View.Combat
         public Bullet Create() =>
             Instantiate(_prefab, transform);
     }
+
+    public class ProjectileFinalPointFinder : MonoBehaviour
+    {
+            
+    }
 }
