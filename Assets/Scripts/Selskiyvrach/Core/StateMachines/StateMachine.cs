@@ -1,17 +1,12 @@
 ﻿namespace Selskiyvrach.Core.StateMachines
 {
-    public sealed class StateMachine : ITickable
+    public sealed class StateMachine 
     {
         private IState _currentState;
 
-        public void Tick(float deltaTime)
-        {
-            _currentState?.Tick(this);
-        }
-
         public void StartState(IState state)
         {
-            _currentState?.Exit();
+            _currentState?.Dispose();
             _currentState = state;
             _currentState.Enter(this);
         }

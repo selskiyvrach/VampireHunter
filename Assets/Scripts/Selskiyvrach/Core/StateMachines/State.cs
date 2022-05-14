@@ -1,44 +1,44 @@
 ﻿namespace Selskiyvrach.Core.StateMachines
 {
-    public class State : IState
+    public abstract class State : IState
     {
-        private readonly IAction _onEnterAction;
-        private readonly IAction _onTickAction;
-        private readonly IAction _onExitAction;
-        private readonly CompositeTransition _transition = new CompositeTransition();
+        public abstract void Enter(StateMachine stateMachine);
+        public virtual void Dispose(){}
+    }
+    
+    public class DecoratorState : IState
+    {
+        private readonly IState _state;
 
-        public State(
-            IAction onEnterAction = null,
-            IAction onTickAction = null,
-            IAction onExitAction = null)
-        {
-            _onEnterAction = onEnterAction;
-            _onTickAction = onTickAction;
-            _onExitAction = onExitAction;
-        }
+        public DecoratorState(IState state) => 
+            _state = state;
 
-        public void AddTransition(IState to, ICondition condition) =>
-            _transition.AddTransition(new Transition(to, condition));
+        public virtual void Enter(StateMachine stateMachine) => 
+            _state.Enter(stateMachine);
 
-        public void Enter(StateMachine stateMachine)
-        {
-            _onEnterAction?.Act();
-        }
-
-        public void Tick(StateMachine stateMachine)
-        {
-            if (_transition?.TryTransition(stateMachine) ?? false)
-                return;
-            _onTickAction?.Act();
-        }
-
-        public void Exit() =>
-            _onExitAction?.Act();
+        public virtual void Dispose() => 
+            _state.Dispose();
     }
 
-    public class AsyncState : State
+    public abstract class TickableState : DecoratorState, ITickable
     {
-        // enter: start task
-        // on complete: execute transition
+        private readonly ITicker _ticker;
+
+        public TickableState(IState decorated, ITicker ticker) : base(decorated) => 
+            _ticker = ticker;
+
+        public override void Enter(StateMachine stateMachine)
+        {
+            base.Enter(stateMachine);
+            _ticker.AddTickable(this);
+        }
+
+        public abstract void Tick(float deltaTime);
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _ticker.RemoveTickable(this);
+        }
     }
 }
