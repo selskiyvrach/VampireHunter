@@ -9,7 +9,7 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
     public class Gunslinger : ITickable, IDisposable
     {
         private readonly StateMachine _stateMachine = new StateMachine();
-        private readonly Gun _gun; 
+        private readonly Gun _gun;
         private readonly IAnimationCallback _recoilAnimationCallback;
         private readonly IAnimationCallback _aimAnimationCallback;
         private readonly IAnimationCallback _idleAnimationCallback;

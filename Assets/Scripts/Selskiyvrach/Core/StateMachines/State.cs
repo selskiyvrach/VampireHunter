@@ -1,6 +1,6 @@
 ﻿namespace Selskiyvrach.Core.StateMachines
 {
-    public sealed class State : IState
+    public class State : IState
     {
         private readonly IAction _onEnterAction;
         private readonly IAction _onTickAction;
@@ -34,5 +34,11 @@
 
         public void Exit() =>
             _onExitAction?.Act();
+    }
+
+    public class AsyncState : State
+    {
+        // enter: start task
+        // on complete: execute transition
     }
 }

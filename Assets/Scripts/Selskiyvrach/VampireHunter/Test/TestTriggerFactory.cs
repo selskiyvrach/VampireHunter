@@ -1,6 +1,6 @@
 ﻿using Selskiyvrach.VampireHunter.Controller;
 using Selskiyvrach.VampireHunter.Model.Guns;
-using Selskiyvrach.VampireHunter.View;
+using Selskiyvrach.VampireHunter.Unity.Animations;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Test

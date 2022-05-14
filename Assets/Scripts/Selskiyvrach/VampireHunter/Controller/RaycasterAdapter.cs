@@ -1,6 +1,5 @@
 ﻿using Selskiyvrach.VampireHunter.Model.Guns;
-using Selskiyvrach.VampireHunter.View;
-using Selskiyvrach.VampireHunter.View.Collisions;
+using Selskiyvrach.VampireHunter.Unity.Collisions;
 using Ray = Selskiyvrach.Core.Maths.Ray;
 
 namespace Selskiyvrach.VampireHunter.Controller

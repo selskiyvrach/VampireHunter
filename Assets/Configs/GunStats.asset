@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 10
   _accuracy: 85
-  _bulletSpeed: 100
+  _bulletSpeed: 10
   _recoil: 100

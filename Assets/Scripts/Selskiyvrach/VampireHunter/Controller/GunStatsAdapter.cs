@@ -1,6 +1,6 @@
 ﻿using Selskiyvrach.VampireHunter.Model.Combat;
 using Selskiyvrach.VampireHunter.Model.Guns;
-using Selskiyvrach.VampireHunter.View;
+using Selskiyvrach.VampireHunter.Unity;
 
 namespace Selskiyvrach.VampireHunter.Controller
 {

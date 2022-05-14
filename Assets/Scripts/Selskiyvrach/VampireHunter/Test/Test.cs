@@ -1,9 +1,11 @@
 ﻿using Selskiyvrach.VampireHunter.Controller;
 using Selskiyvrach.VampireHunter.Model.Guns;
 using Selskiyvrach.VampireHunter.Model.Gunslingers;
-using Selskiyvrach.VampireHunter.View;
-using Selskiyvrach.VampireHunter.View.Animations;
-using Selskiyvrach.VampireHunter.View.Combat;
+using Selskiyvrach.VampireHunter.Unity;
+using Selskiyvrach.VampireHunter.Unity.Animations;
+using Selskiyvrach.VampireHunter.Unity.Cameras;
+using Selskiyvrach.VampireHunter.Unity.Collisions;
+using Selskiyvrach.VampireHunter.Unity.Combat;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Test

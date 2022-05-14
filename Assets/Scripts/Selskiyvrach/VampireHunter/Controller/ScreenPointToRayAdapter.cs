@@ -1,5 +1,5 @@
 ﻿using Selskiyvrach.VampireHunter.Model.Guns;
-using Selskiyvrach.VampireHunter.View;
+using Selskiyvrach.VampireHunter.Unity.Cameras;
 using Ray = Selskiyvrach.Core.Maths.Ray;
 using Vector2 = Selskiyvrach.Core.Maths.Vector2;
 

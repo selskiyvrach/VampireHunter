@@ -1,5 +1,5 @@
 ﻿using Selskiyvrach.VampireHunter.Model.Animations;
-using Selskiyvrach.VampireHunter.View;
+using Selskiyvrach.VampireHunter.Unity.Animations;
 
 namespace Selskiyvrach.VampireHunter.Controller
 {
