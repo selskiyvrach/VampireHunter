@@ -1,4 +1,6 @@
-﻿using Selskiyvrach.VampireHunter.Controller;
+﻿using System.Threading.Tasks;
+using Selskiyvrach.Core.StateMachines;
+using Selskiyvrach.VampireHunter.Controller;
 using Selskiyvrach.VampireHunter.Model.Guns;
 using Selskiyvrach.VampireHunter.Model.Gunslingers;
 using Selskiyvrach.VampireHunter.Unity;
@@ -29,8 +31,18 @@ namespace Selskiyvrach.VampireHunter.Test
         private Gun _gun;
         private Gunslinger _gunslinger;
 
-        private void Awake()
+        private void Start()
         {
+            var afterTaskState = new ActionState(new DebugLogAction("after task"));
+            
+            var task = Task.Delay(1000);
+            var state = ((IState) new TaskState(task));
+            state = new ActionState(new DebugLogAction("task"), state);
+            var transition = new Transition(afterTaskState, new TaskCompletedCondition(task));
+            state = new TransitionState(state, transition);
+            
+            
+            
             var magazine = new Magazine(6);
             var bullets = new []
             {

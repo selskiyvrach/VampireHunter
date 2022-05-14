@@ -1,23 +1,33 @@
-﻿namespace Selskiyvrach.Core.StateMachines
+﻿using System.Threading.Tasks;
+using Selskiyvrach.Core.Factories;
+
+namespace Selskiyvrach.Core.StateMachines
 {
-    public abstract class State : IState
+    public class State : IState
     {
-        public abstract void Enter(StateMachine stateMachine);
+        protected StateMachine StateMachine { get; private set; }
+
+        public virtual void Enter(StateMachine stateMachine) => 
+            StateMachine = stateMachine;
+
         public virtual void Dispose(){}
     }
     
-    public class DecoratorState : IState
+    public class DecoratorState : State
     {
-        private readonly IState _state;
+        protected readonly IState Decorated;
 
-        public DecoratorState(IState state) => 
-            _state = state;
+        public DecoratorState(IState decorated = null) => 
+            Decorated = decorated;
 
-        public virtual void Enter(StateMachine stateMachine) => 
-            _state.Enter(stateMachine);
+        public override void Enter(StateMachine stateMachine)
+        {
+            base.Enter(stateMachine);
+            Decorated?.Enter(stateMachine);
+        }
 
-        public virtual void Dispose() => 
-            _state.Dispose();
+        public override void Dispose() => 
+            Decorated?.Dispose();
     }
 
     public abstract class TickableState : DecoratorState, ITickable
@@ -40,5 +50,68 @@
             base.Dispose();
             _ticker.RemoveTickable(this);
         }
+    }
+    
+    public class TransitionState : DecoratorState
+    {
+        protected readonly ITransition Transition;
+        
+        public TransitionState(IState decorated, ITransition transition) : base(decorated) => 
+            Transition = transition;
+    }
+
+    public class ActionState : DecoratorState
+    {
+        private readonly IAction _action;
+        
+        public ActionState(IAction action, IState decorated = null) : base(decorated) => 
+            _action = action;
+
+        public override void Enter(StateMachine stateMachine)
+        {
+            base.Enter(stateMachine);
+            _action.Act();
+        }
+    }
+    
+    public class TaskAction : IAction
+    {
+        private readonly Task _task;
+
+        public TaskAction(Task task) => 
+            _task = task;
+
+        public void Act() => 
+            _task.Start();
+    }
+    
+    public class TaskCompletedCondition : ICondition
+    {
+        private readonly Task _task;
+        public TaskCompletedCondition(Task task) => 
+            _task = task;
+
+        public bool IsMet(StateMachine stateMachine) => 
+            _task.IsCompleted;
+    }
+
+    public class TaskState : DecoratorState
+    {
+        public TaskState(Task task, IState decorated = null) : base(decorated)
+        {
+            decorated ??= new State();
+            var taskAction = new TaskAction(task);
+            var actionState = new ActionState(taskAction, decorated);
+            decorated = actionState;
+        }
+    }
+
+    public interface IStateBuilder : IFactory<IState>
+    {
+    }
+
+    public abstract class StateBuilder : Factory<IState>, IStateBuilder 
+    {
+        
     }
 }
