@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Selskiyvrach.Core.Factories;
 
 namespace Selskiyvrach.Core.StateMachines
@@ -15,9 +17,13 @@ namespace Selskiyvrach.Core.StateMachines
     
     public class DecoratorState : State
     {
-        protected readonly IState Decorated;
+        public IState Decorated { get; protected set; }
 
-        public DecoratorState(IState decorated = null) => 
+        public DecoratorState()
+        {
+        }
+
+        public DecoratorState(IState decorated) => 
             Decorated = decorated;
 
         public override void Enter(StateMachine stateMachine)
@@ -29,35 +35,38 @@ namespace Selskiyvrach.Core.StateMachines
         public override void Dispose() => 
             Decorated?.Dispose();
     }
+    
 
     public abstract class TickableState : DecoratorState, ITickable
     {
-        private readonly ITicker _ticker;
-
-        public TickableState(IState decorated, ITicker ticker) : base(decorated) => 
-            _ticker = ticker;
+        protected TickableState(IState decorated = null) : base(decorated)
+        {
+        }
 
         public override void Enter(StateMachine stateMachine)
         {
             base.Enter(stateMachine);
-            _ticker.AddTickable(this);
+            stateMachine.AddTickable(this);
         }
-
-        public abstract void Tick(float deltaTime);
 
         public override void Dispose()
         {
             base.Dispose();
-            _ticker.RemoveTickable(this);
+            StateMachine.RemoveTickable(this);
         }
+
+        public abstract void Tick(float deltaTime);
     }
     
-    public class TransitionState : DecoratorState
+    public class TransitionState : TickableState
     {
         protected readonly ITransition Transition;
         
-        public TransitionState(IState decorated, ITransition transition) : base(decorated) => 
+        public TransitionState(ITransition transition, IState decorated = null) : base(decorated) => 
             Transition = transition;
+
+        public override void Tick(float deltaTime) => 
+            Transition.TryTransition(StateMachine);
     }
 
     public class ActionState : DecoratorState
@@ -73,36 +82,100 @@ namespace Selskiyvrach.Core.StateMachines
             _action.Act();
         }
     }
-    
+
+    public interface IThroughState : IState
+    {
+        void OnComplete(IState state);
+    }
+
+    public class RightThroughState : DecoratorState, IThroughState
+    {
+        public RightThroughState(IState decorated = null) : base(decorated)
+        {
+            Decorated = new ThroughState(new TrueCondition());
+        }
+
+        public void OnComplete(IState state)
+        {
+            
+        }
+    }
+
+    public class ThroughState : DecoratorState
+    {
+        private readonly ICondition _condition;
+
+        public ThroughState(ICondition condition, IState decorated = null) : base(decorated) => 
+            _condition = condition;
+
+        public ThroughState OnComplete(IState state)
+        {
+            var transition = new Transition(state, _condition);
+            Decorated = new TransitionState(transition);
+            return this;
+        }
+    }
+
+    public class DebugLogState : DecoratorState, IThroughState
+    {
+        private IState _onComplete;
+        
+        public DebugLogState(string message)=> 
+            Decorated = new ActionState(new DebugLogAction(message));
+
+        public override void Enter(StateMachine stateMachine)
+        {
+            base.Enter(stateMachine);
+            if(_onComplete != null)
+                stateMachine.StartState(_onComplete);
+        }
+
+        public void OnComplete(IState state) => 
+            _onComplete = state;
+    }
+
     public class TaskAction : IAction
     {
-        private readonly Task _task;
+        private readonly Func<Task> _taskDelegate;
+        private Task _task;
+        public bool IsCompleted => _task?.IsCompleted ?? false;
 
-        public TaskAction(Task task) => 
-            _task = task;
+        public TaskAction(Func<Task> taskDelegate) => 
+            _taskDelegate = taskDelegate;
 
-        public void Act() => 
-            _task.Start();
+        public void Act() =>
+            _task = _taskDelegate.Invoke();
     }
     
     public class TaskCompletedCondition : ICondition
     {
-        private readonly Task _task;
-        public TaskCompletedCondition(Task task) => 
-            _task = task;
+        private readonly TaskAction _taskAction;
+
+        public TaskCompletedCondition(TaskAction taskAction) => 
+            _taskAction = taskAction;
 
         public bool IsMet(StateMachine stateMachine) => 
-            _task.IsCompleted;
+            _taskAction.IsCompleted;
     }
 
-    public class TaskState : DecoratorState
+    public class TaskState : DecoratorState, IThroughState
     {
-        public TaskState(Task task, IState decorated = null) : base(decorated)
+        private readonly TaskAction _taskAction;
+        private Transition _transition;
+
+        public TaskState(Func<Task> taskDelegate, IState decorated = null) : base(decorated)
         {
-            decorated ??= new State();
-            var taskAction = new TaskAction(task);
-            var actionState = new ActionState(taskAction, decorated);
-            decorated = actionState;
+            _taskAction = new TaskAction(taskDelegate);
+            Decorated = new ActionState(_taskAction, decorated);
+        }
+
+        public void OnComplete(IState state)
+        {
+            if(_transition != null)
+                throw new InvalidOperationException($"{nameof(OnComplete)} {nameof(_transition)} has already been assigned");
+
+            _transition = new Transition(state, new TaskCompletedCondition(_taskAction));
+            Decorated = new TransitionState(_transition, Decorated);
         }
     }
 

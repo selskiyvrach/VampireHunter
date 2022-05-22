@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Selskiyvrach.VampireHunter.Unity.Infrastructure
+namespace Selskiyvrach.Core.Unity
 {
     public class CoroutineRunner : MonoBehaviour
     {

@@ -6,9 +6,16 @@ namespace Selskiyvrach.VampireHunter.Unity.SceneLoading
 {
     public class SceneLoader
     {
-        public async Task LoadScene(string sceneName)
+        public async Task<Scene> LoadScene(string sceneName)
         {
-            await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            var asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            await asyncOperation;
+            return SceneManager.GetSceneByName(sceneName);
+        }
+
+        public async Task UnloadScene(string sceneName)
+        {
+            await SceneManager.UnloadSceneAsync(sceneName);
         }
     }
 }

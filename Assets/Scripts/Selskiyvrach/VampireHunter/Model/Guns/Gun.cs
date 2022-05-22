@@ -36,37 +36,37 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
             _barrel = barrel;
             _trajectoryCreator = new TrajectoryCreator(_sight, _barrel, _raycaster, aimingSettings);
 
-            var stateBuilder = new StateBuilder();
-
-            var idleState = stateBuilder
-                .Build();
-            stateBuilder.Reset();
-
-            var cockTriggerState = stateBuilder
-                .OnEnter(new ActionAction(() => _trigger.Cock()))
-                .Build();
-            stateBuilder.Reset();
-
-            var shootState = stateBuilder
-                .OnEnter(new ActionAction(() => _trigger.Pull()))
-                .OnEnter(new ActionAction(() => _magazine.Pop()
-                    .Launch(new BulletLaunchData(_stats.Damage, _stats.BulletSpeed, _trajectoryCreator.Create()))))
-                .OnEnter(new ActionAction(() => CurrentRecoil = Recoil))
-                .Build();
-            stateBuilder.Reset();
-            
-            idleState.AddTransition(shootState, new CompositeCondition(new List<ICondition>()
-            {
-                new FuncCondition(() => _magazine.CurrentLoad > 0),
-                new FuncCondition(() => _trigger.IsCocked),
-                new FuncCondition(() => _pullTrigger)
-            }));
-            
-            idleState.AddTransition(cockTriggerState, new FuncCondition(() => _cockTrigger && !_trigger.IsCocked));
-            cockTriggerState.AddTransition(idleState, new TrueCondition());
-            shootState.AddTransition(idleState, new TrueCondition());
-            
-            _stateMachine.StartState(idleState);
+            // var stateBuilder = new StateBuilder();
+            //
+            // var idleState = stateBuilder
+            //     .Build();
+            // stateBuilder.Reset();
+            //
+            // var cockTriggerState = stateBuilder
+            //     .OnEnter(new ActionAction(() => _trigger.Cock()))
+            //     .Build();
+            // stateBuilder.Reset();
+            //
+            // var shootState = stateBuilder
+            //     .OnEnter(new ActionAction(() => _trigger.Pull()))
+            //     .OnEnter(new ActionAction(() => _magazine.Pop()
+            //         .Launch(new BulletLaunchData(_stats.Damage, _stats.BulletSpeed, _trajectoryCreator.Create()))))
+            //     .OnEnter(new ActionAction(() => CurrentRecoil = Recoil))
+            //     .Build();
+            // stateBuilder.Reset();
+            //
+            // idleState.AddTransition(shootState, new CompositeCondition(new List<ICondition>()
+            // {
+            //     new FuncCondition(() => _magazine.CurrentLoad > 0),
+            //     new FuncCondition(() => _trigger.IsCocked),
+            //     new FuncCondition(() => _pullTrigger)
+            // }));
+            //
+            // idleState.AddTransition(cockTriggerState, new FuncCondition(() => _cockTrigger && !_trigger.IsCocked));
+            // cockTriggerState.AddTransition(idleState, new TrueCondition());
+            // shootState.AddTransition(idleState, new TrueCondition());
+            //
+            // _stateMachine.StartState(idleState);
         }
 
         public void PullTheTrigger() =>
@@ -75,8 +75,10 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         public void AbsorbRecoil() =>
             CurrentRecoil = 0;
 
-        public void Tick(float deltaTime) =>
-            _stateMachine.Tick(deltaTime);
+        public void Tick(float deltaTime)
+        {
+            // _stateMachine.Tick(deltaTime);
+        }
 
         public void OnAfterTick()
         {

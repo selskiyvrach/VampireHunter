@@ -1,6 +1,4 @@
-﻿using Selskiyvrach.Core.StateMachines;
-
-namespace Selskiyvrach.Core
+﻿namespace Selskiyvrach.Core
 {
     public interface ITickable
     {
@@ -9,7 +7,7 @@ namespace Selskiyvrach.Core
 
     public interface ITicker
     {
-        void AddTickable(ITickable tickable);
-        void RemoveTickable(ITickable tickableState);
+        bool AddTickable(ITickable tickable);
+        bool RemoveTickable(ITickable tickableState);
     }
 }

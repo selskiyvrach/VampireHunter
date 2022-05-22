@@ -17,6 +17,10 @@ namespace Selskiyvrach.VampireHunter.Controller.SceneLoading
         {
             await _sceneLoader.LoadScene(sceneID.Name);
         }
-        
+
+        public async Task UnloadScene(SceneID sceneID)
+        {
+            await _sceneLoader.UnloadScene(sceneID.Name);
+        }
     }
 }
