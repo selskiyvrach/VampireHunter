@@ -12,7 +12,6 @@ namespace Selskiyvrach.VampireHunter.Model
         public Game(ISceneLoader sceneLoader)
         {
             _sceneLoader = sceneLoader;
-            
             _stateMachine = new StateMachine();
             var loadGameplaySceneState = CreateLoadGameplaySceneState();
             _stateMachine.StartState(loadGameplaySceneState);
@@ -20,7 +19,7 @@ namespace Selskiyvrach.VampireHunter.Model
 
         private IState CreateLoadGameplaySceneState() =>
             new StateBuilder()
-                .OnEnter(new ActionAction(() => _sceneLoader.LoadScene(new SceneID(){Name = "Gameplay"})))
+                .OnEnter(new ActionAction(() => _sceneLoader.LoadScene(new SceneID("Gameplay"))))
                 .Build();
 
         public void Tick(float deltaTime) => 

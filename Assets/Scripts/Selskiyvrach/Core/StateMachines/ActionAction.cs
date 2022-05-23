@@ -6,14 +6,10 @@ namespace Selskiyvrach.Core.StateMachines
     {
         private readonly Action _action;
 
-        public ActionAction(Action action)
-        {
+        public ActionAction(Action action) => 
             _action = action;
-        }
 
-        public void Act()
-        {
+        public void Act() => 
             _action.Invoke();
-        }
     }
 }

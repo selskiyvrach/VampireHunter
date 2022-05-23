@@ -6,9 +6,4 @@ namespace Selskiyvrach.VampireHunter.Model.SceneLoading
     {
         Task LoadScene(SceneID sceneID);
     }
-
-    public struct SceneID
-    {
-        public string Name { get; set; }
-    }
 }
