@@ -1,4 +1,5 @@
 ﻿using System;
+using Selskiyvrach.VampireHunter.Model.Stats;
 
 namespace Selskiyvrach.VampireHunter.Model.Combat
 {
@@ -46,21 +47,9 @@ namespace Selskiyvrach.VampireHunter.Model.Combat
 
         public void TakeDamage(Damage damage)
         {
-            CurrentPoints -= damage.Amount;
+            CurrentPoints -= damage.Value;
             if (CurrentPoints < 0)
                 CurrentPoints = 0;
-        }
-    }
-
-    public readonly struct Damage
-    {
-        public readonly int Amount;
-
-        public Damage(int amount)
-        {
-            if(amount < 0)
-                throw new ArgumentOutOfRangeException(nameof(amount));
-            Amount = amount;
         }
     }
 }

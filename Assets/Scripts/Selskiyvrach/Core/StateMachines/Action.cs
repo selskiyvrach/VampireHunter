@@ -1,12 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Selskiyvrach.Core.StateMachines
 {
-    public interface IAction
+    public interface IAction : IDisposable
     {
         void Act();
     }
-    
+
+    public abstract class Action : IAction
+    {
+        public virtual void Act()
+        {
+        }
+
+        public virtual void Dispose()
+        {
+        }
+    }
+
     public sealed class CompositeAction : IAction
     {
         private readonly List<IAction> _actions;
@@ -16,5 +28,10 @@ namespace Selskiyvrach.Core.StateMachines
 
         public void Act() =>
             _actions.ForEach(n => n.Act());
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

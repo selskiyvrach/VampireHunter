@@ -8,7 +8,7 @@ namespace Selskiyvrach.VampireHunter.Unity.Combat
         [SerializeField] private Raycaster _raycaster;
         [SerializeField] private BulletTargetTriggerCallback _bulletTargetCallback;
         private Ray _trajectory;
-        private float _speed;
+        private float _speed = 1000;
 
         private void Awake() =>
             _bulletTargetCallback.OnEntered += OnHit;
@@ -33,10 +33,7 @@ namespace Selskiyvrach.VampireHunter.Unity.Combat
                 transform.position += _trajectory.direction.normalized * (_speed * Time.fixedDeltaTime);
         }
 
-        public void Launch(Ray trajectory, float speed)
-        {
+        public void Launch(Ray trajectory) => 
             _trajectory = trajectory;
-            _speed = speed;
-        }
     }
 }

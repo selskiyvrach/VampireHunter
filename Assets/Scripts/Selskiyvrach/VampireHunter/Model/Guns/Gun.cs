@@ -1,93 +1,43 @@
-using System.Collections.Generic;
-using Selskiyvrach.Core;
-using Selskiyvrach.Core.StateMachines;
-using Selskiyvrach.VampireHunter.Controller;
+using Selskiyvrach.VampireHunter.Model.Stats;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
-    public class Gun : ITickable, IRecoilData
+    public interface IGun : ITrigger, IReloadable, IMagazineStatus
     {
-        private readonly IMagazine _magazine;
+    }
+
+    public class Gun : IGun
+    {
         private readonly ISight _sight;
         private readonly ITrigger _trigger;
-        private readonly IBarrel _barrel;
-        private readonly IRaycaster _raycaster;
-        private readonly StateMachine _stateMachine = new StateMachine();
-        private readonly IGunStats _stats;
+        private readonly IMagazine _magazine;
+        private readonly Damage _damage = new Damage(10);
 
-        private bool _pullTrigger;
-        private bool _cockTrigger;
-        private readonly TrajectoryCreator _trajectoryCreator;
-
-        public int Recoil => _stats.Recoil.Value;
-        public int CurrentRecoil { get; private set; }
         public bool IsCocked => _trigger.IsCocked;
-        public int CurrentBullets => _magazine.CurrentLoad;
-        public int MagazineCapacity => _magazine.Capacity;
+        public MagazineStatus Status => _magazine.Status;
 
-
-        public Gun(IMagazine magazine, ISight sight, ITrigger trigger, IRaycaster raycaster, IGunStats stats, IBarrel barrel, IAimingSettings aimingSettings)
+        public Gun(IMagazine magazine, ITrigger trigger, ISight sight)
         {
             _magazine = magazine;
-            _sight = sight;
             _trigger = trigger;
-            _raycaster = raycaster;
-            _stats = stats;
-            _barrel = barrel;
-            _trajectoryCreator = new TrajectoryCreator(_sight, _barrel, _raycaster, aimingSettings);
-
-            var stateBuilder = new StateBuilder();
-
-            var idleState = stateBuilder
-                .Build();
-            stateBuilder.Reset();
-
-            var cockTriggerState = stateBuilder
-                .OnEnter(new ActionAction(() => _trigger.Cock()))
-                .Build();
-            stateBuilder.Reset();
-
-            var shootState = stateBuilder
-                .OnEnter(new ActionAction(() => _trigger.Pull()))
-                .OnEnter(new ActionAction(() => _magazine.Pop()
-                    .Launch(new BulletLaunchData(_stats.Damage, _stats.BulletSpeed, _trajectoryCreator.Create()))))
-                .OnEnter(new ActionAction(() => CurrentRecoil = Recoil))
-                .Build();
-            stateBuilder.Reset();
-            
-            idleState.AddTransition(shootState, new CompositeCondition(new List<ICondition>()
-            {
-                new FuncCondition(() => _magazine.CurrentLoad > 0),
-                new FuncCondition(() => _trigger.IsCocked),
-                new FuncCondition(() => _pullTrigger)
-            }));
-            
-            idleState.AddTransition(cockTriggerState, new FuncCondition(() => _cockTrigger && !_trigger.IsCocked));
-            cockTriggerState.AddTransition(idleState, new TrueCondition());
-            shootState.AddTransition(idleState, new TrueCondition());
-            
-            _stateMachine.StartState(idleState);
+            _sight = sight;
         }
 
-        public void PullTheTrigger() =>
-            _pullTrigger = true;
+        public void Cock() => 
+            _trigger.Cock();
 
-        public void AbsorbRecoil() =>
-            CurrentRecoil = 0;
-
-        public void Tick(float deltaTime) =>
-            _stateMachine.Tick(deltaTime);
-
-        public void OnAfterTick()
+        public void Pull()
         {
-            _pullTrigger = false;
-            _cockTrigger = false;
+            _trigger.Pull();
+            var trajectory = _sight.GetBulletTrajectory();
+            var launchData = new BulletLaunchData(_damage, trajectory);
+            _magazine.PopBullet().Launch(launchData);
         }
 
-        public void CockTheTrigger() =>
-            _cockTrigger = true;
+        public void LoadBullet() => 
+            _magazine.LoadBullet();
 
-        public bool PointsAtTarget() =>
-            _raycaster.Raycast(_sight.GetPerfectlyAccurateRay()).HasHit;
+        public void FullyLoad() => 
+            _magazine.FullyLoad();
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Selskiyvrach.Core.Maths
+﻿using System;
+
+namespace Selskiyvrach.Core.Maths
 {
     public readonly struct Ray
     {
@@ -9,6 +11,13 @@
         {
             StartPos = startPos;
             Direction = direction;
+        }
+
+        public Vector3 GetPoint(int distance)
+        {
+            if (distance <= 0)
+                throw new ArgumentOutOfRangeException();
+            return StartPos + Direction * distance;
         }
     }
 }

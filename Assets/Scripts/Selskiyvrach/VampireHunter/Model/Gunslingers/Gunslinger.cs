@@ -9,109 +9,96 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
     public class Gunslinger : ITickable, IDisposable
     {
         private readonly StateMachine _stateMachine = new StateMachine();
-        private readonly Gun _gun;
-        private readonly IAnimationCallback _recoilAnimationCallback;
-        private readonly IAnimationCallback _aimAnimationCallback;
-        private readonly IAnimationCallback _idleAnimationCallback;
+        private readonly IGun _gun;
         private readonly IGunslingerInput _gunslingerInput;
         
-        private bool _hasRecoil;
-        private bool _idled;
-        private bool _aimed;
-
-        public Gunslinger(Gun gun,
-            IAnimationStarter aimAnimationStarter,
-            IAnimationCallback aimAnimationCallback,
-            IAnimationStarter idleAnimationStarter,
-            IAnimationCallback idleAnimationCallback,
-            IAnimationStarter recoilAnimationStarter, 
-            IAnimationCallback recoilAnimationCallback, 
-            IGunslingerInput gunslingerInput)
+        public Gunslinger(IGun gun, IGunslingerInput gunslingerInput)
         {
             _gun = gun;
-            _aimAnimationCallback = aimAnimationCallback;
-            _idleAnimationCallback = idleAnimationCallback;
-            _recoilAnimationCallback = recoilAnimationCallback;
-            _recoilAnimationCallback.OnInvoked += OnRecoilAnimationCompletedCallback;
-            _aimAnimationCallback.OnInvoked += OnAimAnimationCompletedCallback;
-            _idleAnimationCallback.OnInvoked += OnIdleAnimationCompletedCallback;
             _gunslingerInput = gunslingerInput;
-
-            var stateBuilder = new StateBuilder();
-
-            var idleState = stateBuilder
-                .OnEnter(new DebugLogAction("idle"))
-                .OnEnter(new ActionAction(() =>
-                {
-                    if(!_idled)
-                        idleAnimationStarter.StartAnimation();
-                }))
-                .OnExit(new ActionAction(() => _idled = false))
-                .Build();
-            stateBuilder.Reset();
-            
-            var cockTriggerState = stateBuilder
-                .OnEnter(new DebugLogAction("cock"))
-                .OnEnter(new ActionAction(_gun.CockTheTrigger))
-                .Build();
-            stateBuilder.Reset();
-            
-            var aimState = stateBuilder
-                .OnEnter(new DebugLogAction("aim"))
-                .OnEnter(new ActionAction(aimAnimationStarter.StartAnimation))
-                .OnExit(new ActionAction(() => _aimed = false))
-                .Build();
-            stateBuilder.Reset();
-
-            var shootState = stateBuilder
-                .OnEnter(new DebugLogAction("shoot"))
-                .OnEnter(new ActionAction(() => _gun.PullTheTrigger()))
-                .Build();
-            stateBuilder.Reset();
-
-            var recoilState = stateBuilder
-                .OnEnter(new DebugLogAction("recoil"))
-                .OnEnter(new ActionAction(() => _hasRecoil = true))
-                .OnEnter(new ActionAction(() => _gun.AbsorbRecoil()))
-                .OnEnter(new ActionAction(recoilAnimationStarter.StartAnimation))
-                .OnExit(new ActionAction(() => _idled = true))
-                .Build();
-            stateBuilder.Reset();
-
-            idleState.AddTransition(cockTriggerState, new CompositeConditionBuilder()
-                .Add(new FuncCondition(() => !_gun.IsCocked && _idled))
-                .Build());
-            cockTriggerState.AddTransition(idleState, new FuncCondition(() => _gun.IsCocked));
-            idleState.AddTransition(aimState, new FuncCondition(() => _gunslingerInput.ProceedShootingSequence() && _gun.IsCocked));
-            aimState.AddTransition(shootState, new FuncCondition(() => _aimed && _gun.PointsAtTarget() && _gun.CurrentBullets > 0));
-            aimState.AddTransition(idleState, new FuncCondition(() => !_gunslingerInput.ProceedShootingSequence()));
-            recoilState.AddTransition(idleState, new FuncCondition(() => !_hasRecoil));
-            shootState.AddTransition(recoilState, new FuncCondition(() => _gun.CurrentRecoil > 0));
-            
-            _stateMachine.StartState(idleState);
+                        
         }
 
-        public void Tick(float deltaTime)
-        {
-            _gun.Tick(deltaTime);
-            _gun.OnAfterTick();
+        public void Tick(float deltaTime) => 
             _stateMachine.Tick(deltaTime);
-        }
 
         public void Dispose()
         {
-            _recoilAnimationCallback.OnInvoked -= OnRecoilAnimationCompletedCallback;
-            _aimAnimationCallback.OnInvoked -= OnAimAnimationCompletedCallback;
-            _idleAnimationCallback.OnInvoked -= OnIdleAnimationCompletedCallback;
+        }
+    }
+
+    public class StartAnimationState : CompletableState
+    {
+        private readonly IAnimationStarter _animationStarter;
+
+        public StartAnimationState(IAnimationStarter animationStarter) => 
+            _animationStarter = animationStarter;
+
+        public override void Enter(StateMachine stateMachine)
+        {
+            base.Enter(stateMachine);
+            _animationStarter.StartAnimation();
+        }
+    }
+
+    public class PlayAnimationToTheEndState : StartAnimationState
+    {
+        private readonly AnimationFinishedCondition _animationFinishedCondition;
+        public PlayAnimationToTheEndState(IAnimationStarter animationStarter, IAnimationCallback animationCallback) : base(animationStarter) => 
+            _animationFinishedCondition = new AnimationFinishedCondition(animationCallback);
+
+        public override void Enter(StateMachine stateMachine)
+        {
+            base.Enter(stateMachine);
+            _animationFinishedCondition.Reset();
         }
 
-        private void OnIdleAnimationCompletedCallback() =>
-            _idled = true;
+        public override void Dispose()
+        {
+            base.Dispose();
+            _animationFinishedCondition.Reset();
+        }
 
-        private void OnAimAnimationCompletedCallback() =>
-            _aimed = true;
+        protected override ICondition GetCompletedCondition() => 
+            _animationFinishedCondition;
+    }
+    
+    public class AnimationFinishedCondition : ICondition
+    {
+        private readonly IAnimationCallback _animationCallback;
+        private bool _finished;
 
-        private void OnRecoilAnimationCompletedCallback() =>
-            _hasRecoil = false;
+        public AnimationFinishedCondition(IAnimationCallback animationCallback) => 
+            _animationCallback = animationCallback;
+
+        public void Reset() => 
+            _finished = false;
+
+        public bool IsMet(StateMachine stateMachine) => 
+            _finished;
+    }
+
+    public class CockTriggerState : CompletableState
+    {
+        private readonly ITrigger _trigger;
+
+        public CockTriggerState(ITrigger trigger)
+        {
+            _trigger = trigger;
+            Decorated = new ActionState(() => _trigger.Cock()){Decorated = Decorated};
+        }
+    }
+
+    public class StartCockingState : PlayAnimationToTheEndState
+    {
+        public StartCockingState(IAnimationStarter animationStarter, IAnimationCallback animationCallback) : base(animationStarter, animationCallback)
+        {
+        }
+    }
+
+    public class IdleState : DecoratorState
+    {
+        public IdleState(IAnimationStarter idleAnimationStarter) => 
+            Decorated = new StartAnimationState(idleAnimationStarter);
     }
 }

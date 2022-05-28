@@ -1,107 +1,57 @@
-﻿using Selskiyvrach.Core.Maths;
+﻿using Selskiyvrach.Core;
+using Selskiyvrach.Core.Maths;
+using Selskiyvrach.Core.Screen;
+using Selskiyvrach.VampireHunter.Model.Crosshairs;
+using Selskiyvrach.VampireHunter.Model.Stats;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
-    public interface IPointer
+    public interface ISight
     {
-        Ray GetPerfectlyAccurateRay();
-    }
-    
-    public interface ISight : IPointer
-    {
-        Ray GetRayAffectedByAccuracy();
+        Ray GetCenterRay();
+        Ray GetBulletTrajectory();
         float GetSpreadRadius();
     }
-    
+
     public class Sight : ISight
     {
-        private readonly IScreenPointToRay _screenPointToRay;
-        private readonly IScreenSize _screenSize;
+        private readonly IStatProvider _statProvider;
         private readonly IAimingSettings _settings;
         private readonly IRandomPointInUnitCircleGenerator _randomPointInCircle;
-        private readonly IVerticalFieldOfView _fieldOfView;
-        private readonly IAccuracyProvider _accuracyProvider;
+        private readonly IScreen _screen;
+
         public Sight(
-            IScreenPointToRay screenPointToRay, 
-            IScreenSize screenSize, 
+            IStatProvider statProvider,
             IAimingSettings settings, 
-            IRandomPointInUnitCircleGenerator randomPointInCircle, 
-            IVerticalFieldOfView fieldOfView, IAccuracyProvider accuracyProvider)
+            IRandomPointInUnitCircleGenerator randomPointInCircle,
+            IScreen screen) 
         {
-            _screenPointToRay = screenPointToRay;
-            _screenSize = screenSize;
+            _statProvider = statProvider;
             _settings = settings;
             _randomPointInCircle = randomPointInCircle;
-            _fieldOfView = fieldOfView;
-            _accuracyProvider = accuracyProvider;
+            _screen = screen;
         }
+        public Ray GetCenterRay() => 
+            _screen.GetRayFromNormalizedPos(_settings.ScrosshairScreenPosNormalized);
 
-        public Ray GetPerfectlyAccurateRay() =>
-            _screenPointToRay.GetRayFromNormalizedPos(_settings.ScrosshairScreenPosNormalized);
-
-        public Ray GetRayAffectedByAccuracy()
+        public Ray GetBulletTrajectory()
         {
             var screenSpreadMagnitude = GetSpreadRadius();
-            var centerPoint = _settings.ScrosshairScreenPosNormalized * _screenSize.ScreenSize;
+            var centerPoint = _settings.ScrosshairScreenPosNormalized * _screen.ScreenSize;
             var offset = _randomPointInCircle.GetPoint * screenSpreadMagnitude;
             var startPointOnScreen = centerPoint + offset;
-            var startPointNormalized = startPointOnScreen / _screenSize.ScreenSize;
-            return _screenPointToRay.GetRayFromNormalizedPos(startPointNormalized);
+            var startPointNormalized = startPointOnScreen /  _screen.ScreenSize;
+            return _screen.GetRayFromNormalizedPos(startPointNormalized);
         }
 
         public float GetSpreadRadius()
         {
-            var spreadHalf = RightTriangle.GetBase(_settings.MaxSpreadDegrees * (1 - _accuracyProvider.Accuracy.Normalized) / 2,
+            var spreadHalf = RightTriangle.GetBase(_settings.MaxSpreadDegrees * (1 - (float)_statProvider.GetStat<Accuracy>().Value / (float)100) / 2,
                 _settings.MaxDistance);
-            var fovTriangleBaseHalf = RightTriangle.GetBase(_fieldOfView.FieldOfViewDegrees / 2, _settings.MaxDistance);
+            var fovTriangleBaseHalf = RightTriangle.GetBase(_screen.FieldOfViewDegrees / 2, _settings.MaxDistance);
             var spreadToFOV = spreadHalf / fovTriangleBaseHalf;
-            var screenSpreadMagnitude = _screenSize.ScreenSize.Y * spreadToFOV;
+            var screenSpreadMagnitude = _screen.ScreenSize.Y * spreadToFOV;
             return screenSpreadMagnitude;
-        }
-    }
-
-    public interface IAccuracyProvider
-    {
-        Accuracy Accuracy { get; }
-    }
-
-
-    public interface IAimingSettings
-    {
-        Vector2 ScrosshairScreenPosNormalized { get; }
-        int MaxDistance { get; }
-        int MaxSpreadDegrees { get; }
-    }
-
-    public interface IScreenSize
-    {
-        Vector2 ScreenSize { get; }
-    }
-
-    public interface IScreenPointToRay
-    {
-        Ray GetRayFromNormalizedPos(Vector2 screenPosNorm);
-    }
-
-    public interface IRandomPointInUnitCircleGenerator
-    {
-        Vector2 GetPoint { get; }
-    }
-
-    public interface IVerticalFieldOfView
-    {
-        float FieldOfViewDegrees { get; }
-    }
-
-    public readonly struct Accuracy
-    {
-        public readonly int Value;
-        public readonly float Normalized;
-
-        public Accuracy(int value)
-        {
-            Value = value;
-            Normalized = (float)Value / 100f;
         }
     }
 }

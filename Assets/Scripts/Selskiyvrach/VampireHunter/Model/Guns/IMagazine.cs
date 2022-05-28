@@ -1,48 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using Sirenix.Utilities;
+using Selskiyvrach.Core.Factories;
+using Selskiyvrach.VampireHunter.Model.Stats;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
-    public interface IMagazine : IMagazineData, IMagazineStatus, IReloadable
+    public interface IReloadable
     {
-        IBullet Pop();
+        void LoadBullet();
+        void FullyLoad();
+    }
+
+    public interface IMagazineStatus
+    {
+        MagazineStatus Status { get; }
+    }
+
+    public interface IMagazine : IReloadable, IMagazineStatus
+    {
+        IBullet PopBullet();
     }
     
     public class Magazine : IMagazine
     {
-        private readonly Stack<IBullet> _bullets = new Stack<IBullet>();
-        public int Capacity { get; }
-        public int CurrentLoad => _bullets.Count;
-        public event Action<IntDelta> OnLoadChanged;
-
-        public Magazine(int capacity)
+        private readonly IFactory<IBullet> _bulletFactory;
+        public MagazineStatus Status { get; private set; }
+        
+        public Magazine(IStatProvider magazineSize, IFactory<IBullet> bulletFactory)
         {
-            Capacity = capacity;
+            _bulletFactory = bulletFactory;
+            Status = new MagazineStatus(magazineSize.GetStat<MagazineSize>().Value);
         }
 
-        public void Push(IBullet bullet)
+        public void LoadBullet()
         {
-            if(CurrentLoad == Capacity)
-                return;
-            _bullets.Push(bullet);
-            OnLoadChanged?.Invoke(new IntDelta(1));
+            if(Status.Full)
+                throw new InvalidOperationException("Magazine is already full");
+            Status = Status.OneBulletMore();
         }
 
-        public void Push(IEnumerable<IBullet> bullets)
-        {
-            var before = CurrentLoad;
-            bullets.ForEach(n => _bullets.Push(n));
-            OnLoadChanged?.Invoke(new IntDelta(CurrentLoad - before));
-        }
+        public void FullyLoad() =>
+            Status = Status.FullyLoaded();
 
-        public IBullet Pop()
+        public IBullet PopBullet()
         {
-            if(CurrentLoad < 1)
+            if(!Status.Any)
                 throw new InvalidOperationException();
-            var bullet = _bullets.Pop();
-            OnLoadChanged?.Invoke(new IntDelta(-1));
-            return bullet;
+            Status = Status.OneBulletLess();
+            return _bulletFactory.Create();
         }
     }
 }

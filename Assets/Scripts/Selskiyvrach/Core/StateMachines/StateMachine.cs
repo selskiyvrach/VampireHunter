@@ -2,13 +2,13 @@
 {
     public sealed class StateMachine : Ticker
     {
-        private IState _currentState;
+        public IState CurrentState { get; private set; }
 
         public void StartState(IState state)
         {
-            _currentState?.Dispose();
-            _currentState = state;
-            _currentState.Enter(this);
+            CurrentState?.Dispose();
+            CurrentState = state;
+            CurrentState.Enter(this);
         }
     }
 }

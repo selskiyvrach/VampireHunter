@@ -4,51 +4,42 @@ namespace Selskiyvrach.Core.StateMachines
 {
     public class StateBuilder
     {
-        private readonly List<IAction> _onEnterActions = new List<IAction>();
-        private readonly List<IAction> _onTickActions = new List<IAction>();
-        private readonly List<IAction> _onExitActions = new List<IAction>();
+        private readonly List<IAction> _actions = new List<IAction>();
         
         public StateBuilder OnEnter(IAction action)
         {
-            _onEnterActions.Add(action);
-            return this;
-        }
-
-        public StateBuilder OnTick(IAction action)
-        {
-            _onTickActions.Add(action);
+            _actions.Add(action);
             return this;
         }
         
-        public StateBuilder OnExit(IAction action)
-        {
-            _onExitActions.Add(action);
-            return this;
-        }
-
         public IState Build()
         {
-            return new State(
-                PassAsItIsOrCreateComposite(_onEnterActions), 
-                PassAsItIsOrCreateComposite(_onTickActions), 
-                PassAsItIsOrCreateComposite(_onExitActions));
+            State latestState = null;
+            for (var i = 0; i < _actions.Count; i++)
+            {
+                var newState = new ActionState(_actions[i]) { Decorated = latestState};
+                latestState = newState;
+            }
+            return latestState;
+        }
+        
+        public static IState AddTransition(IState source, IState to, ICondition condition)
+        {
+            var transition = new Transition(to, condition);
+            var transitionState = new TransitionState(transition) { Decorated = source };
+            return transitionState;
         }
 
         public StateBuilder Reset()
         {
-            _onEnterActions.Clear();
-            _onTickActions.Clear();
-            _onExitActions.Clear();
+            _actions.Clear();
             return this;
         }
+    }
 
-        private IAction PassAsItIsOrCreateComposite(List<IAction> actions)
-        {
-            return actions.Count == 0 
-                ? null
-                : actions.Count == 1
-                    ? actions[0]
-                    : new CompositeAction(_onEnterActions);
-        }
+    public static class StateExtensions
+    {
+        public static IState AddTransition(this IState state,  IState to, ICondition condition) => 
+            StateBuilder.AddTransition(state, to, condition); 
     }
 }
