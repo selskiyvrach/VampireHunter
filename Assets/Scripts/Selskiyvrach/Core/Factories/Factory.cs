@@ -2,7 +2,6 @@
 {
     public interface IFactory
     {
-        object CreateAsObject();
     }
     
     public interface IFactory<T> : IFactory

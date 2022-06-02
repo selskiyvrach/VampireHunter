@@ -1,5 +1,4 @@
 ﻿using System;
-using Selskiyvrach.VampireHunter.Model.Stats;
 
 namespace Selskiyvrach.VampireHunter.Model.Combat
 {
@@ -27,6 +26,16 @@ namespace Selskiyvrach.VampireHunter.Model.Combat
             if(_decorated.CurrentPoints == 0)
                 OnDied?.Invoke();
         }
+    }
+
+    public class Damage
+    {
+        public Damage(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Value { get; set; }
     }
 
     public interface IDamageable

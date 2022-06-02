@@ -72,7 +72,12 @@ namespace Selskiyvrach.Core.StateMachines
 
         protected abstract void OnTick(float deltaTime);
     }
-    
+
+    public interface ITickable
+    {
+        void Tick(float deltaTime);
+    }
+
     public class TransitionState : TickableState
     {
         protected ITransition Transition;

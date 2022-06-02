@@ -10,5 +10,19 @@
             CurrentState = state;
             CurrentState.Enter(this);
         }
+
+        public void AddTickable(TickableState tickableState)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveTickable(TickableState tickableState)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    public class Ticker
+    {
     }
 }

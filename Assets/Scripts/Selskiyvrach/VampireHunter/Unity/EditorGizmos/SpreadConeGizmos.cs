@@ -19,7 +19,7 @@ namespace Selskiyvrach.VampireHunter.Unity.EditorGizmos
         {
             Cone = new Cone(_angle, _height);
             
-            _actualAngle = Vector3.Angle(Cone.GetRayOnSide(0).Direction.ToUnity(), Cone.GetRayOnSide(180).Direction.ToUnity());
+            _actualAngle = Vector3.Angle(Cone.GetRayOnSide(0).direction, Cone.GetRayOnSide(180).direction);
 
             for (float i = 0; i < _sections; i++)
             {
@@ -34,7 +34,7 @@ namespace Selskiyvrach.VampireHunter.Unity.EditorGizmos
         private Vector3 GetFinalPointForRay(float i, Cone cone, Vector3 startPoint)
         {
             var angle = 360 - 360 * i / _sections;
-            var point = cone.GetPointOnBaseCircle(angle).ToUnity();
+            var point = cone.GetPointOnBaseCircle(angle);
             var finalPoint = startPoint + point;
             return finalPoint;
         }

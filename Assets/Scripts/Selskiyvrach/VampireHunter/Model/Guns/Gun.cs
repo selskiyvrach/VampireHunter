@@ -1,4 +1,4 @@
-using Selskiyvrach.VampireHunter.Model.Stats;
+using Selskiyvrach.VampireHunter.Model.Combat;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {

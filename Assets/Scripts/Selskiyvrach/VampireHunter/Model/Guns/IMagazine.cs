@@ -1,6 +1,5 @@
 ﻿using System;
 using Selskiyvrach.Core.Factories;
-using Selskiyvrach.VampireHunter.Model.Stats;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
@@ -25,11 +24,8 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         private readonly IFactory<IBullet> _bulletFactory;
         public MagazineStatus Status { get; private set; }
         
-        public Magazine(IStatProvider magazineSize, IFactory<IBullet> bulletFactory)
-        {
+        public Magazine(IFactory<IBullet> bulletFactory) => 
             _bulletFactory = bulletFactory;
-            Status = new MagazineStatus(magazineSize.GetStat<MagazineSize>().Value);
-        }
 
         public void LoadBullet()
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Selskiyvrach.Core.Maths
 {
@@ -6,9 +7,9 @@ namespace Selskiyvrach.Core.Maths
     {
         public static float GetBase(float topAngleDegrees, float height)
         {
-            var radians = DegToRadConverter.DegToRad(topAngleDegrees);
+            var radians = Mathf.Deg2Rad * topAngleDegrees;
             var tan = Math.Tan(radians);
-            return (float)height * (float)tan;
+            return height * (float)tan;
         }
     }
 }
