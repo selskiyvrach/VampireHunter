@@ -1,4 +1,5 @@
 ﻿using Selskiyvrach.VampireHunter.Model.Games.Installers;
+using Selskiyvrach.VampireHunter.Model.Gunslingers.Intstallers;
 
 namespace Selskiyvrach.VampireHunter.Model.Games
 {
@@ -12,5 +13,9 @@ namespace Selskiyvrach.VampireHunter.Model.Games
     
     public class GameplayState
     {
+        public GameplayState(GunslingerFactory gunslingerFactory)
+        {
+            var gunslinger = gunslingerFactory.Create();
+        }
     }
 }

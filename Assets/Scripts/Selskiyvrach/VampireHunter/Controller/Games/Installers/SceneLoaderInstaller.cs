@@ -1,5 +1,5 @@
-﻿using Selskiyvrach.Core.Zenject;
-using Selskiyvrach.VampireHunter.Unity.SceneLoading;
+﻿using Selskiyvrach.Core.Unity.SceneLoading;
+using Selskiyvrach.Core.Zenject;
 
 namespace Selskiyvrach.VampireHunter.Controller.Games.Installers
 {

@@ -1,35 +1,27 @@
 using Selskiyvrach.VampireHunter.Model.Combat;
+using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
-    public interface IGun : ITrigger, IReloadable, IMagazineStatus
+    public class Gun
     {
-    }
-
-    public class Gun : IGun
-    {
-        private readonly ISight _sight;
-        private readonly ITrigger _trigger;
         private readonly IMagazine _magazine;
-        private readonly Damage _damage = new Damage(10);
+        private readonly Damage _damage;
 
-        public bool IsCocked => _trigger.IsCocked;
+        public bool HammerCocked { get; private set; }
         public MagazineStatus Status => _magazine.Status;
 
-        public Gun(IMagazine magazine, ITrigger trigger, ISight sight)
+        public Gun(IMagazine magazine, Damage damage)
         {
             _magazine = magazine;
-            _trigger = trigger;
-            _sight = sight;
+            _damage = damage;
         }
 
-        public void Cock() => 
-            _trigger.Cock();
-
-        public void Pull()
+        public void CockHammer() =>
+            HammerCocked = true;
+        
+        public void PullTheTrigger(Ray trajectory)
         {
-            _trigger.Pull();
-            var trajectory = _sight.GetBulletTrajectory();
             var launchData = new BulletLaunchData(_damage, trajectory);
             _magazine.PopBullet().Launch(launchData);
         }
