@@ -1,5 +1,5 @@
 ﻿using Selskiyvrach.VampireHunter.Model.Games.Installers;
-using Selskiyvrach.VampireHunter.Model.Gunslingers.Intstallers;
+using Selskiyvrach.VampireHunter.Model.Gunslingers.Installers;
 
 namespace Selskiyvrach.VampireHunter.Model.Games
 {

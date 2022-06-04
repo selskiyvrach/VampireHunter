@@ -2,12 +2,18 @@
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 {
-    public class Eyes : MonoBehaviour
+    public class Eyes
     {
-        [SerializeField]
-        private Transform _eyes;
+        private readonly EyesGameObject _eyes;
+        private readonly Transform _eyesTransform;
+
+        public Eyes(EyesGameObject eyes)
+        {
+            _eyes = eyes;
+            _eyesTransform = _eyes.transform;
+        }
 
         public Ray GetLookRay() => 
-            new Ray(_eyes.position, _eyes.forward);
+            new Ray(_eyesTransform.position, _eyesTransform.forward);
     }
 }
