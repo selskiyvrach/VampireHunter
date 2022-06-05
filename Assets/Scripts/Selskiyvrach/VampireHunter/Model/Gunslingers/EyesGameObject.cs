@@ -2,7 +2,7 @@
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 {
-    public class EyesGameObject : GameObjectMarker<Eyes>
+    public class EyesGameObject : GameObjectMarker<EyeSight>
     {
     }
 }

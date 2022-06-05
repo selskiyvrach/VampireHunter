@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-namespace Selskiyvrach.Core.Unity.EditorGizmos
+namespace Selskiyvrach.Core.Unity.GizmosDrawers
 {
     public class SpreadConeGizmos : GizmosDrawer
     {

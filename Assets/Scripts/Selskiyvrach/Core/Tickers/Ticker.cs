@@ -1,12 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Selskiyvrach.Core
+namespace Selskiyvrach.Core.Tickers
 {
-    public interface ITickable
-    {
-        void Tick(float deltaTime);
-    }
-    
     public class Ticker : ITickable, ITicker
     {
         private readonly List<ITickable> _tickables = new List<ITickable>();
@@ -19,11 +14,5 @@ namespace Selskiyvrach.Core
 
         public void RemoveTickable(ITickable tickable) => 
             _tickables.Remove(tickable);
-    }
-
-    public interface ITicker
-    {
-        void AddTickable(ITickable tickable);
-        void RemoveTickable(ITickable tickable);
     }
 }

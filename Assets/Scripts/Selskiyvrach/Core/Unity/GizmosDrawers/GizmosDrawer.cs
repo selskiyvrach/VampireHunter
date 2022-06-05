@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace Selskiyvrach.Core.Unity.EditorGizmos
+namespace Selskiyvrach.Core.Unity.GizmosDrawers
 {
     public abstract class GizmosDrawer : MonoBehaviour
     {
-        [SerializeField] private bool _show;
-        [SerializeField] private Color _color;
+        [SerializeField] private bool _show = true;
+        [SerializeField] private Color _color = Color.white;
 
         private void OnDrawGizmos()
         {

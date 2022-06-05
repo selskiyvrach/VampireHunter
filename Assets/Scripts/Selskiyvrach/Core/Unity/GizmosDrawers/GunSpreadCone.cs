@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Selskiyvrach.Core.Unity.EditorGizmos
+namespace Selskiyvrach.Core.Unity.GizmosDrawers
 {
     public class GunSpreadCone : MonoBehaviour
     {

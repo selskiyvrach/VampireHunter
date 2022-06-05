@@ -6,6 +6,7 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
     public class Arsenal
     {
         private readonly List<Gun> _guns = new List<Gun>();
+        public IReadOnlyList<Gun> Guns => _guns;
 
         public int Count => _guns.Count;
         public bool Any => Count > 0;

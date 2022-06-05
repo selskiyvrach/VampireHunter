@@ -9,7 +9,8 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         private readonly Damage _damage;
 
         public bool HammerCocked { get; private set; }
-        public MagazineStatus Status => _magazine.Status;
+        public MagazineStatus MagazineStatus => _magazine.Status;
+        public float Spread { get; set; }
 
         public Gun(IMagazine magazine, Damage damage)
         {

@@ -2,7 +2,7 @@
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers.Installers
 {
-    public class EyesInstaller : GenericComponentInstaller<EyeSight>
+    public class SightFocuserInstaller : GenericInstaller<SightFocuser>
     {
     }
 }
