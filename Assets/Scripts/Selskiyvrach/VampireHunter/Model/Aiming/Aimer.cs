@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Selskiyvrach.VampireHunter.Model.Aiming.Spread
+namespace Selskiyvrach.VampireHunter.Model.Aiming
 {
     public class Aimer
     {
