@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Selskiyvrach.Core.Zenject
+namespace Selskiyvrach.Core.Unity.Zenject
 {
     public class GenericInterfacesInstaller<T> : MonoInstaller where T : MonoBehaviour
     {

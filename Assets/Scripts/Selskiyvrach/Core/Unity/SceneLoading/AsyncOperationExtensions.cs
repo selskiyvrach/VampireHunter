@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Selskiyvrach.Core.Unity
+namespace Selskiyvrach.Core.Unity.SceneLoading
 {
     public static class AsyncOperationExtensions
     {

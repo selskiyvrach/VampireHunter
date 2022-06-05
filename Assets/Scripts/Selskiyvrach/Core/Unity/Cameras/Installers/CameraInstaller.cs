@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Selskiyvrach.Core.Unity.Installers
+namespace Selskiyvrach.Core.Unity.Cameras.Installers
 {
     public class CameraInstaller : MonoInstaller
     {

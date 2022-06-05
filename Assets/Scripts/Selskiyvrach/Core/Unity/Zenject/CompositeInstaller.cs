@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
-using Sirenix.OdinInspector;
-using UnityEngine;
 using Zenject;
 
-namespace Selskiyvrach.Core.Zenject
+namespace Selskiyvrach.Core.Unity.Zenject
 {
     public class CompositeInstaller : MonoInstaller, ICompositeInstaller<MonoInstallerBase>
     {

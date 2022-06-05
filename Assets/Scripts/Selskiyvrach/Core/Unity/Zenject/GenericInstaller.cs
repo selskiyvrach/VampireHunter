@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace Selskiyvrach.Core.Zenject
+namespace Selskiyvrach.Core.Unity.Zenject
 {
     public abstract class GenericInstaller<TBind> : MonoInstaller
     {

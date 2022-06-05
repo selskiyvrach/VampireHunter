@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Selskiyvrach.Core.Zenject
+namespace Selskiyvrach.Core.Unity.Zenject
 {
     public abstract class GenericComponentInstaller<T> : MonoInstaller where T : Component
     {

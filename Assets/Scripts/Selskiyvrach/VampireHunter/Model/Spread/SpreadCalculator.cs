@@ -5,7 +5,7 @@ using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
 namespace Selskiyvrach.VampireHunter.Model.Spread
 {
-    public class SpreadController: ITickable
+    public class SpreadCalculator: ITickable
     {
         private readonly ITicker _ticker;
         private readonly SpreadKickerFactory _spreadKickerFactory;
@@ -16,7 +16,7 @@ namespace Selskiyvrach.VampireHunter.Model.Spread
         
         public float Spread { get; private set; }
         
-        public SpreadController(ITicker ticker, SpreadKickerFactory spreadKickerFactory, AimSpreadFactory aimSpreadFactory)
+        public SpreadCalculator(ITicker ticker, SpreadKickerFactory spreadKickerFactory, AimSpreadFactory aimSpreadFactory)
         {
             _ticker = ticker;
             _ticker.AddTickable(this);

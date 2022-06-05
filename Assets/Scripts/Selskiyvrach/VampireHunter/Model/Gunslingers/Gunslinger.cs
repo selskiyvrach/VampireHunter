@@ -11,12 +11,19 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
     {
         private readonly ArsenalOperator _arsenalOperator = new ArsenalOperator();
         private readonly GunOperator _gunOperator = new GunOperator();
-        private readonly SpreadController _spreadController;
-        
+        private readonly SpreadCalculator _spreadCalculator;
+
+        public Gunslinger(SpreadCalculatorFactory spreadCalculatorFactory)
+        {
+            _spreadCalculator = spreadCalculatorFactory.Create();
+            
+        }
+
         public MagazineStatus MagazineStatus => _gunOperator.MagazineStatus;
         public bool HammerCocked => _gunOperator.HammerCocked;
         public IReadOnlyList<Gun> Guns => _arsenalOperator.Guns;
         public IReadOnlyReactiveProperty<float> OnRecoilKicked => _gunOperator.OnRecoilKicked;
+        public float SpreadDegrees => _spreadCalculator.Spread;
         // public Vector3 AimDirection => _spreadController.AimDirection;
         // public float CurrentAccuracy => _spreadController.CurrentSpread;
         // public bool FullyAimed => _spreadController.FullyAimed;
@@ -31,41 +38,12 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
             _gunOperator.Shoot();
 
         public void StartAiming() =>
-            _spreadController.StartAiming();
+            _spreadCalculator.StartAiming();
 
         public void StopAiming() => 
-            _spreadController.StopAiming();
+            _spreadCalculator.StopAiming();
 
         // public void AdjustAimDirection(Vector2 delta) => 
         //     _spreadController.AdjustAimDirection(delta);
-    }
-
-    public class ArsenalOperator
-    {
-        private readonly Arsenal _arsenal = new Arsenal();
-
-        public IReadOnlyList<Gun> Guns => _arsenal.Guns;
-        public Gun CurrentGun { get; private set; }
-
-        public void ChangeGun(int index) =>
-            CurrentGun = _arsenal.GetGun(index);
-    }
-
-    public class GunOperator
-    {
-        private readonly ReactiveProperty<float> _onRecoilKicked = new ReactiveProperty<float>();
-        public IReadOnlyReactiveProperty<float> OnRecoilKicked => _onRecoilKicked;
-
-        public MagazineStatus MagazineStatus => _gun.MagazineStatus;
-        public bool HammerCocked => _gun.HammerCocked;
-        private Gun _gun;
-
-        public void Shoot()
-        {
-        }
-
-        public void Reload()
-        {
-        }
     }
 }
