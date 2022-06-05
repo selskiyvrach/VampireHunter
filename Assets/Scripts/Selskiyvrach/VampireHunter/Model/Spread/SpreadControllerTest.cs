@@ -1,19 +1,15 @@
-﻿using Selskiyvrach.Core.Unity.Tickers;
-using UnityEngine;
+﻿using UnityEngine;
+using Zenject;
 
-namespace Selskiyvrach.VampireHunter.Model.Gunslingers
+namespace Selskiyvrach.VampireHunter.Model.Spread
 {
     public class SpreadControllerTest : MonoBehaviour
     {
-        [SerializeField] private AnimationCurve _kickCurve;
-        [SerializeField] private TickerRunner _tickerRunner;
         private SpreadController _spreadController;
         
-        private void Start()
-        {
-            _spreadController = new SpreadController(_tickerRunner, _kickCurve);
-            Debug.Log(_spreadController.Spread);
-        }
+        [Inject]
+        public void Construct(SpreadControllerFactory spreadControllerFactory) => 
+            _spreadController = spreadControllerFactory.Create();
 
         private void Update()
         {
