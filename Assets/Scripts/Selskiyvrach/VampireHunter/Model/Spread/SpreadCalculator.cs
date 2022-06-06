@@ -15,6 +15,8 @@ namespace Selskiyvrach.VampireHunter.Model.Spread
         private readonly List<SpreadKicker> _spreadKickers = new List<SpreadKicker>();
         
         public float Spread { get; private set; }
+        public bool FullyAimed => _aimSpread.FullyAimed;
+        public bool ZeroAimed => _aimSpread.ZeroAimed;
         
         public SpreadCalculator(ITicker ticker, SpreadKickerFactory spreadKickerFactory, AimSpreadFactory aimSpreadFactory)
         {
