@@ -1,8 +1,7 @@
 ﻿using Selskiyvrach.Core.Tickers;
-using UnityEngine;
 using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
-namespace Selskiyvrach.VampireHunter.Model.Spread
+namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
     public class SpreadKicker : SpreadTerm, ITickable
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using Selskiyvrach.Core.Tickers;
 using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
-namespace Selskiyvrach.VampireHunter.Model.Spread
+namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
     public class SpreadCalculator: ITickable
     {
@@ -14,7 +14,7 @@ namespace Selskiyvrach.VampireHunter.Model.Spread
         private readonly AimSpread _aimSpread;
         private readonly List<SpreadKicker> _spreadKickers = new List<SpreadKicker>();
         
-        public float Spread { get; private set; }
+        public Spread Spread { get; private set; }
         public bool FullyAimed => _aimSpread.FullyAimed;
         public bool ZeroAimed => _aimSpread.ZeroAimed;
         
@@ -24,12 +24,12 @@ namespace Selskiyvrach.VampireHunter.Model.Spread
             _ticker.AddTickable(this);
             _spreadKickerFactory = spreadKickerFactory;
             _aimSpreadFactory = aimSpreadFactory;
-            _gunSpread = new GunBaseSpread(10);
+            _gunSpread = new GunBaseSpread(5);
             _aimSpread = _aimSpreadFactory.Create(_gunSpread);
         }
 
-        public void Tick(float deltaTime) => 
-            Spread = _aimSpread.Value + _spreadKickers.Sum(n => n.Value);
+        public void Tick(float deltaTime) =>
+            Spread = new Spread(_aimSpread.Value + _spreadKickers.Sum(n => n.Value));
 
         public void StartAiming() => 
             _aimSpread.Aiming = true;
@@ -56,5 +56,13 @@ namespace Selskiyvrach.VampireHunter.Model.Spread
             }
             return spreadKicker;
         }
+    }
+
+    public struct Spread
+    {
+        public float AngleDegrees { get; }
+
+        public Spread(float angleDegrees) => 
+            AngleDegrees = angleDegrees;
     }
 }

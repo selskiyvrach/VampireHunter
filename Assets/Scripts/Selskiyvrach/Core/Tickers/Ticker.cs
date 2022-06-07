@@ -6,8 +6,11 @@ namespace Selskiyvrach.Core.Tickers
     {
         private readonly List<ITickable> _tickables = new List<ITickable>();
         
-        public void Tick(float deltaTime) => 
-            _tickables.ForEach(n => n.Tick(deltaTime));
+        public void Tick(float deltaTime)
+        {
+            for (int i = 0; i < _tickables.Count; i++)
+                _tickables[i].Tick(deltaTime);
+        }
 
         public void AddTickable(ITickable tickable) => 
             _tickables.Add(tickable);

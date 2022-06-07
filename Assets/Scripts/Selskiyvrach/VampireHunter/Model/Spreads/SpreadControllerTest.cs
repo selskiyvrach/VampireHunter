@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Selskiyvrach.VampireHunter.Model.Spread
+namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
     public class SpreadControllerTest : MonoBehaviour
     {

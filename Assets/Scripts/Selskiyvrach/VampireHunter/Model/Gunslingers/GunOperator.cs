@@ -1,5 +1,6 @@
 ﻿using Selskiyvrach.VampireHunter.Model.Guns;
 using UniRx;
+using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 {

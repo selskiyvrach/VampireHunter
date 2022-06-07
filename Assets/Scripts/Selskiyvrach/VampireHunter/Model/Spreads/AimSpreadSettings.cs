@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Selskiyvrach.VampireHunter.Model.Spread
+namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
     [CreateAssetMenu(menuName = "Configs/Aiming/AimSpreadSettings", fileName = "AimSpreadSettings", order = 0)]
     public class AimSpreadSettings : ScriptableObject

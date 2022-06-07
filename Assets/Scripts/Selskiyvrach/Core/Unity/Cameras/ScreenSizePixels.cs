@@ -2,7 +2,7 @@
 
 namespace Selskiyvrach.Core.Unity.Cameras
 {
-    public class ScreenSizePixels : MonoBehaviour
+    public class ScreenSizePixels : MonoBehaviour, IScreenSizePixels
     {   
         [SerializeField] private Camera _camera;
         

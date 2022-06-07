@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Selskiyvrach.VampireHunter.Model.Aiming;
 using Selskiyvrach.VampireHunter.Model.Guns;
-using Selskiyvrach.VampireHunter.Model.Spread;
+using Selskiyvrach.VampireHunter.Model.Spreads;
 using UniRx;
 using UnityEngine;
 
@@ -17,8 +16,7 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
         public IReadOnlyReactiveProperty<float> OnRecoilKicked => _gunOperator.OnRecoilKicked;
         public IReadOnlyList<Gun> Guns => _arsenalOperator.Guns;
         public MagazineStatus MagazineStatus => _gunOperator.MagazineStatus;
-        public float SpreadDegrees => _spreadCalculator.Spread;
-        public float Spread => _spreadCalculator.Spread;
+        public Spread Spread => _spreadCalculator.Spread;
         public bool HammerCocked => _gunOperator.HammerCocked;
         public bool FullyAimed => _spreadCalculator.FullyAimed;
         public Ray LookRay => _eyeSight.GetLookRay();
@@ -35,8 +33,11 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
         public void Reload() => 
             _gunOperator.Reload();
         
-        public void Shoot() => 
+        public void Shoot()
+        {
             _gunOperator.Shoot();
+            _spreadCalculator.Kick(5);
+        }
 
         public void StartAiming() =>
             _spreadCalculator.StartAiming();

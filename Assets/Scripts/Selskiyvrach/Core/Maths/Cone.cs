@@ -22,7 +22,7 @@ namespace Selskiyvrach.Core.Maths
             return new Ray(new Vector3(0,0,0), new Vector3(x, y, 0));
         }
 
-        public Vector3 GetPointOnBaseCircle(float angle)
+        public Vector3 GetPointOnCircumference(float angle)
         {
             var x = Radius * Mathf.Cos(Mathf.Deg2Rad * angle);
             var y = Radius * Mathf.Sin(Mathf.Deg2Rad * angle);

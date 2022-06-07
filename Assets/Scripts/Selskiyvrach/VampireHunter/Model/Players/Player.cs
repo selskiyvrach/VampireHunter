@@ -3,11 +3,12 @@ using Selskiyvrach.Core.Tickers;
 using Selskiyvrach.Core.Unity.Inputs;
 using Selskiyvrach.VampireHunter.Model.Aiming;
 using Selskiyvrach.VampireHunter.Model.Gunslingers;
+using UnityEngine;
 using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
 namespace Selskiyvrach.VampireHunter.Model.Players
 {
-    public class Player : ITickable
+    public class Player : ITickable, ISpreadConeProvider
     {
         private readonly ITouchInput _touchInput;
         private readonly Gunslinger _gunslinger;
@@ -15,7 +16,7 @@ namespace Selskiyvrach.VampireHunter.Model.Players
         private readonly TouchSensitivitySettings _sensitivitySettings;
         private readonly ITicker _ticker;
 
-        public Cone SpreadCone => new Cone(_gunslinger.Spread, _aimingSettings.MaxAimingDistance);
+        public Cone SpreadCone => new Cone(_gunslinger.Spread.AngleDegrees, _aimingSettings.MaxAimingDistance);
 
         public Player(
             ITouchInput touchInput, 
@@ -35,21 +36,15 @@ namespace Selskiyvrach.VampireHunter.Model.Players
         public void Tick(float deltaTime)
         {
             if (!_touchInput.Held())
-            {
                 _gunslinger.StopAiming();
-                return;
-            }
-
+            else if(!_gunslinger.FullyAimed)
+                _gunslinger.StartAiming();
+            
             _gunslinger.AdjustAimDirection(_touchInput.Delta() * _sensitivitySettings.Sensitivity);
             
-            if(!_gunslinger.FullyAimed)
-                _gunslinger.StartAiming();
-            else if(TargetIsInSight())
-                _gunslinger.Shoot();
             
+            if(Input.GetMouseButtonDown(1))
+                _gunslinger.Shoot();
         }
-
-        private bool TargetIsInSight() =>
-            true;
     }
 }

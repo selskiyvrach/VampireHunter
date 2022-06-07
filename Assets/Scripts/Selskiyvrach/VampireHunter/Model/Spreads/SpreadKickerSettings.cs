@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Selskiyvrach.VampireHunter.Model.Spread
+namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
     [CreateAssetMenu(menuName = "Configs/Recoil/SpreadKickerSettings", fileName = "SpreadKickerSettings", order = 0)]
     public class SpreadKickerSettings : ScriptableObject
