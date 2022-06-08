@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f608d9666d940fcae475ea8ae12273e, type: 3}
   m_Name: AimSpreadSettings
   m_EditorClassIdentifier: 
-  _spreadWhenAimedCoefficient: 0.75
-  _fromNotAimedToFullyAimedDuration: 0.5
-  _fromAimedToNotAimedDuration: 0.25
+  _spreadWhenAimedCoefficient: 0.5
+  _fromNotAimedToFullyAimedDuration: 0.25
+  _fromAimedToNotAimedDuration: 0.15
