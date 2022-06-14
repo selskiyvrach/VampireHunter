@@ -42,7 +42,6 @@ namespace Selskiyvrach.VampireHunter.Model.Players
             
             _gunslinger.AdjustAimDirection(_touchInput.Delta() * _sensitivitySettings.Sensitivity);
             
-            
             if(Input.GetMouseButtonDown(1))
                 _gunslinger.Shoot();
         }

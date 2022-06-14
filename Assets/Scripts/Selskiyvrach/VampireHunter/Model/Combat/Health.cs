@@ -4,8 +4,8 @@ namespace Selskiyvrach.VampireHunter.Model.Combat
 {
     public interface IHealth : IDamageable
     {
-        int CurrentPoints { get; }
-        int MaxPoints { get; }
+        float CurrentPoints { get; }
+        float MaxPoints { get; }
     }
 
     public class OnDiedCallbackDispatcher : IHealth 
@@ -13,8 +13,8 @@ namespace Selskiyvrach.VampireHunter.Model.Combat
         private readonly IHealth _decorated;
 
         public event Action OnDied;
-        public int CurrentPoints => _decorated.CurrentPoints;
-        public int MaxPoints => _decorated.MaxPoints;
+        public float CurrentPoints => _decorated.CurrentPoints;
+        public float MaxPoints => _decorated.MaxPoints;
 
         public OnDiedCallbackDispatcher(IHealth decorated)
         {
@@ -30,12 +30,10 @@ namespace Selskiyvrach.VampireHunter.Model.Combat
 
     public class Damage
     {
-        public Damage(int i)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Value { get; set; }
+        public float Value { get; }
+        
+        public Damage(float value) => 
+            Value = value;
     }
 
     public interface IDamageable
@@ -45,8 +43,8 @@ namespace Selskiyvrach.VampireHunter.Model.Combat
 
     public class Health : IHealth
     {
-        public int CurrentPoints { get; private set; }
-        public int MaxPoints { get; }
+        public float CurrentPoints { get; private set; }
+        public float MaxPoints { get; }
         
         public Health(int maxPoints)
         {

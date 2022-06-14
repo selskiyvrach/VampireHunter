@@ -6,20 +6,30 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
     public class Gun
     {
         private readonly IMagazine _magazine;
+        private Ray _pointingRay;
+
+        public IGunStats Stats { get; }
         public bool HammerCocked { get; private set; }
         public MagazineStatus MagazineStatus => _magazine.Status;
-        public float Spread { get; private set; }
 
-        public Gun(IMagazine magazine) =>
+        public Gun(IMagazine magazine, IGunStats stats)
+        {
             _magazine = magazine;
+            Stats = stats;
+        }
 
         public void CockHammer() =>
             HammerCocked = true;
-        
-        public void PullTheTrigger(Ray trajectory)
+
+        public void Point(Ray ray) =>
+            _pointingRay = ray;
+
+        public Recoil PullTheTrigger()
         {
-            var launchData = new BulletLaunchData(new Damage(10), trajectory);
+            HammerCocked = false;
+            var launchData = new BulletLaunchData(new Damage(Stats.Damage), _pointingRay);
             _magazine.PopBullet().Launch(launchData);
+            return new Recoil(Stats.Recoil);
         }
     }
 }

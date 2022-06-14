@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Selskiyvrach.VampireHunter.Model.Guns;
 using Selskiyvrach.VampireHunter.Model.Spreads;
-using UniRx;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers
@@ -10,15 +9,12 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
     {
         private readonly SpreadCalculator _spreadCalculator;
         private readonly ArsenalOperator _arsenalOperator = new ArsenalOperator();
-        private readonly GunOperator _gunOperator = new GunOperator();
         private readonly EyeSight _eyeSight;
 
-        public IReadOnlyReactiveProperty<float> OnRecoilKicked => _gunOperator.OnRecoilKicked;
+        public Gun Gun => _arsenalOperator.CurrentGun;
         public IReadOnlyList<Gun> Guns => _arsenalOperator.Guns;
-        public MagazineStatus MagazineStatus => _gunOperator.MagazineStatus;
-        public Spread Spread => _spreadCalculator.Spread;
-        public bool HammerCocked => _gunOperator.HammerCocked;
         public bool FullyAimed => _spreadCalculator.FullyAimed;
+        public Spread Spread => _spreadCalculator.Spread;
         public Ray LookRay => _eyeSight.GetLookRay();
 
         public Gunslinger(SpreadCalculatorFactory spreadCalculatorFactory, EyeSight eyeSight)
@@ -30,13 +26,10 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
         public void ChangeGun(int index) =>
             _arsenalOperator.ChangeGun(index);
 
-        public void Reload() => 
-            _gunOperator.Reload();
-        
         public void Shoot()
         {
-            _gunOperator.Shoot();
-            _spreadCalculator.Kick(5);
+            var recoil = Gun.PullTheTrigger();
+            _spreadCalculator.Kick(recoil.Amount);
         }
 
         public void StartAiming() =>
@@ -45,7 +38,10 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
         public void StopAiming() => 
             _spreadCalculator.StopAiming();
 
-        public void AdjustAimDirection(Vector2 delta) => 
+        public void AdjustAimDirection(Vector2 delta)
+        {
             _eyeSight.RotateLook(delta);
+            Gun.Point(_eyeSight.GetLookRay());
+        }
     }
 }

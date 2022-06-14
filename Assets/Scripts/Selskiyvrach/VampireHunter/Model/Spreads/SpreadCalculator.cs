@@ -57,12 +57,4 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
             return spreadKicker;
         }
     }
-
-    public struct Spread
-    {
-        public float AngleDegrees { get; }
-
-        public Spread(float angleDegrees) => 
-            AngleDegrees = angleDegrees;
-    }
 }
