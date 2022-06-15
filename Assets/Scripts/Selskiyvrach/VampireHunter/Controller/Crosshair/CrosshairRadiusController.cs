@@ -7,18 +7,18 @@ namespace Selskiyvrach.VampireHunter.Controller.Crosshair
 {
     public class CrosshairRadiusController : ITickable
     {
-        private readonly ISpreadConeProvider _spreadConeProvider;
+        private readonly IWeaponSpread _weaponSpread;
         private readonly ICrosshair _crosshair;
-        private readonly Camera _camera;
         private readonly ITicker _ticker;
+        private readonly Camera _camera;
 
         public CrosshairRadiusController(
-            ISpreadConeProvider spreadConeProvider,
+            IWeaponSpread weaponSpread,
             ICrosshair crosshair,
             Camera camera,
             ITicker ticker)
         {
-            _spreadConeProvider = spreadConeProvider;
+            _weaponSpread = weaponSpread;
             _crosshair = crosshair;
             _camera = camera;
             _ticker = ticker;
@@ -27,7 +27,7 @@ namespace Selskiyvrach.VampireHunter.Controller.Crosshair
 
         public void Tick(float deltaTime)
         {
-            var ratio = _spreadConeProvider.SpreadCone.Angle / _camera.fieldOfView;
+            var ratio = _weaponSpread.Spread.AngleDegrees / _camera.fieldOfView;
             _crosshair.SetRadius(_camera.pixelHeight * ratio);
         }
     }

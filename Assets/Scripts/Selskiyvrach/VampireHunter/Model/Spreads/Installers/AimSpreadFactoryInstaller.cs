@@ -2,7 +2,7 @@
 
 namespace Selskiyvrach.VampireHunter.Model.Spreads.Installers
 {
-    public class AimSpreadFactoryInstaller : GenericFactoryInstaller<GunBaseSpread, AimSpread, AimSpreadFactory>
+    public class AimSpreadFactoryInstaller : GenericFactoryInstaller<AimSpread, AimSpreadFactory>
     {
     }
 }

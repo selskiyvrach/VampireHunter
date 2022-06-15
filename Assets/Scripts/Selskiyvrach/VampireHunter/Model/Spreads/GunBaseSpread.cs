@@ -1,8 +1,10 @@
-﻿namespace Selskiyvrach.VampireHunter.Model.Spreads
+﻿using Selskiyvrach.VampireHunter.Model.Guns;
+
+namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
     public class GunBaseSpread : StaticSpread
     {
-        public GunBaseSpread(float value) : base(value)
+        public GunBaseSpread(Gun gun) : base(gun.Stats.Accuracy)
         {
         }
     }

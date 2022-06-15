@@ -3,7 +3,7 @@ using Selskiyvrach.VampireHunter.Model.Players;
 
 namespace Selskiyvrach.VampireHunter.Model.Games.Installers
 {
-    public class GameInstaller : GenericInstaller<ISpreadConeProvider, Game>
+    public class GameInstaller : GenericInstaller<Game>
     {
     }
 }

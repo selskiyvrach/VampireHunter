@@ -1,4 +1,5 @@
 ﻿using Selskiyvrach.Core.Tickers;
+using Selskiyvrach.VampireHunter.Model.Guns;
 using UnityEngine;
 using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
@@ -6,20 +7,17 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
     public class AimSpread : SpreadTerm, ITickable
     {
-        private readonly GunBaseSpread _baseSpread;
-        private readonly AimSpreadSettings _settings;
         private readonly ITicker _ticker;
 
         private float _normalizedPos;
-        
+
+        public IAimingSettings Settings { get; private set; }
         public bool Aiming { get; set; }
         public bool FullyAimed => _normalizedPos >= 1;
         public bool ZeroAimed => _normalizedPos <= 0;
 
-        public AimSpread(GunBaseSpread baseSpread, AimSpreadSettings settings, ITicker ticker)
+        public AimSpread(ITicker ticker)
         {
-            _baseSpread = baseSpread;
-            _settings = settings;
             _ticker = ticker;
             _ticker.AddTickable(this);
         }
@@ -27,12 +25,12 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
         public void Tick(float deltaTime)
         {
             if (Aiming && !FullyAimed) 
-                _normalizedPos += deltaTime / _settings.FromNotAimedToFullyAimedDuration;
+                _normalizedPos += deltaTime / Settings.FromHipToAimedTime;
 
             if (!Aiming && !ZeroAimed) 
-                _normalizedPos -= deltaTime / _settings.FromAimedToNotAimedDuration;
+                _normalizedPos -= deltaTime / Settings.FromAimedToHipTime;
 
-            Value = Mathf.Lerp(_baseSpread.Value, _baseSpread.Value * _settings.SpreadWhenAimedCoefficient, _normalizedPos);
+            Value = Mathf.Lerp(Settings.Accuracy, Settings.HipAccuracy, _normalizedPos);
         }
     }
 }

@@ -202,10 +202,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 866292225}
-  - component: {fileID: 866292226}
   - component: {fileID: 866292227}
+  - component: {fileID: 866292226}
   - component: {fileID: 866292228}
   - component: {fileID: 866292229}
+  - component: {fileID: 866292230}
   m_Layer: 0
   m_Name: Input
   m_TagString: Untagged
@@ -252,7 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
-  - {fileID: 866292226}
+  - {fileID: 866292230}
   _identifier: 
   _useSceneContext: 0
   _context: {fileID: 1296701478}
@@ -282,6 +283,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34bcd0c546b464fb5889b39148dccdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &866292230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866292224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d069d1bb934bdc805b5aeadf7cc139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _decorated: {fileID: 866292226}
+  _sensitivitySettings: {fileID: 11400000, guid: 26dde177c85c68e45a0a7eb2d4265635, type: 2}
 --- !u!1 &1207411705
 GameObject:
   m_ObjectHideFlags: 0
