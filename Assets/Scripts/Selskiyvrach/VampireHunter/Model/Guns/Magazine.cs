@@ -1,32 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using Selskiyvrach.Core.Factories;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
 {
     public class Magazine : IMagazine
     {
-        private readonly IFactory<IBullet> _bulletFactory;
-        public MagazineStatus Status { get; private set; }
+        private readonly int _capacity;
+        private readonly Queue<IBullet> _bullets = new Queue<IBullet>();
         
-        public Magazine(IFactory<IBullet> bulletFactory) => 
-            _bulletFactory = bulletFactory;
+        public MagazineStatus Status => new MagazineStatus(_capacity, _bullets.Count);
 
-        public void LoadBullet()
+        public Magazine(int capacity) => 
+            _capacity = capacity;
+
+        public void LoadBullet(IBullet bullet)
         {
             if(Status.Full)
                 throw new InvalidOperationException("Magazine is already full");
-            Status = Status.OneBulletMore();
+            _bullets.Enqueue(bullet);
         }
-
-        public void FullyLoad() =>
-            Status = Status.FullyLoaded();
 
         public IBullet PopBullet()
         {
             if(!Status.Any)
                 throw new InvalidOperationException();
-            Status = Status.OneBulletLess();
-            return _bulletFactory.Create();
+            return _bullets.Dequeue();
         }
     }
 }

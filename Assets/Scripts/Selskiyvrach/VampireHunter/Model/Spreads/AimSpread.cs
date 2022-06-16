@@ -8,13 +8,12 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
     public class AimSpread : SpreadTerm, ITickable
     {
         private readonly ITicker _ticker;
-
         private float _normalizedPos;
 
         public IAimingSettings Settings { get; private set; }
         public bool Aiming { get; set; }
         public bool FullyAimed => _normalizedPos >= 1;
-        public bool ZeroAimed => _normalizedPos <= 0;
+        public bool FullyHip => _normalizedPos <= 0;
 
         public AimSpread(ITicker ticker)
         {
@@ -27,7 +26,7 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
             if (Aiming && !FullyAimed) 
                 _normalizedPos += deltaTime / Settings.FromHipToAimedTime;
 
-            if (!Aiming && !ZeroAimed) 
+            if (!Aiming && !FullyHip) 
                 _normalizedPos -= deltaTime / Settings.FromAimedToHipTime;
 
             Value = Mathf.Lerp(Settings.Accuracy, Settings.HipAccuracy, _normalizedPos);

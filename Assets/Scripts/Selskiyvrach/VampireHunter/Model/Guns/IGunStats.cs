@@ -1,8 +1,6 @@
-﻿using Selskiyvrach.VampireHunter.Model.Spreads;
-
-namespace Selskiyvrach.VampireHunter.Model.Guns
+﻿namespace Selskiyvrach.VampireHunter.Model.Guns
 {
-    public interface IGunStats : IAimingSettings
+    public interface IGunStats : IAimingSettings, IMagazineSettings
     {
         float Damage { get; }
         float Recoil { get; }

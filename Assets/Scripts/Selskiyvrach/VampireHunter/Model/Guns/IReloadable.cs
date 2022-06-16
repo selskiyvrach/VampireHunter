@@ -2,7 +2,6 @@
 {
     public interface IReloadable
     {
-        void LoadBullet();
-        void FullyLoad();
+        void LoadBullet(IBullet bullet);
     }
 }

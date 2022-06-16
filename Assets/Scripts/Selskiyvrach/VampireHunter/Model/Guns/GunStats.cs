@@ -13,7 +13,8 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         [SerializeField] private float _reloadTime;
         [SerializeField] private float _hipAccuracy;   
         [SerializeField] private float _fromHipToAimedDuration;   
-        [SerializeField] private float _fromAimedToHipTimeDuration;   
+        [SerializeField] private float _fromAimedToHipTimeDuration;
+        [SerializeField] private int _magazineCapacity;
 
         public float Damage => _damage;
         public float Accuracy => _accuracy;
@@ -24,5 +25,6 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         public float HipAccuracy => _hipAccuracy;
         public float FromHipToAimedTime => _fromHipToAimedDuration;
         public float FromAimedToHipTime => _fromAimedToHipTimeDuration;
+        public int MagazineCapacity => _magazineCapacity;
     }
 }

@@ -16,20 +16,11 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
             Capacity = capacity;
         }
 
-        private MagazineStatus(int capacity, int bullets) : this(capacity)
+        public MagazineStatus(int capacity, int bullets) : this(capacity)
         {
             if(bullets < 0)
                 throw new ArgumentException("Bullets cannot be a negative number");
             Bullets = bullets;
         }
-
-        public MagazineStatus OneBulletLess() =>
-            new MagazineStatus(Capacity, Bullets - 1);
-        
-        public MagazineStatus OneBulletMore() =>
-            new MagazineStatus(Capacity, Bullets + 1);
-
-        public MagazineStatus FullyLoaded()=>
-            new MagazineStatus(Capacity, Capacity);
     }
 }

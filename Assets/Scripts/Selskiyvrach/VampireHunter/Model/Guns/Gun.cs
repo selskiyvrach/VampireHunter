@@ -12,13 +12,13 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         public bool HammerCocked { get; private set; }
         public MagazineStatus MagazineStatus => _magazine.Status;
 
-        public Gun(IMagazine magazine, IGunStats stats)
+        public Gun(IGunStats stats)
         {
-            _magazine = magazine;
+            _magazine = new Magazine(stats.MagazineCapacity);
             Stats = stats;
         }
 
-        public void CockHammer() =>
+        public void CockHammer() => 
             HammerCocked = true;
 
         public void Point(Ray ray) =>

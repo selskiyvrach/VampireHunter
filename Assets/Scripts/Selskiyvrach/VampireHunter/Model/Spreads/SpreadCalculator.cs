@@ -16,7 +16,7 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
         
         public Spread Spread { get; private set; }
         public bool FullyAimed => _aimSpread.FullyAimed;
-        public bool FullyHip => _aimSpread.ZeroAimed;
+        public bool FullyHip => _aimSpread.FullyHip;
         
         public SpreadCalculator(ITicker ticker, SpreadKickerFactory spreadKickerFactory, AimSpreadFactory aimSpreadFactory)
         {

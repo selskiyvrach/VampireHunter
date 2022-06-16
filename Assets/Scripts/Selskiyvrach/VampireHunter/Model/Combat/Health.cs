@@ -28,7 +28,7 @@ namespace Selskiyvrach.VampireHunter.Model.Combat
         }
     }
 
-    public class Damage
+    public struct Damage
     {
         public float Value { get; }
         
