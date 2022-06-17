@@ -1,7 +1,9 @@
-﻿namespace Selskiyvrach.VampireHunter.Model.Guns
+﻿using Selskiyvrach.VampireHunter.Model.Arsenals;
+
+namespace Selskiyvrach.VampireHunter.Model.Guns
 {
     public interface IReloadable
     {
-        void LoadBullet(IBullet bullet);
+        void Load(Ammo ammo);
     }
 }

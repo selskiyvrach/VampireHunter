@@ -113,9 +113,8 @@ GameObject:
   m_Component:
   - component: {fileID: 17096716964441849}
   - component: {fileID: 17096716964441848}
-  - component: {fileID: 3523593879717121418}
-  - component: {fileID: 377412726487572848}
   - component: {fileID: 2413711398360827708}
+  - component: {fileID: 2128037547}
   m_Layer: 0
   m_Name: crosshair_canvas
   m_TagString: Untagged
@@ -165,37 +164,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &3523593879717121418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17096716964441831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 377412726487572848}
-  _installerPrefabs: []
-  _autoRun: 1
-  _kernel: {fileID: 0}
---- !u!114 &377412726487572848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17096716964441831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff61f6ee3bc44e8b18eb38cfbb17daa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _component: {fileID: 2413711398360827708}
 --- !u!114 &2413711398360827708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +177,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _crosshair: {fileID: 17096718147083067}
+--- !u!114 &2128037547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17096716964441831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 2413711398360827708}
+  _identifier: 
+  _useSceneContext: 1
+  _context: {fileID: 0}
+  _bindType: 2
 --- !u!1 &17096716978925928
 GameObject:
   m_ObjectHideFlags: 0

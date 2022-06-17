@@ -1,4 +1,6 @@
+using Selskiyvrach.VampireHunter.Model.Arsenals;
 using Selskiyvrach.VampireHunter.Model.Combat;
+using Selskiyvrach.VampireHunter.Model.Guns.Settings;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Guns
@@ -8,14 +10,14 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         private readonly IMagazine _magazine;
         private Ray _pointingRay;
 
-        public IGunStats Stats { get; }
+        public IGunSettings Settings { get; }
         public bool HammerCocked { get; private set; }
         public MagazineStatus MagazineStatus => _magazine.Status;
 
-        public Gun(IGunStats stats)
+        public Gun(IGunSettings settings)
         {
-            _magazine = new Magazine(stats.MagazineCapacity);
-            Stats = stats;
+            _magazine = new SixRoundDrum(settings.MagazineSettings.Capacity);
+            Settings = settings;
         }
 
         public void CockHammer() => 
@@ -27,9 +29,12 @@ namespace Selskiyvrach.VampireHunter.Model.Guns
         public Recoil PullTheTrigger()
         {
             HammerCocked = false;
-            var launchData = new BulletLaunchData(new Damage(Stats.Damage), _pointingRay);
+            var launchData = new BulletLaunchData(new Damage(Settings.Damage), _pointingRay);
             _magazine.PopBullet().Launch(launchData);
-            return new Recoil(Stats.Recoil);
+            return new Recoil(Settings.RecoilSettings.Recoil);
         }
+
+        public void Load(Ammo ammo) => 
+            _magazine.Load(ammo);
     }
 }

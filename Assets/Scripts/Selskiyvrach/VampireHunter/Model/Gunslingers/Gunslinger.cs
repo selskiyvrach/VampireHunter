@@ -1,27 +1,25 @@
-﻿using Selskiyvrach.VampireHunter.Model.Guns;
+﻿using System.Runtime.InteropServices;
+using Selskiyvrach.Core.Tickers;
+using Selskiyvrach.VampireHunter.Model.Guns;
 using Selskiyvrach.VampireHunter.Model.Spreads;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 {
-    public class Gunslinger
+    public class Gunslinger : ITickable
     {
-        private readonly SpreadCalculator _spreadCalculator;
+        private SpreadCalculator _spreadCalculator;
         private readonly EyeSight _eyeSight;
         private Gun _gun;
 
         public bool FullyAimed => _spreadCalculator.FullyAimed;
-        public Spread? Spread => _gun != null 
-            ? (Spread?)null 
-            : _spreadCalculator.Spread;
-        
         public Ray LookRay => _eyeSight.GetLookRay();
 
-        public Gunslinger(SpreadCalculatorFactory spreadCalculatorFactory, EyeSight eyeSight)
-        {
+        public Gunslinger(EyeSight eyeSight) => 
             _eyeSight = eyeSight;
-            _spreadCalculator = spreadCalculatorFactory.Create();
-        }
+
+        public void Tick(float deltaTime) => 
+            _spreadCalculator.Tick(deltaTime);
 
         public void Shoot()
         {
@@ -32,7 +30,8 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
         public void SetGun(Gun gun)
         {
             _gun = gun;
-            _spreadCalculator.SetGun(gun);
+            _spreadCalculator ??= new SpreadCalculator(gun);
+            _spreadCalculator.ChangeGun(gun);
         }
 
         public void StartAiming() =>

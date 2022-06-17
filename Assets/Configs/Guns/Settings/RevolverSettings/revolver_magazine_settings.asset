@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d9f68c44ce54256b163c37f2cd9ddb5, type: 3}
-  m_Name: revolver_config
+  m_Script: {fileID: 11500000, guid: b13266909d2e4bbe8aaf6683b837252f, type: 3}
+  m_Name: revolver_magazine_settings
   m_EditorClassIdentifier: 
-  _settings: {fileID: 11400000, guid: 6feb1b2a0ba46df4c8bbc9620f79cf20, type: 2}
-  _ammo: 18
+  _capacity: 6

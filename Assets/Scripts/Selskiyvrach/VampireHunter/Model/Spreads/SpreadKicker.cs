@@ -1,12 +1,10 @@
-﻿using Selskiyvrach.Core.Tickers;
-using ITickable = Selskiyvrach.Core.Tickers.ITickable;
+﻿using Selskiyvrach.VampireHunter.Model.Guns.Settings;
 
 namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
-    public class SpreadKicker : SpreadTerm, ITickable
+    public class SpreadKicker : SpreadTerm
     {
-        private readonly SpreadKickerSettings _settings;
-        private readonly ITicker _ticker;
+        private readonly IRecoilSettings _settings;
 
         private float _timePassedNormalized;
         private float _targetValue;
@@ -14,12 +12,8 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
         
         public bool Finished => _timePassedNormalized >= 1;
 
-        public SpreadKicker(SpreadKickerSettings settings, ITicker ticker)
-        {
+        public SpreadKicker(IRecoilSettings settings) => 
             _settings = settings;
-            _ticker = ticker;
-            _ticker.AddTickable(this);
-        }
 
         public void Start(float targetValue)
         {

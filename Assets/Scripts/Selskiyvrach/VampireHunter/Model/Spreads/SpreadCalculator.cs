@@ -1,50 +1,49 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Selskiyvrach.Core.Tickers;
 using Selskiyvrach.VampireHunter.Model.Guns;
-using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
 namespace Selskiyvrach.VampireHunter.Model.Spreads
 {
-    public class SpreadCalculator: ITickable
+    public class SpreadCalculator
     {
-        private readonly ITicker _ticker;
-        private readonly SpreadKickerFactory _spreadKickerFactory;
-        private readonly AimSpreadFactory _aimSpreadFactory;
-        private readonly AimSpread _aimSpread;
+        private readonly GunSpread _gunSpread;
         private readonly List<SpreadKicker> _spreadKickers = new List<SpreadKicker>();
-        
+        private Gun _gun;
+
         public Spread Spread { get; private set; }
-        public bool FullyAimed => _aimSpread.FullyAimed;
-        public bool FullyHip => _aimSpread.FullyHip;
+        public bool FullyAimed => _gunSpread.FullyAimed;
+        public bool FullyHip => _gunSpread.FullyHip;
         
-        public SpreadCalculator(ITicker ticker, SpreadKickerFactory spreadKickerFactory, AimSpreadFactory aimSpreadFactory)
+        public SpreadCalculator(Gun gun)
         {
-            _ticker = ticker;
-            _ticker.AddTickable(this);
-            _spreadKickerFactory = spreadKickerFactory;
-            _aimSpreadFactory = aimSpreadFactory;
-            _aimSpread = _aimSpreadFactory.Create();
+            _gun = gun;
+            _gunSpread = new GunSpread(_gun.Settings.AimingSettings);
         }
 
-        public void Tick(float deltaTime) =>
-            Spread = new Spread(_aimSpread.Value + _spreadKickers.Sum(n => n.Value));
+        public void ChangeGun(Gun gun)
+        {
+            _gun = gun;
+            _spreadKickers.Clear();
+            _gunSpread.ChangeSettings(_gun.Settings.AimingSettings);
+        }
+
+        public void Tick(float deltaTime)
+        {
+            _gunSpread.Tick(deltaTime);
+            _spreadKickers.ForEach(n => n.Tick(deltaTime));
+            Spread = new Spread(_gunSpread.Value + _spreadKickers.Sum(n => n.Value));
+        }
 
         public void StartAiming() => 
-            _aimSpread.Aiming = true;
+            _gunSpread.Aiming = true;
 
         public void StopAiming() => 
-            _aimSpread.Aiming = false;
+            _gunSpread.Aiming = false;
 
         public void Kick(float value)
         {
             var spreadKicker = GetKicker();
             spreadKicker.Start(value);
-        }
-
-        public void SetGun(Gun gun)
-        {
-            
         }
 
         private SpreadKicker GetKicker()
@@ -55,7 +54,7 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
                     spreadKicker = _spreadKickers[i];
             if (spreadKicker == null)
             {
-                spreadKicker = _spreadKickerFactory.Create();
+                spreadKicker = new SpreadKicker(_gun.Settings.RecoilSettings);
                 _spreadKickers.Add(spreadKicker);
             }
             return spreadKicker;
