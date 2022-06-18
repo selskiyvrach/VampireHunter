@@ -7,10 +7,10 @@ namespace Selskiyvrach.VampireHunter.Controller.Crosshair
 {
     public class CrosshairRadiusController : ITickable
     {
-        private readonly IWeaponSpread _weaponSpread;
         private readonly ICrosshair _crosshair;
         private readonly ITicker _ticker;
         private readonly Camera _camera;
+        private readonly IWeaponSpread _weaponSpread;
 
         public CrosshairRadiusController(
             IWeaponSpread weaponSpread,

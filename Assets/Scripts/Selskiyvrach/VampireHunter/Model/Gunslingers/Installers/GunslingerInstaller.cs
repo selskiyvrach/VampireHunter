@@ -1,10 +1,15 @@
-﻿using Selskiyvrach.Core.Unity.Zenject;
+﻿using UnityEngine;
+using Zenject;
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers.Installers
 {
-    public class GunslingerInstaller : GenericInstaller<Gunslinger>
+    public class GunslingerInstaller : MonoInstaller
     {
-        public override void InstallBindings() => 
-            Container.Bind<Gunslinger>().AsSingle();
+        [SerializeField] private GunslingerGameObject _prefab; 
+        
+        public override void InstallBindings() =>
+            Container.Bind<Gunslinger>()
+                .FromSubContainerResolve()
+                .ByNewContextPrefab(_prefab).AsSingle();
     }
-}
+}    

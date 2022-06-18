@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Selskiyvrach.Core.Tickers;
 using Selskiyvrach.Core.Unity.Inputs;
 using Selskiyvrach.VampireHunter.Model.Arsenals;
 using Selskiyvrach.VampireHunter.Model.Gunslingers;
@@ -13,11 +12,11 @@ namespace Selskiyvrach.VampireHunter.Model.Players
         private readonly Gunslinger _gunslinger;
         private readonly Arsenal _arsenal;
 
-        public Player(ITouchInput touchInput, Gunslinger gunslinger, ArsenalFactory arsenalFactory)
+        public Player(ITouchInput touchInput, Gunslinger gunslinger, Arsenal arsenal)
         {
             _touchInput = touchInput;
             _gunslinger = gunslinger;
-            _arsenal = arsenalFactory.Create();
+            _arsenal = arsenal;
             _gunslinger.SetGun(_arsenal.Guns.First());
         }
 

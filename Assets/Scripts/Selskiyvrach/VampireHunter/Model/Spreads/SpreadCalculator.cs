@@ -31,8 +31,11 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
         {
             _gunSpread.Tick(deltaTime);
             _spreadKickers.ForEach(n => n.Tick(deltaTime));
-            Spread = new Spread(_gunSpread.Value + _spreadKickers.Sum(n => n.Value));
+            UpdateSpread();
         }
+
+        private void UpdateSpread() => 
+            Spread = new Spread(_gunSpread.Value + _spreadKickers.Sum(n => n.Value));
 
         public void StartAiming() => 
             _gunSpread.Aiming = true;
@@ -40,24 +43,21 @@ namespace Selskiyvrach.VampireHunter.Model.Spreads
         public void StopAiming() => 
             _gunSpread.Aiming = false;
 
-        public void Kick(float value)
-        {
-            var spreadKicker = GetKicker();
-            spreadKicker.Start(value);
-        }
+        public void Kick(float value) => 
+            GetKicker().Start(value);
 
         private SpreadKicker GetKicker()
         {
-            SpreadKicker spreadKicker = null;
-            for (var i = 0; i < _spreadKickers.Count; i++)
-                if (_spreadKickers[i].Finished)
-                    spreadKicker = _spreadKickers[i];
-            if (spreadKicker == null)
+            return tryGetFinished() ?? addNew();
+
+            SpreadKicker tryGetFinished() => 
+                _spreadKickers.FirstOrDefault(k => k.Finished);
+
+            SpreadKicker addNew()
             {
-                spreadKicker = new SpreadKicker(_gun.Settings.RecoilSettings);
-                _spreadKickers.Add(spreadKicker);
+                _spreadKickers.Add(new SpreadKicker(_gun.Settings.RecoilSettings));
+                return _spreadKickers.Last();
             }
-            return spreadKicker;
         }
     }
 }
