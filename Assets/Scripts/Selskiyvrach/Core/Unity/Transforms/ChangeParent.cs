@@ -7,9 +7,7 @@ namespace Selskiyvrach.Core.Unity.Transforms
         [SerializeField] 
         private Transform _runtimeParent;
         
-        private void Start()
-        {
+        private void Start() => 
             transform.SetParent(_runtimeParent);
-        }
     }
 }

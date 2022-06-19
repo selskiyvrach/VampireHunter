@@ -1,4 +1,4 @@
-﻿using Selskiyvrach.Core.Unity.Cameras;
+﻿using Selskiyvrach.Core.Unity.Transforms;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Model.Gunslingers

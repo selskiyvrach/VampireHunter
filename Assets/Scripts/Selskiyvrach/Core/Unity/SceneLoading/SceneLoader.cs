@@ -3,11 +3,12 @@ using UnityEngine.SceneManagement;
 
 namespace Selskiyvrach.Core.Unity.SceneLoading
 {
-    public class SceneLoader
+    public class SceneLoader : ISceneLoader
     {
-        public async Task LoadScene(string sceneName)
-        {                                    
+        public async Task LoadSceneAsync(string sceneName) => 
             await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        }
+
+        public async Task UnloadSceneAsync(string sceneName) => 
+            await SceneManager.UnloadSceneAsync(sceneName);
     }
 }

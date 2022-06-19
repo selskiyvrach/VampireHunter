@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Selskiyvrach.Core.Tickers;
+﻿using Selskiyvrach.Core.Tickers;
 using Selskiyvrach.VampireHunter.Model.Guns;
 using Selskiyvrach.VampireHunter.Model.Spreads;
 using UnityEngine;
@@ -14,6 +13,7 @@ namespace Selskiyvrach.VampireHunter.Model.Gunslingers
 
         public bool FullyAimed => _spreadCalculator.FullyAimed;
         public Ray LookRay => _eyeSight.GetLookRay();
+        public Spread GunSpread => _spreadCalculator.Spread;
 
         public Gunslinger(EyeSight eyeSight) => 
             _eyeSight = eyeSight;

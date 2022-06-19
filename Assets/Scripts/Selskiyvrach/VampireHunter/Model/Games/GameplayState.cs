@@ -1,20 +1,20 @@
-﻿using Selskiyvrach.Core.Tickers;
-using Selskiyvrach.VampireHunter.Model.Players;
+﻿using System.Threading.Tasks;
+using Selskiyvrach.Core.Unity.SceneLoading;
 
 namespace Selskiyvrach.VampireHunter.Model.Games
 {
     public class GameplayState
     {
-        private readonly ITicker _ticker;
-        private readonly Player _player;
+        private const string GAMEPLAY_SCENE_NAME = "gameplay";
+        private readonly ISceneLoader _sceneLoader;
 
-        public GameplayState(ITicker ticker, Player player)
-        {
-            _ticker = ticker;
-            _player = player;
-        }
+        public GameplayState(ISceneLoader sceneLoader) => 
+            _sceneLoader = sceneLoader;
 
-        public void Enter() => 
-            _ticker.AddTickable(_player);
+        public async Task Enter() => 
+            await _sceneLoader.LoadSceneAsync(GAMEPLAY_SCENE_NAME);
+
+        public async Task Exit() =>
+            await _sceneLoader.UnloadSceneAsync(GAMEPLAY_SCENE_NAME);
     }
 }

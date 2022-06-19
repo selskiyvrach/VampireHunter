@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 6654854061637474966}
   - component: {fileID: 4036588375668187765}
   - component: {fileID: 368722403897726303}
-  - component: {fileID: 1734439561930321838}
   m_Layer: 0
   m_Name: gunslinger
   m_TagString: Untagged
@@ -160,7 +159,6 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 4036588375668187765}
   - {fileID: 368722403897726303}
-  - {fileID: 1734439561930321838}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -186,17 +184,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab029f0b8ac540b48d6f8a5f2bcd510e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1734439561930321838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5695491043917412171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dee7d106bd6248b099fc977c4cfdbadf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
