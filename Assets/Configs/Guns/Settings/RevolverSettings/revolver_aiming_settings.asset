@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1a383a1bec4cda89c171c5089e002a, type: 3}
   m_Name: revolver_aiming_settings
   m_EditorClassIdentifier: 
-  _accuracy: 80
-  _hipAccuracy: 60
-  _fromHipToAimedTime: 1
-  _fromAimedToHipTime: 0.5
+  _accuracy: 3
+  _hipAccuracy: 5
+  _fromHipToAimedTime: 0.5
+  _fromAimedToHipTime: 0.25
