@@ -10,14 +10,16 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Guns
         private readonly IMagazine _magazine;
         private Ray _pointingRay;
 
+        public int ConfigID { get; }
         public IGunSettings Settings { get; }
         public bool HammerCocked { get; private set; }
         public MagazineStatus MagazineStatus => _magazine.Status;
 
-        public Gun(IGunSettings settings)
+        public Gun(IGunSettings settings, int configID)
         {
             _magazine = new Drum(settings.MagazineSettings.Capacity);
             Settings = settings;
+            ConfigID = configID;
         }
 
         public void CockHammer() => 

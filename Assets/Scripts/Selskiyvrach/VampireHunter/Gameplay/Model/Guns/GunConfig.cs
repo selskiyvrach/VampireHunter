@@ -10,5 +10,6 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Guns
         [SerializeField] private int _ammo;
         public GunSettings Settings => _settings;
         public int Ammo => _ammo;
+        public int ConfigID => GetHashCode();
     }
 }

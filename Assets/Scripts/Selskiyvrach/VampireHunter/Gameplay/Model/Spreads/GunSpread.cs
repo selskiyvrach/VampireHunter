@@ -1,22 +1,24 @@
-﻿using Selskiyvrach.VampireHunter.Gameplay.Model.Guns;
+﻿using Selskiyvrach.Core.Tickers;
+using Selskiyvrach.VampireHunter.Gameplay.Model.Guns;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Spreads
 {
-    public class GunSpread : SpreadTerm
+    public class GunSpread : ITickable
     {
         private IAimingSettings _settings;
         private float _normalizedPos;
+
+        public float Value { get; private set; }
+        public bool Aiming { get; set; }
+        public bool FullyAimed => _normalizedPos >= 1;
+        public bool FullyHip => _normalizedPos <= 0;
 
         public GunSpread(IAimingSettings settings) => 
             _settings = settings;
 
         public void ChangeSettings(IAimingSettings settings) => 
             _settings = settings;
-
-        public bool Aiming { get; set; }
-        public bool FullyAimed => _normalizedPos >= 1;
-        public bool FullyHip => _normalizedPos <= 0;
 
         public void Tick(float deltaTime)
         {

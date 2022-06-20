@@ -25,4 +25,12 @@ namespace Selskiyvrach.Core.Unity.Zenject
         public override void InstallBindings() => 
             Container.Bind<T>().To<T>().FromInstance(_scriptableObject);
     }
+    
+    public abstract class GenericScriptableObjectInstaller<TBind, TTo> : MonoInstaller where TTo: ScriptableObject, TBind
+    {
+        [SerializeField] private TTo _scriptableObject;
+
+        public override void InstallBindings() => 
+            Container.Bind<TBind>().To<TTo>().FromInstance(_scriptableObject);
+    }
 }

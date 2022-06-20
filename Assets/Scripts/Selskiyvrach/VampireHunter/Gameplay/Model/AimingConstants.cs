@@ -1,4 +1,4 @@
-﻿namespace Selskiyvrach.VampireHunter.Model.Guns
+﻿namespace Selskiyvrach.VampireHunter.Gameplay.Model
 {
     public class AimingConstants
     {

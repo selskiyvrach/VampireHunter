@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7482b8204834430ea3b5ffd7cf059096, type: 3}
-  m_Name: ArsenalFactory
+  m_Script: {fileID: 11500000, guid: 251b4580bf6b4b11839e3f5c0e491994, type: 3}
+  m_Name: gun_views_factory
   m_EditorClassIdentifier: 
-  _gunConfigs:
-  - {fileID: 11400000, guid: 1816e7abec8008c4ca6da3e7c7b0120b, type: 2}
+  _views:
+  - _gunConfig: {fileID: 11400000, guid: 1816e7abec8008c4ca6da3e7c7b0120b, type: 2}
+    _prefab: {fileID: 1733128130587025538, guid: ce62d85e7e2f9954c9443576cbf0d7cf, type: 3}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
 {
-    public class EyeSight : Rotator
+    public class Eyes : Rotator
     {
         public Ray GetLookRay() => 
             new Ray(transform.position, transform.forward);

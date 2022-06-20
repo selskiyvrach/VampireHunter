@@ -1,5 +1,4 @@
 ﻿using System;
-using Selskiyvrach.VampireHunter.Model.Guns;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Guns

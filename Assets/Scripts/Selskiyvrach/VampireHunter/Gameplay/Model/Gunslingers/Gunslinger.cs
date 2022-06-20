@@ -1,5 +1,6 @@
 ﻿using Selskiyvrach.Core.Tickers;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Guns;
+using Selskiyvrach.VampireHunter.Gameplay.Model.Guns.Settings;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Spreads;
 using UnityEngine;
 
@@ -8,15 +9,19 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
     public class Gunslinger : ITickable
     {
         private SpreadCalculator _spreadCalculator;
-        private readonly EyeSight _eyeSight;
+        private readonly Eyes _eyes;
+        private readonly IRecoilProcessingSettings _recoilProcessingSettings;
 
         public bool FullyAimed => _spreadCalculator.FullyAimed;
-        public Ray LookRay => _eyeSight.GetLookRay();
+        public Ray LookRay => _eyes.GetLookRay();
         public Spread GunSpread => _spreadCalculator.Spread;
         public Gun Gun { get; private set; }
 
-        public Gunslinger(EyeSight eyeSight) => 
-            _eyeSight = eyeSight;
+        public Gunslinger(Eyes eyes, IRecoilProcessingSettings recoilProcessingSettings)
+        {
+            _eyes = eyes;
+            _recoilProcessingSettings = recoilProcessingSettings;
+        }
 
         public void Tick(float deltaTime) => 
             _spreadCalculator.Tick(deltaTime);
@@ -24,7 +29,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
         public void SetGun(Gun gun)
         {
             Gun = gun;
-            _spreadCalculator ??= new SpreadCalculator(gun);
+            _spreadCalculator ??= new SpreadCalculator(gun, _recoilProcessingSettings);
             _spreadCalculator.ChangeGun(gun);
         }
 
@@ -42,8 +47,8 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
 
         public void AdjustAimDirection(Vector2 delta)
         {
-            _eyeSight.RotateLook(delta);
-            Gun.Point(_eyeSight.GetLookRay());
+            _eyes.RotateLook(delta);
+            Gun.Point(_eyes.GetLookRay());
         }
     }
 }

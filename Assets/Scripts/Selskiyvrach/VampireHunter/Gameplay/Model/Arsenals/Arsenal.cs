@@ -35,7 +35,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Arsenals
         }
 
         private static Gun CreateGun(GunConfig config) => 
-            new Gun(config.Settings);
+            new Gun(config.Settings, config.ConfigID);
 
         private static Ammo CreateAmmo(GunConfig config) => 
             new Ammo(Enumerable.Range(1, config.Ammo).Select(n => new Bullet()));

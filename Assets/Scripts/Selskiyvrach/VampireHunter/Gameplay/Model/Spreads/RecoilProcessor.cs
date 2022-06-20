@@ -1,24 +1,27 @@
-﻿using Selskiyvrach.VampireHunter.Gameplay.Model.Guns.Settings;
+﻿using Selskiyvrach.Core.Tickers;
+using Selskiyvrach.VampireHunter.Gameplay.Model.Guns.Settings;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Spreads
 {
-    public class SpreadKicker : SpreadTerm
+    public class RecoilProcessor : ITickable
     {
-        private readonly IRecoilSettings _settings;
+        private readonly IRecoilProcessingSettings _settings;
 
         private float _timePassedNormalized;
         private float _targetValue;
         private float _duration;
-        
+
+        public float Value { get; private set; }
         public bool Finished => _timePassedNormalized >= 1;
 
-        public SpreadKicker(IRecoilSettings settings) => 
+
+        public RecoilProcessor(IRecoilProcessingSettings settings) => 
             _settings = settings;
 
-        public void Start(float targetValue)
+        public void Start(float value)
         {
-            _duration = targetValue / _settings.RecoilUnitsProcessedPerSecond;
-            _targetValue = targetValue;
+            _duration = value / _settings.RecoilUnitsProcessedPerSecond;
+            _targetValue = value;
             _timePassedNormalized = 0;
         }
 
