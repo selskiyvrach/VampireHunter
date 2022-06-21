@@ -10,17 +10,21 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
     {
         private SpreadCalculator _spreadCalculator;
         private readonly Eyes _eyes;
-        private readonly IRecoilProcessingSettings _recoilProcessingSettings;
+        private readonly Hand _hand;
+        private readonly ISpreadRecoilProcessingSettings _spreadRecoilProcessingSettings;
 
         public bool FullyAimed => _spreadCalculator.FullyAimed;
         public Ray LookRay => _eyes.GetLookRay();
         public Spread GunSpread => _spreadCalculator.Spread;
-        public Gun Gun { get; private set; }
+        public Gun Gun { get; private set; } 
+        public Hand Hand => _hand;
+        public Eyes Eyes => _eyes;
 
-        public Gunslinger(Eyes eyes, IRecoilProcessingSettings recoilProcessingSettings)
+        public Gunslinger(Eyes eyes, Hand hand, ISpreadRecoilProcessingSettings spreadRecoilProcessingSettings)
         {
             _eyes = eyes;
-            _recoilProcessingSettings = recoilProcessingSettings;
+            _hand = hand;
+            _spreadRecoilProcessingSettings = spreadRecoilProcessingSettings;
         }
 
         public void Tick(float deltaTime) => 
@@ -29,14 +33,16 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
         public void SetGun(Gun gun)
         {
             Gun = gun;
-            _spreadCalculator ??= new SpreadCalculator(gun, _recoilProcessingSettings);
+            _spreadCalculator ??= new SpreadCalculator(gun, _spreadRecoilProcessingSettings);
             _spreadCalculator.ChangeGun(gun);
+            _hand.SetGun(gun);
         }
 
         public void Shoot()
         {
             var recoil = Gun.PullTheTrigger();
             _spreadCalculator.Kick(recoil.Amount);
+            _hand.Kick(recoil.Amount);
         }
 
         public void StartAiming() =>

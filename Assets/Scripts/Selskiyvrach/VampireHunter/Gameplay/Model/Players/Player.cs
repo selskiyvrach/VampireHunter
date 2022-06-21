@@ -5,6 +5,7 @@ using Selskiyvrach.VampireHunter.Gameplay.Model.Arsenals;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Guns;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Spreads;
+using UnityEngine;
 using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Players
@@ -25,9 +26,11 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Players
             _gunslinger = gunslinger;
             _arsenal = arsenal;
             _ticker = ticker;
-            _gunslinger.SetGun(_arsenal.Guns.First());
+            
             _ticker.AddTickable(_gunslinger);
             _ticker.AddTickable(this);
+            
+            _gunslinger.SetGun(_arsenal.Guns.First());
         }
 
         public void Tick(float deltaTime)

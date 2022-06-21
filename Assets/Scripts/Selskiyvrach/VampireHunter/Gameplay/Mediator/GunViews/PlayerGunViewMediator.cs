@@ -31,6 +31,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Mediator.GunViews
             Object.Destroy(_currentlyDisplayed);
             _currentlyDisplayedID = _player.Gun.ConfigID;
             _currentlyDisplayed = _gunViewsFactory.Create(_currentlyDisplayedID);
+            _currentlyDisplayed.transform.SetParent(_player.Gun.Transform, false);
         }
     }
 }

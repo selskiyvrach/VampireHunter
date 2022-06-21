@@ -7,5 +7,8 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
     {
         public Ray GetLookRay() => 
             new Ray(transform.position, transform.forward);
+
+        public void SetCamera(Camera cam) => 
+            cam.transform.SetParent(transform, false);
     }
 }

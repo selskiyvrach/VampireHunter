@@ -8,12 +8,12 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Spreads
     public class RecoilProcessorComposite : ITickable
     {
         private readonly List<RecoilProcessor> _spreadKickers = new List<RecoilProcessor>();
-        private readonly IRecoilProcessingSettings _recoilProcessingSettings;
+        private readonly IRecoilProcessingSettings _recoilProcessingRecoilProcessingSettings;
 
         public float Value { get; private set; }
 
-        public RecoilProcessorComposite(IRecoilProcessingSettings recoilProcessingSettings) => 
-            _recoilProcessingSettings = recoilProcessingSettings;
+        public RecoilProcessorComposite(IRecoilProcessingSettings recoilProcessingRecoilProcessingSettings) => 
+            _recoilProcessingRecoilProcessingSettings = recoilProcessingRecoilProcessingSettings;
 
         public void Tick(float deltaTime)
         {
@@ -40,7 +40,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Spreads
 
             RecoilProcessor addNew()
             {
-                _spreadKickers.Add(new RecoilProcessor(_recoilProcessingSettings));
+                _spreadKickers.Add(new RecoilProcessor(_recoilProcessingRecoilProcessingSettings));
                 return _spreadKickers.Last();
             }
         }

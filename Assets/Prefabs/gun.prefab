@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3119288983372957157}
-  - component: {fileID: 8968886302014959999}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -31,19 +30,6 @@ Transform:
   m_Father: {fileID: 8875001074904790132}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8968886302014959999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1426880698100033700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae32f15c6a79491fb1950c2ea987d747, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bulletStartPoint: {fileID: 3119288983372957157}
 --- !u!1 &8879963748293487121
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,13 +40,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8879963748293487122}
   - component: {fileID: 7911616156899889620}
-  - component: {fileID: 4965328193915489175}
-  - component: {fileID: 4901769563335256835}
-  - component: {fileID: 382825059476408321}
-  - component: {fileID: 1524166389}
-  - component: {fileID: 4721481435818008480}
-  - component: {fileID: 1214650155}
-  - component: {fileID: 4542050627272116243}
   m_Layer: 0
   m_Name: gun
   m_TagString: Untagged
@@ -102,99 +81,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4965328193915489175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8879963748293487121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34df0cbeec14a86a23983a5450bfeff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _triggerName: CockTrigger
-  _animator: {fileID: 7911616156899889620}
---- !u!114 &4901769563335256835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8879963748293487121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a822eed18fe0469bb70fb01d5259e165, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &382825059476408321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8879963748293487121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6639e21a8ac64fba898e8eca1b60482d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1524166389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8879963748293487121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 171248f1aac349e7a5843135e7b4a7c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cockAnimationStarter: {fileID: 4965328193915489175}
-  _cockAnimationCallback: {fileID: 4901769563335256835}
-  _shootAnimationStarter: {fileID: 1214650155}
-  _shootAnimationCallback: {fileID: 382825059476408321}
---- !u!114 &4721481435818008480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8879963748293487121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e177c85a37c4c948ae0d1cf1acd7145, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1214650155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8879963748293487121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34df0cbeec14a86a23983a5450bfeff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _triggerName: Shoot
-  _animator: {fileID: 7911616156899889620}
---- !u!114 &4542050627272116243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8879963748293487121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e5fde85c6749f890a2e99e4e0cda27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefab: {fileID: 2681742511126200862, guid: 39a36ab9d2e0b4b4991f2020d66d1372, type: 3}
 --- !u!1 &8880313229483610774
 GameObject:
   m_ObjectHideFlags: 0

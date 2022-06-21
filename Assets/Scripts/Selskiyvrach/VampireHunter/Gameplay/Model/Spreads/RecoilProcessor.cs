@@ -5,7 +5,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Spreads
 {
     public class RecoilProcessor : ITickable
     {
-        private readonly IRecoilProcessingSettings _settings;
+        private readonly IRecoilProcessingSettings _recoilProcessingSettings;
 
         private float _timePassedNormalized;
         private float _targetValue;
@@ -15,12 +15,12 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Spreads
         public bool Finished => _timePassedNormalized >= 1;
 
 
-        public RecoilProcessor(IRecoilProcessingSettings settings) => 
-            _settings = settings;
+        public RecoilProcessor(IRecoilProcessingSettings recoilProcessingSettings) => 
+            _recoilProcessingSettings = recoilProcessingSettings;
 
         public void Start(float value)
         {
-            _duration = value / _settings.RecoilUnitsProcessedPerSecond;
+            _duration = value / _recoilProcessingSettings.RecoilUnitsProcessedPerSecond;
             _targetValue = value;
             _timePassedNormalized = 0;
         }
@@ -31,7 +31,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Spreads
                 return;
             
             _timePassedNormalized += deltaTime / _duration;
-            Value = _targetValue * _settings.AnimationCurve.Evaluate(_timePassedNormalized);
+            Value = _targetValue * _recoilProcessingSettings.AnimationCurve.Evaluate(_timePassedNormalized);
         }
     }
 }

@@ -12,10 +12,10 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Spreads
         public Spread Spread { get; private set; }
         public bool FullyAimed => _gunSpread.FullyAimed;
         
-        public SpreadCalculator(Gun gun, IRecoilProcessingSettings recoilProcessingSettings)
+        public SpreadCalculator(Gun gun, ISpreadRecoilProcessingSettings recoilProcessingRecoilProcessingSettings)
         {
             _gun = gun;
-            _recoilProcessor = new RecoilProcessorComposite(recoilProcessingSettings);
+            _recoilProcessor = new RecoilProcessorComposite(recoilProcessingRecoilProcessingSettings);
             _gunSpread = new GunSpread(_gun.Settings.AimingSettings);
         }
 
