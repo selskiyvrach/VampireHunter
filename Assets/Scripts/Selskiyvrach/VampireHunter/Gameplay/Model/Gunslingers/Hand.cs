@@ -12,7 +12,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
     {
         [SerializeField] private Transform _gunHolder;
         [SerializeField] private Transform _recoilPerformer;
-        [SerializeField] private float _recoilCoefficient = 5;
+        [SerializeField] private float _recoilIntensityCoefficient = 5;
         
         private RecoilProcessorComposite _recoilProcessor;
         private ITicker _ticker;
@@ -28,7 +28,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
         public void Tick(float deltaTime)
         {
             _recoilProcessor.Tick(deltaTime);
-            var rotationX = _recoilProcessor.Value * _recoilCoefficient;
+            var rotationX = _recoilProcessor.Value * _recoilIntensityCoefficient;
             _recoilPerformer.localRotation = Quaternion.Euler(-rotationX, 0, 0);
         }
 

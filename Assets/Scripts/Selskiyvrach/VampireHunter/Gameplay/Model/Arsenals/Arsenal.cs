@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Selskiyvrach.Core.Unity.Zenject;
+using Selskiyvrach.VampireHunter.Gameplay.Model.Bullets;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Guns;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Arsenals
@@ -38,6 +39,6 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Arsenals
             new Gun(config.Settings, config.ConfigID);
 
         private static Ammo CreateAmmo(GunConfig config) => 
-            new Ammo(Enumerable.Range(1, config.Ammo).Select(n => new Bullet()));
+            new Ammo(Enumerable.Range(1, config.Ammo).Select(n => new RaycastBullet()));
     }
 }

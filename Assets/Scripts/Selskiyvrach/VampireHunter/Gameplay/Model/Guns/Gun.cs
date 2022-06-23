@@ -1,5 +1,5 @@
 using Selskiyvrach.VampireHunter.Gameplay.Model.Arsenals;
-using Selskiyvrach.VampireHunter.Gameplay.Model.Damaging;
+using Selskiyvrach.VampireHunter.Gameplay.Model.Bullets;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Guns.Settings;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Guns
         public Recoil PullTheTrigger()
         {
             HammerCocked = false;
-            var launchData = new BulletLaunchData(new Damage(Settings.Damage), _pointingRay);
+            var launchData = new BulletLaunchData(Settings.Damage, _pointingRay);
             _magazine.PopBullet().Launch(launchData);
             return new Recoil(Settings.RecoilSettings.Recoil);
         }

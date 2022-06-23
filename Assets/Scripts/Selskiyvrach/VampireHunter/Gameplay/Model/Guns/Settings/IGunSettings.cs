@@ -2,7 +2,7 @@
 {
     public interface IGunSettings 
     {
-        float Damage { get; }
+        int Damage { get; }
         IRecoilSettings RecoilSettings { get; }
         IAimingSettings AimingSettings { get; }
         IMagazineSettings MagazineSettings { get; }

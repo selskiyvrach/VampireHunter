@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
+using Selskiyvrach.VampireHunter.Gameplay.Model.Bullets;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Guns;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Arsenals
