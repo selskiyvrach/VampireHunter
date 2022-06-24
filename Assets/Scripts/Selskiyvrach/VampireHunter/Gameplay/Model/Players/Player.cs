@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using Selskiyvrach.Core.Tickers;
 using Selskiyvrach.Core.Unity.Inputs;
+using Selskiyvrach.Core.Unity.Physics;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Arsenals;
+using Selskiyvrach.VampireHunter.Gameplay.Model.Bullets;
+using Selskiyvrach.VampireHunter.Gameplay.Model.BulletTargets;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Guns;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Spreads;
@@ -12,6 +15,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Players
 {
     public class Player : ITickable
     {
+        private readonly Raycaster _raycaster = new Raycaster(nonAllocHitsArraySize: 70);
         private readonly ITouchInput _touchInput;
         private readonly Gunslinger _gunslinger;
         private readonly Arsenal _arsenal;
@@ -39,7 +43,8 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Players
                 _gunslinger.StopAiming();
             else if(!_gunslinger.FullyAimed)
                 _gunslinger.StartAiming();
-            else if (_gunslinger.Gun.MagazineStatus.Any)
+            
+            if(_gunslinger.FullyAimed && _gunslinger.Gun.MagazineStatus.Any && _raycaster.Raycast<IBulletTarget>(_gunslinger.LookRay) != null)
                 _gunslinger.Shoot();
 
             _gunslinger.AdjustAimDirection(_touchInput.Delta());

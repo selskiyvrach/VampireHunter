@@ -1,15 +1,18 @@
-﻿namespace Selskiyvrach.VampireHunter.Gameplay.Model.Bullets
+﻿using Selskiyvrach.Core.Unity.Physics;
+using Selskiyvrach.VampireHunter.Gameplay.Model.BulletTargets;
+
+namespace Selskiyvrach.VampireHunter.Gameplay.Model.Bullets
 {
+    //TODO: put bullets into pool
     public class RaycastBullet : IBullet
     {
-        private readonly IBulletRaycaster _raycaster = new BulletRaycaster();
+        private static readonly IRaycaster Raycaster = new Raycaster();
         public int Damage { get; private set; }
 
         public void Launch(BulletLaunchData launchData)
         {
             Damage = launchData.Damage;
-            _raycaster.RaycastBulletTarget(launchData.Trajectory)?.GetHitBy(this);
-            //TODO: put into pool
+            Raycaster.Raycast<IBulletTarget>(launchData.Trajectory)?.GetHitBy(this);
         }
     }
 }
