@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Selskiyvrach.Core.Unity.Transforms
 {
@@ -7,6 +8,7 @@ namespace Selskiyvrach.Core.Unity.Transforms
         [SerializeField] 
         private Transform _target;
 
+        [Button]
         private void LateUpdate() => 
             transform.position = _target.position;
     }
