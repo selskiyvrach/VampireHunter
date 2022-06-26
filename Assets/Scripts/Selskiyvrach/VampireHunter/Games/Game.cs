@@ -1,4 +1,4 @@
-﻿namespace Selskiyvrach.VampireHunter.Gameplay.Model.Games
+﻿namespace Selskiyvrach.VampireHunter.Games
 {
     public class Game 
     {

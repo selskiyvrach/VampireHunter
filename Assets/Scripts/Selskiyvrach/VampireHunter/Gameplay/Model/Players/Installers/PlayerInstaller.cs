@@ -1,9 +1,10 @@
-﻿using Selskiyvrach.Core.Unity.Zenject;
+﻿using Zenject;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Players.Installers
 {
-    public class PlayerInstaller : GenericInstaller<Player>
+    public class PlayerInstaller : MonoInstaller
     {
-        
+        public override void InstallBindings() => 
+            Container.BindInterfacesAndSelfTo<Player>().FromNew().AsSingle();
     }
 }

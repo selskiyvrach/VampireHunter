@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102288b61efa4e35b3c1e85bbd5820ee, type: 3}
   m_Name: revolver_gun_settings
   m_EditorClassIdentifier: 
-  _damage: 100
+  _damage: 34
   _recoilSettings: {fileID: 11400000, guid: 346bd3f3e853ab94aba18de89834ec96, type: 2}
   _globalAimingSettings: {fileID: 11400000, guid: 61f1d8b6ae95f7b4db277378dd077953, type: 2}
   _magazineSettings: {fileID: 11400000, guid: 956426ec756c4b946b068f22a5851bae, type: 2}

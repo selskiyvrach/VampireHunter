@@ -17,7 +17,10 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Creatures.Limbs
             _damageCoefficient = damageCoefficient;
         }
 
-        public override void GetHitBy(IBullet bullet) => 
-            _health.TakeDamage((int)(bullet.Damage * _damageCoefficient.Coefficient));
+        public override void GetHitBy(IBullet bullet)
+        {
+            _health.TakeDamage((int) (bullet.Damage * _damageCoefficient.Coefficient));
+            RaiseOnHit(new HitInfo());
+        }
     }
 }

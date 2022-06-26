@@ -11,9 +11,11 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Creatures
         [SerializeField] private LimbDamageCoefficientSettings _headDamageCoeff;
         [SerializeField] private LimbDamageCoefficientSettings _bodyDamageCoeff;
         [SerializeField] private HealthSettings _healthSettings;
+        [SerializeField] private float _speed;
 
         public IDamageCoefficient HeadDamageCoeff => _headDamageCoeff;
         public IDamageCoefficient BodyDamageCoeff => _bodyDamageCoeff;
         public IHealthSettings HealthSettings => _healthSettings;
+        public float Speed => _speed;
     }
 }

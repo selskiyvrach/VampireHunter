@@ -7,7 +7,7 @@ namespace Selskiyvrach.Core.Unity.Physics
     {
         private readonly RaycastHit[] _hits;
 
-        public Raycaster(int nonAllocHitsArraySize = 50) => 
+        public Raycaster(int nonAllocHitsArraySize = 10) => 
             _hits = new RaycastHit[nonAllocHitsArraySize];
 
         public T Raycast<T>(Ray ray) where T :class, IRaycastable

@@ -2,7 +2,7 @@
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Creatures.Installers
 {
-    public class HumanInstaller : GenericInstaller<Human>
+    public class HumanInstaller : GenericInstaller<ICreature, Human, Human>
     {
         
     }

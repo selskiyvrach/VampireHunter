@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Selskiyvrach.Core.Unity.SceneLoading;
 
-namespace Selskiyvrach.VampireHunter.Gameplay.Model.Games
+namespace Selskiyvrach.VampireHunter.Games
 {
     public class GameplayState
     {

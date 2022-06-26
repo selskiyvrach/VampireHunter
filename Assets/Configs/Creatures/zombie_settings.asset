@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4f2a77e29c5464499041c34e505220a, type: 3}
+  m_Name: zombie_settings
+  m_EditorClassIdentifier: 
+  _headDamageCoeff: {fileID: 11400000, guid: 5c6049c12ce6c4246bcd78665c320552, type: 2}
+  _bodyDamageCoeff: {fileID: 11400000, guid: 7b7b06e37839e624c9869ef28e9c8fb4, type: 2}
+  _healthSettings: {fileID: 11400000, guid: 64c02965a34285941a10733f5b463b91, type: 2}
+  _speed: 0.33
