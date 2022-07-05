@@ -23,7 +23,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.View.CreatureAnimations.Human
             _bodyHitHashes = _bodyHitTriggerNames.Select(Animator.StringToHash).ToArray(); 
             _deathHashes = _deathTriggerNames.Select(Animator.StringToHash).ToArray(); 
         }
-
+        
         public IReadOnlyList<int> HeadHitHashes => _headHitHashes;
         public IReadOnlyList<int> BodyHitHashes => _bodyHitHashes;
         public IReadOnlyList<int> DeathHashes => _deathHashes;

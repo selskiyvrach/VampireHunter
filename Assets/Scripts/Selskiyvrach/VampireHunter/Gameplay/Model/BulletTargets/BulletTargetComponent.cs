@@ -1,15 +1,30 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Bullets;
-using Selskiyvrach.VampireHunter.Gameplay.Model.Creatures;
 using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.BulletTargets
 {
-    public abstract class BulletTargetComponent : MonoBehaviour, IBulletTarget
+    public abstract class BulletTargetComponent : MonoBehaviour, IBulletTarget, IBulletTargetComponent
     {
-        public event Action<HitInfo> OnHit;
-        public abstract void GetHitBy(IBullet bullet);
-        protected void RaiseOnHit(HitInfo info) => 
-            OnHit?.Invoke(info);
+        [SerializeField] private Collider _collider;
+        private readonly HashSet<IBulletTarget> _bulletTargets = new HashSet<IBulletTarget>();
+
+        public void GetHitBy(IBullet bullet)
+        {
+            foreach (var target in _bulletTargets)
+                target.GetHitBy(bullet);
+        }
+
+        public bool AddBulletTarget(IBulletTarget target) => 
+            _bulletTargets.Add(target);
+
+        public bool RemoveBulletTarget(IBulletTarget target) => 
+            _bulletTargets.Remove(target);
+
+        public void Enable() =>
+            _collider.enabled = true;
+
+        public void Disable() => 
+            _collider.enabled = false;
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Selskiyvrach.Core.Tickers;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Communication;
+using UnityEngine;
 using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Enemies.Spawning
 {
-    public class EnemiesSpawner : ITickable 
+    public class EnemiesSpawner : ITickable
     {
         private readonly ISpawningData _spawningData;
         private readonly ITicker _ticker;
@@ -36,8 +37,8 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Enemies.Spawning
         {
             if (_enemies.Count == _spawningData.ConcurrentEnemies)
                 return;
-            var creature = _spawningData.Factory.Create();
-            creature.Transform.Position = _spawningData.SpawnPositions[_spawnPositionIndex++ % _spawningData.SpawnPositions.Count];
+            var pos =_spawningData.SpawnPositions[_spawnPositionIndex++ % _spawningData.SpawnPositions.Count];
+            var creature = _spawningData.Factory.Create(pos, Quaternion.LookRotation(_playerLocator.PlayerTransform.Position));
             var brain = new EnemyBrain(creature, _playerLocator);
             _enemies.Add(brain);
         }

@@ -1,13 +1,17 @@
-﻿using System;
-using Selskiyvrach.VampireHunter.Gameplay.Model.Damaging;
+﻿using Selskiyvrach.VampireHunter.Gameplay.Model.Damaging;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Healths
 {
-    public class Health : IDamageable, IHealthStatus
+    public interface IHealth
+    {
+        int CurrentHealth { get; }
+        int MaxHealth { get; }
+        void TakeDamage(int damage);
+    }
+    
+    public class Health : IDamageable, IHealthStatus, IHealth
     {
         private readonly IHealthSettings _healthSettings;
-
-        public event Action OnHealthChanged;
         public int CurrentHealth { get; private set; }
         public int MaxHealth { get; }
 
@@ -17,14 +21,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Healths
             MaxHealth = CurrentHealth = healthSettings.MaxHealth;
         }
 
-        public void TakeDamage(int damage)
-        {
+        public void TakeDamage(int damage) => 
             CurrentHealth -= damage;
-            
-            if (CurrentHealth < 0)
-                CurrentHealth = 0;
-            
-            OnHealthChanged?.Invoke();
-        }
     }
 }
