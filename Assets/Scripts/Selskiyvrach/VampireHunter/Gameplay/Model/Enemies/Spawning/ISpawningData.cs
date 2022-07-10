@@ -8,7 +8,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Enemies.Spawning
     public interface ISpawningData
     {
         public int ConcurrentEnemies { get; }
-        public IFactory<Vector3, Quaternion, ICreature> Factory { get; }
+        public IFactory<Vector3, Quaternion, Creature> Factory { get; }
         public IReadOnlyList<Vector3> SpawnPositions { get; }
         public float SpawnInterval { get; }
     }

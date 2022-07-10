@@ -2,7 +2,7 @@
 {
     public interface IBullet
     {
-        int Damage { get; }
+        float Damage { get; }
         void Launch(BulletLaunchData launchData);
     }
 }

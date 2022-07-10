@@ -4,6 +4,6 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Creatures
 {
     public interface ILooker
     {
-        void LookAt(Vector3 pos);
+        void LookAt(Vector3 point);
     }
 }

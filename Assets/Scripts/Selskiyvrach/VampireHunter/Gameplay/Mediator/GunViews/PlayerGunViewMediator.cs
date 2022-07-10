@@ -1,7 +1,9 @@
-﻿using Selskiyvrach.Core.Tickers;
+﻿using ModestTree.Util;
+using Selskiyvrach.Core.Tickers;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Players;
 using Selskiyvrach.VampireHunter.Gameplay.View.GunViews;
 using UnityEngine;
+using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Mediator.GunViews
 {
@@ -13,7 +15,6 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Mediator.GunViews
         
         private GameObject _currentlyDisplayed;
         private int _currentlyDisplayedID;
-        
         
         public PlayerGunViewMediator(Player player, GunViewsFactory gunViewsFactory, ITicker ticker)
         {

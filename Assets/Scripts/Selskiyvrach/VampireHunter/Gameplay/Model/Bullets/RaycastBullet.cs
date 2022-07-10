@@ -7,7 +7,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Bullets
     public class RaycastBullet : IBullet
     {
         private static readonly IRaycaster Raycaster = new Raycaster();
-        public int Damage { get; private set; }
+        public float Damage { get; private set; }
 
         public void Launch(BulletLaunchData launchData)
         {

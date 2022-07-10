@@ -5,10 +5,10 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Enemies
 {
     public class EnemyBrain
     {
-        private readonly ICreature _creature;
+        private readonly Creature _creature;
         private readonly IPlayerTransformLocator _playerLocator;
 
-        public EnemyBrain(ICreature creature, IPlayerTransformLocator playerLocator)
+        public EnemyBrain(Creature creature, IPlayerTransformLocator playerLocator)
         {
             _creature = creature;
             _playerLocator = playerLocator;

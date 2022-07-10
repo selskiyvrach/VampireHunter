@@ -1,12 +1,20 @@
-﻿using Selskiyvrach.VampireHunter.Gameplay.Model.Bullets;
-
-namespace Selskiyvrach.VampireHunter.Gameplay.Model.BulletTargets
+﻿namespace Selskiyvrach.VampireHunter.Gameplay.Model.BulletTargets
 {
     public struct HitInfo
     {
-        public IBullet Bullet { get; }
+        public float Damage { get; }
+        public HitSeverity Severity { get; }
 
-        public HitInfo(IBullet bullet) => 
-            Bullet = bullet;
+        public HitInfo(float damage, HitSeverity severity)
+        {
+            Damage = damage;
+            Severity = severity;
+        }
+
+        public enum HitSeverity
+        {
+            Regular,
+            Hard
+        }
     }
 }
