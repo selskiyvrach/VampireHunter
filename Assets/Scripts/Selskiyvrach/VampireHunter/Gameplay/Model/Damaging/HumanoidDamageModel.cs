@@ -1,58 +1,27 @@
 ﻿using System;
-using Selskiyvrach.VampireHunter.Gameplay.Mediator.GunViews;
-using Selskiyvrach.VampireHunter.Gameplay.Model.Bullets;
-using Selskiyvrach.VampireHunter.Gameplay.Model.Creatures;
-using Selskiyvrach.VampireHunter.Gameplay.Model.Healths;
+using Selskiyvrach.VampireHunter.Gameplay.Model.Limbs;
 using UniRx;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Damaging
 {
-    public class HumanoidDamageModel : LifecycleObject
+    public interface IDamageTakenNotifier
     {
-        private readonly Head _head;
-        private readonly Body _body;
-        private readonly IHealth _health;
-        private readonly IHumanoidDamageModelSettings _settings;
-        private readonly Subject<HitInfo> _onHeadHit = new Subject<HitInfo>();
-        private readonly Subject<HitInfo> _onBodyHit = new Subject<HitInfo>();
+        public abstract IObservable<DamageInfo> OnDamageTaken { get; }
+    }
 
-        public IObservable<HitInfo> OnHeadHit => _onHeadHit;
-        public IObservable<HitInfo> OnBodyHit => _onBodyHit;
+    public class HumanoidDamageModel : IDamageTakenNotifier
+    {
+        private readonly Limb _head;
+        private readonly Limb _body;
+        public IObservable<HitInfo> OnHeadHit => _head.OnHit;
+        public IObservable<HitInfo> OnBodyHit => _body.OnHit;
+        public IObservable<DamageInfo> OnDamageTaken { get; }
 
-        public HumanoidDamageModel(Head head, Body body, IHealth health, IHumanoidDamageModelSettings settings)
+        public HumanoidDamageModel(Limb head, Limb body)
         {
             _head = head;
             _body = body;
-            _health = health;
-            _settings = settings;
+            OnDamageTaken = _body.OnDamageTaken.Merge(_head.OnDamageTaken);
         }
-
-        public override void Enable()
-        {
-            base.Enable();
-            StageForDisableWithThis(_head.OnHit.Subscribe(HeadHitReceived));
-            StageForDisableWithThis(_body.OnHit.Subscribe(BodyHitReceived));
-        }
-
-        private void BodyHitReceived(IBullet bullet)
-        {
-            var damage = bullet.Damage * _settings.BodyDamageCoefficient;
-            _health.TakeDamage(damage);
-            var severity = GetSeverity(damage);
-            _onBodyHit?.OnNext(new HitInfo(severity));
-        }
-
-        private void HeadHitReceived(IBullet bullet)
-        {
-            var damage = bullet.Damage * _settings.HeadDamageCoefficient;
-            _health.TakeDamage(damage);
-            var severity = GetSeverity(damage);
-            _onHeadHit?.OnNext(new HitInfo(severity));
-        }
-
-        private HitInfo.Severity GetSeverity(float damage) =>
-            damage >= _health.MaxHealth
-                ? HitInfo.Severity.Heavy
-                : HitInfo.Severity.Light;
     }
 }

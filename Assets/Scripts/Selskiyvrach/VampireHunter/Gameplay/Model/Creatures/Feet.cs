@@ -1,25 +1,22 @@
-﻿using Selskiyvrach.Core.Tickers;
-using Selskiyvrach.Core.Unity.Transforms;
-using UnityEngine;
+﻿using Selskiyvrach.VampireHunter.Gameplay.Model.Movement;
+using UnityEngine.AI;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Creatures
 {
-    public class Feet : IMover, ITickable
+    public interface ISpeedProvider
     {
-        private readonly ITransform _transform;
-        private readonly float _speed;
-        private Vector3 _targetPos;
+        float Speed { get; }
+    }
 
-        public Feet(ITransform transform, float speed)
+    public interface IStoppingDistanceProvider
+    {
+        float StoppingDistance { get; }
+    }
+
+    public class Feet : NavMeshAgentAdapter
+    {
+        public Feet(NavMeshAgent navMeshAgent) : base(navMeshAgent)
         {
-            _transform = transform;
-            _speed = speed;
         }
-
-        public void MoveTowards(Vector3 position) => 
-            _targetPos = position;
-
-        public void Tick(float deltaTime) => 
-            _transform.Position = Vector3.MoveTowards(_transform.Position, new Vector3(_targetPos.x, 0, _targetPos.z), _speed * deltaTime);
     }
 }

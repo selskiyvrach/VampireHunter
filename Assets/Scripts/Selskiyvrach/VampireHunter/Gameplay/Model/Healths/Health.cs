@@ -1,6 +1,4 @@
-﻿using Selskiyvrach.VampireHunter.Gameplay.Model.Damaging;
-
-namespace Selskiyvrach.VampireHunter.Gameplay.Model.Healths
+﻿namespace Selskiyvrach.VampireHunter.Gameplay.Model.Healths
 {
     public interface IHealth
     {

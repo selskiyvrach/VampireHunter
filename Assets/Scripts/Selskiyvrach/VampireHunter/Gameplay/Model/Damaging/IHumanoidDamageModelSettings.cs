@@ -4,5 +4,7 @@
     {
         float HeadDamageCoefficient { get; }
         float BodyDamageCoefficient { get; }
+        float SevereHeadDamageThreshold { get; set; }
+        float SevereBodyDamageThreshold { get; set; }
     }
 }

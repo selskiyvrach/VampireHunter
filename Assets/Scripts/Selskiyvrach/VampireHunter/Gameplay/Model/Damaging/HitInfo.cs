@@ -1,16 +1,12 @@
-﻿namespace Selskiyvrach.VampireHunter.Gameplay.Model.Damaging
+﻿using Selskiyvrach.VampireHunter.Gameplay.Model.BulletTargets;
+
+namespace Selskiyvrach.VampireHunter.Gameplay.Model.Damaging
 {
-    public struct HitInfo
+    public readonly struct HitInfo
     {
-        public Severity HitSeverity { get; }
+        public HitSeverity Severity { get; }
 
-        public HitInfo(Severity severity) => 
-            HitSeverity = severity;
-
-        public enum Severity
-        {
-            Light,
-            Heavy
-        }
+        public HitInfo(HitSeverity severity) => 
+            Severity = severity;
     }
 }

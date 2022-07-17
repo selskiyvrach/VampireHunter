@@ -3,12 +3,12 @@ using Zenject;
 
 namespace Selskiyvrach.Core.Unity.Zenject
 {
-    public class ContextItem : MonoBehaviour
+    public class ContextPeek : MonoBehaviour
     {
         
     }
 
-    public class ContextItem<T> : ContextItem
+    public class ContextPeek<T> : ContextPeek
     {
         public T Item { get; private set; }
 

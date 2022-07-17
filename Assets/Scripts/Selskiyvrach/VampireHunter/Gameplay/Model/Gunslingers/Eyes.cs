@@ -5,9 +5,9 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Gunslingers
 {
     public class Eyes : Rotator
     {
-        private TransformAdapter _transform;
+        private WorldObject _transform;
         
-        public ITransform Transform => _transform ??= new TransformAdapter(transform);
+        public ITransform Transform => _transform ??= new WorldObject(transform);
 
         public Ray GetLookRay() => 
             new Ray(transform.position, transform.forward);
