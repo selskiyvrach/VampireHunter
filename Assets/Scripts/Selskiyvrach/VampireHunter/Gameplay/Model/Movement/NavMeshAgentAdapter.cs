@@ -14,12 +14,8 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Movement
             set => _navMeshAgent.destination = value; 
         }
         
-        public Vector3 Velocity 
-        { 
-            get => _navMeshAgent.velocity; 
-            set => _navMeshAgent.velocity = value; 
-        }
-        
+        public Vector3 Velocity => _navMeshAgent.velocity;
+
         public float Speed 
         { 
             get => _navMeshAgent.speed; 
@@ -31,7 +27,12 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Movement
             get => _navMeshAgent.stoppingDistance; 
             set => _navMeshAgent.stoppingDistance = value; 
         }
-        
+
+        public bool IsStopped
+        {
+            get => _navMeshAgent.isStopped; 
+            set => _navMeshAgent.isStopped = value;
+        }
 
         public NavMeshAgentAdapter(NavMeshAgent navMeshAgent) => 
             _navMeshAgent = navMeshAgent;

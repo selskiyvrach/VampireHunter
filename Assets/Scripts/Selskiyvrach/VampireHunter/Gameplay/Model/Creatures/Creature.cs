@@ -1,38 +1,44 @@
-﻿using Selskiyvrach.Core.Lifecycle;
+﻿using System.Threading.Tasks;
+using Selskiyvrach.Core.Lifecycle;
 using Selskiyvrach.Core.Unity.Transforms;
-using Selskiyvrach.VampireHunter.Gameplay.Model.Damaging;
-using Selskiyvrach.VampireHunter.Gameplay.Model.Healths;
 using Selskiyvrach.VampireHunter.Gameplay.Model.Movement;
+using UnityEngine;
 
 namespace Selskiyvrach.VampireHunter.Gameplay.Model.Creatures
 {
-    public abstract class Creature : LifecycleObject, IWorldObject
+    public class Creature : LifecycleObject, IWorldObject
     {
         public WorldObject WorldObject { get; }
-        public IMover Mover { get; }
-        public IHealth Health { get; }
+        private readonly IMoverSettings _settings;
+        private readonly IMover _mover;
 
-        protected Creature(WorldObject worldObject, IMover mover, IHealth health)
+        protected Creature(WorldObject worldObject, IMover mover, IMoverSettings settings)
         {
             WorldObject = worldObject;
-            Mover = mover;
-            Health = health;
+            _mover = mover;
+            _settings = settings;
+            Initialize();
+            Enable();
         }
-    }
 
-    public class Humanoid : Creature
-    {
-        private HumanoidDamageModel _humanoidDamageModel;
-        protected Humanoid(WorldObject worldObject, HumanoidDamageModel humanoidDamageModel, IMover mover, IHealth health) : base(worldObject, mover, health) => 
-            _humanoidDamageModel = humanoidDamageModel;
-    }
-    
-    public class Zombie : Humanoid
-    {
-        public Zombie(WorldObject worldObject, HumanoidDamageModel humanoidDamageModel, IMover mover, IHealth health) : base(worldObject, humanoidDamageModel, mover, health)
+        public override Task Initialize()
         {
+            _mover.Destination = Vector3.zero;
+            _mover.Speed = _settings.Speed;
+            _mover.StoppingDistance = _settings.StoppingDistance;
+            return base.Initialize();
         }
-        
-           
+
+        public override void Enable()
+        {
+            base.Enable();
+            _mover.IsStopped = false;
+        }
+
+        public override void Disable()
+        {
+            base.Disable();
+            _mover.IsStopped = true;
+        }
     }
 }

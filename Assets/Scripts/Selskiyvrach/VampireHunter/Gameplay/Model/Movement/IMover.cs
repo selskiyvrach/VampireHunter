@@ -8,6 +8,7 @@ namespace Selskiyvrach.VampireHunter.Gameplay.Model.Movement
         Vector3 Velocity { get; }
         float Speed { get; set; }
         float StoppingDistance { get; set; }
+        bool IsStopped { get; set; }
     }
 
     public interface IMoverSettings

@@ -8,7 +8,7 @@ using ITickable = Selskiyvrach.Core.Tickers.ITickable;
 
 namespace Selskiyvrach.Core.Lifecycle
 {
-    public abstract class LifecycleObject : ITickable, IInitializable, IResourceReleaser, IEnablable
+    public class LifecycleObject : ITickable, IInitializable, IResourceReleaser, IEnablable
     {
         private readonly HashSet<IDisposable> _disposables = new HashSet<IDisposable>();
         private readonly HashSet<IInitializable> _initializables = new HashSet<IInitializable>();
@@ -17,7 +17,7 @@ namespace Selskiyvrach.Core.Lifecycle
         private ITicker _ticker;
 
         [Inject]
-        private void SetTicker(ITicker ticker) => 
+        public void SetTicker(ITicker ticker) => 
             _ticker = ticker;
 
         public virtual Task Initialize() => 
